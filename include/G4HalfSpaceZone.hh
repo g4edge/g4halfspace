@@ -20,7 +20,7 @@ public:
   virtual void Rotate(const G4RotationMatrix& r) override;
   virtual void Transform(const G4AffineTransform& a) override;
 
-  virtual G4SurfaceMeshCGAL* GetSurfaceMesh() const override;
+  virtual G4SurfaceMeshCGAL* GetSurfaceMesh()  override;
 
 protected:
   std::vector<std::pair<operation, G4VHalfSpace*>> _half_spaces;

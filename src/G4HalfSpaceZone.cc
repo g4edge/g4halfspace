@@ -81,7 +81,7 @@ void G4HalfSpaceZone::Transform(const G4AffineTransform& a) {
   }
 }
 
-G4SurfaceMeshCGAL* G4HalfSpaceZone::GetSurfaceMesh() const {
+G4SurfaceMeshCGAL* G4HalfSpaceZone::GetSurfaceMesh()  {
 
   G4cout << "G4HalfSpaceZone::GetSurfaceMesh" << G4endl;
 
@@ -91,7 +91,7 @@ G4SurfaceMeshCGAL* G4HalfSpaceZone::GetSurfaceMesh() const {
   for(auto op : _half_spaces) {
     if(op.first == intersection) {
       auto sm2 =  op.second->GetSurfaceMesh();
-      G4cout << "hs intersection " << sm2->NumberOfVertices() << " " << sm2->NumberOfFaces() << G4endl;
+      G4cout << "G4HalfSpaceZone::GetSurfaceMesh hs intersection " << sm2->NumberOfVertices() << " " << sm2->NumberOfFaces() << G4endl;
       if (first) {
         G4bool valid = false;
         sm1 = sm1->Union(sm2,valid);
@@ -104,7 +104,7 @@ G4SurfaceMeshCGAL* G4HalfSpaceZone::GetSurfaceMesh() const {
     }
     else if(op.first == subtraction) {
       auto sm2 = op.second->GetSurfaceMesh();
-      G4cout << "hs subtraction " << sm2->NumberOfVertices() << " " << sm2->NumberOfFaces() << G4endl;
+      G4cout << "G4HalfSpaceZone::GetSurfaceMesh hs subtraction " << sm2->NumberOfVertices() << " " << sm2->NumberOfFaces() << G4endl;
       if (first) {
         G4bool valid = false;
         sm1 = sm1->Union(sm2, valid);
@@ -117,7 +117,7 @@ G4SurfaceMeshCGAL* G4HalfSpaceZone::GetSurfaceMesh() const {
     }
   }
 
-  G4cout << "zone final subtraction " << sm1->NumberOfVertices() << " " << sm1->NumberOfFaces() << G4endl;
+  G4cout << "G4HalfSpaceZone::GetSurfaceMesh zone final subtraction " << sm1->NumberOfVertices() << " " << sm1->NumberOfFaces() << G4endl;
 
   return sm1;
 }

@@ -101,7 +101,7 @@ void G4HalfSpaceXAEllipticalCylinder::Transform(const G4AffineTransform& a) {
   G4cout << "G4HalfSpaceXAEllipticalCylinder::Transform> Not implemented" << G4endl;
 }
 
-G4SurfaceMeshCGAL* G4HalfSpaceXAEllipticalCylinder::GetSurfaceMesh() const {
+G4SurfaceMeshCGAL* G4HalfSpaceXAEllipticalCylinder::GetSurfaceMesh()  {
   G4Tubs t = G4Tubs("test",0,_r1,1000000000,0,2*M_PI*rad);
   G4Polyhedron *g4poly = t.GetPolyhedron();
   G4SurfaceMeshCGAL *sm = new G4SurfaceMeshCGAL();

@@ -21,6 +21,6 @@ void G4HalfEllipticCylinder::Translate(const G4ThreeVector& t) {}
 void G4HalfEllipticCylinder::Rotate(const G4RotationMatrix& r) {}
 void G4HalfEllipticCylinder::Transform(const G4AffineTransform& a) {}
 
-G4SurfaceMeshCGAL* G4HalfEllipticCylinder::GetSurfaceMesh() const {
+G4SurfaceMeshCGAL* G4HalfEllipticCylinder::GetSurfaceMesh()  {
   return new G4SurfaceMeshCGAL();
 }

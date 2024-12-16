@@ -64,7 +64,11 @@ void G4HalfSpacePlane::Transform(const G4AffineTransform& a) {
 }
 
 
-G4SurfaceMeshCGAL* G4HalfSpacePlane::GetSurfaceMesh() const {
+G4SurfaceMeshCGAL* G4HalfSpacePlane::GetSurfaceMesh() {
+  if(cached_mesh) {
+    G4cout << "G4HalfSpacePlane::GetSurfaceMesh cached" << G4endl;
+    return cached_mesh;
+  }
 
   Nef_polyhedron_3_ECER nef = Nef_polyhedron_3_ECER(Nef_polyhedron_3_ECER::COMPLETE);
   nef *= Nef_polyhedron_3_ECER(Plane_3_ECER(Point_3_ECER(1000000000,0,0),
@@ -83,6 +87,7 @@ G4SurfaceMeshCGAL* G4HalfSpacePlane::GetSurfaceMesh() const {
   nef *= Nef_polyhedron_3_ECER(Plane_3_ECER(Point_3_ECER(_p0.x(), _p0.y(), _p0.z()),
                                        Direction_3_ECER(_n.x(), _n.y(), _n.z())));
 
-  return new G4SurfaceMeshCGAL(nef);
+  cached_mesh = new G4SurfaceMeshCGAL(nef);
+  return cached_mesh;
 }
 

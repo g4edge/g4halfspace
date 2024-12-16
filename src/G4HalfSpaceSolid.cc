@@ -58,7 +58,7 @@ void G4HalfSpaceSolid::Transform(const G4AffineTransform& a) {
   }
 }
 
-G4SurfaceMeshCGAL* G4HalfSpaceSolid::GetSurfaceMesh() const {
+G4SurfaceMeshCGAL* G4HalfSpaceSolid::GetSurfaceMesh() {
 
   G4cout << "G4HalfSpaceSolid::GetSurfaceMesh" << G4endl;
 
@@ -229,7 +229,7 @@ std::ostream& G4HalfSpaceSolid::StreamInfo(std::ostream& os) const {
 void G4HalfSpaceSolid::DescribeYourselfTo(G4VGraphicsScene& scene) const {
   G4cout << "G4HalfSpaceSolid::DescribeYourselfTo" << std::endl;
 
-  auto sm = GetSurfaceMesh();
+  auto sm = const_cast<G4HalfSpaceSolid*>(this)->GetSurfaceMesh();
   auto ph = sm->GetG4Polyhedron();
   scene.AddPrimitive(*((G4Polyhedron*)ph));
 

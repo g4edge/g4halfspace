@@ -52,7 +52,13 @@ void G4HalfSpaceAARBox::Transform(const G4AffineTransform& a) {
   _hsZone->Transform(a);
 }
 
-G4SurfaceMeshCGAL* G4HalfSpaceAARBox::GetSurfaceMesh() const {
-  G4SurfaceMeshCGAL *sm = _hsZone->GetSurfaceMesh();
-  return sm;
+G4SurfaceMeshCGAL* G4HalfSpaceAARBox::GetSurfaceMesh()  {
+  if(cached_mesh) {
+    G4cout << "G4HalfSpaceAARBox::GetSurfaceMesh cached" << G4endl;
+    return cached_mesh;
+  }
+
+  cached_mesh = _hsZone->GetSurfaceMesh();
+
+  return cached_mesh;
 }

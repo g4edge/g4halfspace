@@ -46,11 +46,14 @@ public:
   virtual void Rotate(const G4RotationMatrix& r) = 0 ;
   virtual void Transform(const G4AffineTransform& a) = 0;
 
-  virtual G4SurfaceMeshCGAL* GetSurfaceMesh() const = 0;
+  virtual G4SurfaceMeshCGAL* GetSurfaceMesh() = 0;
 
   static void QuadraticSolve(G4double a, G4double b, G4double c, G4int &nSoln, G4double &x1, G4double &x2);
   static void CubicSolve(G4double a, G4double b, G4double c, G4double d, G4int &nSoln, G4double &x1, G4double &x2, G4double &x3);
   static void QuinticSolve(G4double a, G4double b, G4double c, G4double d, G4double e, G4int &nSoln, G4double &x1, G4double &x2, G4double &x3, G4double &x4);
   static void QuadricSolve(G4double a, G4double b, G4double c, G4double e, G4double f, G4double g, G4int &nSoln, G4double &x1, G4double &x2);
   static std::vector<G4double> PolynomialSolve(std::vector<G4double>& params);
+
+protected:
+  G4SurfaceMeshCGAL *cached_mesh = nullptr;
 };

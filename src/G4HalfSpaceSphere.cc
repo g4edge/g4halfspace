@@ -47,7 +47,7 @@ void G4HalfSpaceSphere::Transform(const G4AffineTransform& a) {
   _centre = a.NetTranslation() + _centre;
 }
 
-G4SurfaceMeshCGAL* G4HalfSpaceSphere::GetSurfaceMesh() const {
+G4SurfaceMeshCGAL* G4HalfSpaceSphere::GetSurfaceMesh()  {
   G4Orb o = G4Orb("test",_r);
   G4Polyhedron *g4poly = o.GetPolyhedron();
   G4SurfaceMeshCGAL *sm = new G4SurfaceMeshCGAL();

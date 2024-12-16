@@ -16,7 +16,7 @@ public:
   virtual void Translate(const G4ThreeVector& t) override;
   virtual void Rotate(const G4RotationMatrix& r) override;
   virtual void Transform(const G4AffineTransform& a) override;
-  virtual G4SurfaceMeshCGAL* GetSurfaceMesh() const override;
+  virtual G4SurfaceMeshCGAL* GetSurfaceMesh() override;
 
   void addZone(G4HalfSpaceZone *zone);
   void removeZone(G4HalfSpaceZone *zone);
