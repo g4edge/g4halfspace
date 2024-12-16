@@ -164,7 +164,7 @@ public:
 
   std::vector<G4SurfaceMeshCGAL*> DecomposeConnected();
   std::size_t KeepLargestConnectedComponents(int iKeep);
-  void IsotropicRemesh(G4int nIter, G4double targetEdgeLength);
+  // void IsotropicRemesh(G4int nIter, G4double targetEdgeLength);
   void RemoveDuplicates();
   std::size_t RemoveIsolatedVertices();
   void RemoveSelfIntersections();

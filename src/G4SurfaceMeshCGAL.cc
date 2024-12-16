@@ -13,7 +13,7 @@
 #include <CGAL/Polygon_mesh_processing/polygon_mesh_to_polygon_soup.h>
 #include <CGAL/Polygon_mesh_processing/polygon_soup_to_polygon_mesh.h>
 #include <CGAL/Polygon_mesh_processing/orientation.h>
-#include <CGAL/Polygon_mesh_processing/remesh.h>
+// #include <CGAL/Polygon_mesh_processing/remesh.h>
 
 #include <CGAL/boost/graph/helpers.h>
 
@@ -368,11 +368,13 @@ void G4SurfaceMeshCGAL::ReverseFaceOrientations() {
   CGAL::Polygon_mesh_processing::reverse_face_orientations(sm);
 }
 
+/*
 void G4SurfaceMeshCGAL::IsotropicRemesh(G4int nIter, G4double targetEdgeLength) {
   CGAL::Polygon_mesh_processing::isotropic_remeshing(faces(sm),
                                                      targetEdgeLength,
                                                      sm,CGAL::parameters::number_of_iterations(nIter).protect_constraints(true));
 }
+*/
 
 void G4SurfaceMeshCGAL::RemoveDuplicates() {
   std::vector<Point_3> points;
