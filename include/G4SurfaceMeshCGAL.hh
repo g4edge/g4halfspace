@@ -71,40 +71,39 @@ typedef boost::graph_traits<Surface_mesh_3>::vertex_descriptor vertex_descriptor
 template <class HDS>
 class Build_mesh : public CGAL::Modifier_base<HDS> {
 public:
-    Build_mesh(Surface_mesh_3 *smIn) {sm = smIn;}
-    void operator()(HDS& hds) {
-        CGAL::Polyhedron_incremental_builder_3<HDS> B( hds, true);
+  Build_mesh(Surface_mesh_3 *smIn) {sm = smIn;}
+  void operator()(HDS& hds) {
+    CGAL::Polyhedron_incremental_builder_3<HDS> B( hds, true);
 
-        std::cout << sm->num_vertices() << " " << sm->num_faces() << std::endl;
-        B.begin_surface( sm->num_vertices(), sm->num_faces());
-        typedef typename HDS::Vertex   Vertex;
-        typedef typename Vertex::Point Point;
+    std::cout << sm->num_vertices() << " " << sm->num_faces() << std::endl;
+    B.begin_surface( sm->num_vertices(), sm->num_faces());
+    typedef typename HDS::Vertex   Vertex;
+    typedef typename Vertex::Point Point;
 
-        for (Surface_mesh_3::Vertex_index vd : sm->vertices()) {
-            auto p = sm->point(vd);
-            B.add_vertex(Point(CGAL::to_double(p.x()),
-                                  CGAL::to_double(p.y()),
-                                  CGAL::to_double(p.z())));
-        }
-
-        int iCount = 0;
-        for (Surface_mesh_3::Face_index fd : sm->faces()) {
-            std::vector<unsigned int> cell;
-
-            B.begin_facet();
-            std::cout << fd << " ";
-            for (Surface_mesh_3::Halfedge_index hd : CGAL::halfedges_around_face(sm->halfedge(fd), *sm)) {
-                std::cout << (unsigned int)sm->source(hd) << " ";
-                B.add_vertex_to_facet((unsigned int)sm->source(hd));
-            }
-            std::cout << std::endl;
-            B.end_facet();
-
-            ++iCount;
-        }
-        B.end_surface();
-
+    for (Surface_mesh_3::Vertex_index vd : sm->vertices()) {
+      auto p = sm->point(vd);
+      B.add_vertex(Point(CGAL::to_double(p.x()),
+                            CGAL::to_double(p.y()),
+                            CGAL::to_double(p.z())));
     }
+
+    int iCount = 0;
+    for (Surface_mesh_3::Face_index fd : sm->faces()) {
+      std::vector<unsigned int> cell;
+
+      B.begin_facet();
+      std::cout << fd << " ";
+      for (Surface_mesh_3::Halfedge_index hd : CGAL::halfedges_around_face(sm->halfedge(fd), *sm)) {
+          std::cout << (unsigned int)sm->source(hd) << " ";
+          B.add_vertex_to_facet((unsigned int)sm->source(hd));
+      }
+      std::cout << std::endl;
+      B.end_facet();
+
+      ++iCount;
+    }
+    B.end_surface();
+  }
 private:
     Surface_mesh_3 *sm;
 };
