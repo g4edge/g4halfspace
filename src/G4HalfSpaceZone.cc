@@ -5,7 +5,6 @@
 #include <tuple>
 
 G4HalfSpaceZone::G4HalfSpaceZone() {};
-G4HalfSpaceZone::~G4HalfSpaceZone() {};
 
 void G4HalfSpaceZone::AddIntersection(G4VHalfSpace *hs) {
     _half_spaces.push_back(std::make_pair(intersection, hs));

@@ -7,7 +7,7 @@ public:
     enum operation { intersection, subtraction };
 
     G4HalfSpaceZone();
-    ~G4HalfSpaceZone();
+    ~G4HalfSpaceZone() = default;
 
     using G4VHalfSpace::Inside;
     void AddIntersection(G4VHalfSpace *hs);
