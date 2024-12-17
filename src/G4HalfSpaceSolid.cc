@@ -75,10 +75,11 @@ G4SurfaceMeshCGAL* G4HalfSpaceSolid::GetSurfaceMesh() {
 }
 
 
-void G4HalfSpaceSolid::addZone(G4HalfSpaceZone *zone) {_zones.push_back(zone);}
-void G4HalfSpaceSolid::removeZone(G4HalfSpaceZone *zone) {_zones.push_back(zone);}
+void G4HalfSpaceSolid::AddZone(G4HalfSpaceZone *zone) {_zones.push_back(zone);}
 
-G4int G4HalfSpaceSolid::numberOfZones() { return _zones.size();}
+void G4HalfSpaceSolid::RemoveZone(G4HalfSpaceZone *zone) {_zones.push_back(zone);}
+
+G4int G4HalfSpaceSolid::NumberOfZones() { return _zones.size();}
 
 std::vector<G4HalfSpaceSolid*> G4HalfSpaceSolid::connectedSolids() {
   return std::vector<G4HalfSpaceSolid*>();

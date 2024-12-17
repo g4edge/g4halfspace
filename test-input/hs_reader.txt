@@ -1,0 +1,7 @@
+aarbox 0 -25 25 -25 25 -25 25
+aarbox 1 -50 0 -50 0 -50 0
+sphere 3 30 0 0 0
+region 0 |+0|+1|
+region 1 |+0 -1|
+region 2 |+3|
+region 4 |+3 -1|

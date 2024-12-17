@@ -18,9 +18,9 @@ public:
   virtual void Transform(const G4AffineTransform& a) override;
   virtual G4SurfaceMeshCGAL* GetSurfaceMesh() override;
 
-  void addZone(G4HalfSpaceZone *zone);
-  void removeZone(G4HalfSpaceZone *zone);
-  G4int numberOfZones();
+  void AddZone(G4HalfSpaceZone *zone);
+  void RemoveZone(G4HalfSpaceZone *zone);
+  G4int NumberOfZones();
 
   std::vector<G4HalfSpaceSolid*> connectedSolids();
 
