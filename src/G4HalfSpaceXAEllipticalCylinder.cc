@@ -5,6 +5,7 @@
 
 #include "G4SystemOfUnits.hh"
 #include "G4Tubs.hh"
+#include "G4EllipticalTube.hh"
 
 G4HalfSpaceXAEllipticalCylinder::G4HalfSpaceXAEllipticalCylinder() {}
 
@@ -86,6 +87,7 @@ std::vector<G4ThreeVector> G4HalfSpaceXAEllipticalCylinder::Intersection(const G
     inter.push_back(l2*d+p);
   }
 
+  G4cout << "G4HalfSpaceXAEllipticalCylinder::Intersection n=" << inter.size() << std::endl;
   return inter;
 }
 
@@ -102,7 +104,7 @@ void G4HalfSpaceXAEllipticalCylinder::Transform(const G4AffineTransform& a) {
 }
 
 G4SurfaceMeshCGAL* G4HalfSpaceXAEllipticalCylinder::GetSurfaceMesh()  {
-  G4Tubs t = G4Tubs("test",0,_r1,1000000000,0,2*M_PI*rad);
+  G4EllipticalTube t = G4EllipticalTube("test", _r1, _r2, 1000000000);
   G4Polyhedron *g4poly = t.GetPolyhedron();
   G4SurfaceMeshCGAL *sm = new G4SurfaceMeshCGAL();
   sm->Fill(g4poly);
@@ -110,5 +112,5 @@ G4SurfaceMeshCGAL* G4HalfSpaceXAEllipticalCylinder::GetSurfaceMesh()  {
   sm->Rotate(G4ThreeVector(0,1,0), M_PI_2);
 
   //return sm;
-  return new G4SurfaceMeshCGAL();
+  return sm;
 }
