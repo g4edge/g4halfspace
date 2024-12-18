@@ -13,6 +13,10 @@
 #include "G4HalfSpacePlane.hh"
 #include "G4HalfSpaceAARBox.hh"
 #include "G4HalfSpaceSphere.hh"
+#include "G4HalfSpaceXACircularCylinder.hh"
+#include "G4HalfSpaceYACircularCylinder.hh"
+#include "G4HalfSpaceZACircularCylinder.hh"
+#include "G4HalfSpaceXAEllipticalCylinder.hh"
 
 std::vector<std::string> split(const std::string &s, char delim) {
   std::vector<std::string> result;
@@ -59,6 +63,30 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       hs_surface_map[surface_id] = new G4HalfSpaceSphere(radius, G4ThreeVector(xcentre,
                                                                                ycentre,
                                                                                zcentre));
+    }
+    else if(key == "xacc") {
+      size_t surface_id;
+      double ycentre, zcentre, radius;
+      ifstr >> surface_id >> ycentre >> zcentre >> radius;
+      hs_surface_map[surface_id] = new G4HalfSpaceXACircularCylinder(ycentre, zcentre, radius);
+    }
+    else if(key == "yacc") {
+      size_t surface_id;
+      double xcentre, zcentre, radius;
+      ifstr >> surface_id >> xcentre >> zcentre >> radius;
+      hs_surface_map[surface_id] = new G4HalfSpaceYACircularCylinder(xcentre, zcentre, radius);
+    }
+    else if(key == "zacc") {
+      size_t surface_id;
+      double xcentre, ycentre, radius;
+      ifstr >> surface_id >> xcentre >> ycentre >> radius;
+      hs_surface_map[surface_id] = new G4HalfSpaceZACircularCylinder(xcentre, ycentre, radius);
+    }
+    else if(key == "xaec") {
+      size_t surface_id;
+      double ycentre, zcentre, yradius, zradius;
+      ifstr >> surface_id >> ycentre >> zcentre >> yradius >> zradius;
+      hs_surface_map[surface_id] = new G4HalfSpaceXAEllipticalCylinder(ycentre, zcentre, yradius, zradius);
     }
     else if(key == "region") {
       size_t region_id;
