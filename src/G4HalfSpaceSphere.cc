@@ -31,8 +31,10 @@ std::vector<G4ThreeVector> G4HalfSpaceSphere::Intersection(const G4ThreeVector& 
   G4double lambda1 = 0;
   G4double lambda2 = 0;
   G4VHalfSpace::QuadraticSolve(a,b,c,nSoln, lambda1, lambda2);
-  intersections.push_back(lambda1*v + p);
-  intersections.push_back(lambda2*v + p);
+  if(lambda1 > 0)
+    intersections.push_back(lambda1*v + p);
+  if(lambda2 > 0)
+    intersections.push_back(lambda2*v + p);
 
   return intersections;
 }
