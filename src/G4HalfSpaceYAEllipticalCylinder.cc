@@ -83,7 +83,7 @@ G4SurfaceMeshCGAL* G4HalfSpaceYAEllipticalCylinder::GetSurfaceMesh()  {
   G4Polyhedron *g4poly = t.GetPolyhedron();
   G4SurfaceMeshCGAL *sm = new G4SurfaceMeshCGAL();
   sm->Fill(g4poly);
-  sm->Translate(0, _x0,_z0);
+  sm->Translate(_x0,0,_z0);
   sm->Rotate(G4ThreeVector(1,0,0), M_PI_2);
 
   //return sm;
