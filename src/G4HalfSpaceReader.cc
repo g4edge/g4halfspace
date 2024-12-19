@@ -17,6 +17,8 @@
 #include "G4HalfSpaceYACircularCylinder.hh"
 #include "G4HalfSpaceZACircularCylinder.hh"
 #include "G4HalfSpaceXAEllipticalCylinder.hh"
+#include "G4HalfSpaceYAEllipticalCylinder.hh"
+
 
 std::vector<std::string> split(const std::string &s, char delim) {
   std::vector<std::string> result;
@@ -87,6 +89,12 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       double ycentre, zcentre, yradius, zradius;
       ifstr >> surface_id >> ycentre >> zcentre >> yradius >> zradius;
       hs_surface_map[surface_id] = new G4HalfSpaceXAEllipticalCylinder(ycentre, zcentre, yradius, zradius);
+    }
+    else if(key == "yaec") {
+      size_t surface_id;
+      double xcentre, zcentre, xradius, zradius;
+      ifstr >> surface_id >> xcentre >> zcentre >> xradius >> zradius;
+      hs_surface_map[surface_id] = new G4HalfSpaceYAEllipticalCylinder(xcentre, zcentre, xradius, zradius);
     }
     else if(key == "region") {
       size_t region_id;
