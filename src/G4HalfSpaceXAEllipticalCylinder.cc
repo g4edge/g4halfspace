@@ -19,37 +19,11 @@ G4HalfSpaceXAEllipticalCylinder::~G4HalfSpaceXAEllipticalCylinder() {}
 
 G4double G4HalfSpaceXAEllipticalCylinder::Sdf(const G4ThreeVector&p) const {
 
-  auto x0 = p.x();
-  auto y0 = p.y();
-  auto z0 = p.z();
+  auto x = p.x();
+  auto y = p.y();
+  auto z = p.z();
 
-  auto a = 1;
-  auto b = 2*_r1*_r1 + 2*_r2*_r2;
-  auto c = pow(_r1,4) + 4*_r1*_r1*_r2*_r2 - _r1*_r1*y0*y0 - _r2*_r2*z0*z0;
-  auto d = 2*pow(a,4)*_r2*_r2 + 2*_r1*_r1*pow(_r2,4) - 2*_r1*_r1*_r2*_r2*y0*y0 - 2*_r1*_r1*_r2*_r2*z0*z0;
-  auto e = pow(_r1,4)*pow(_r2,4) - pow(_r1,4)*_r2*_r2*z0*z0 - _r1*_r1*pow(_r2,4)*y0*y0;
-
-  std::vector<G4double> params;
-  params.push_back(a);
-  params.push_back(b);
-  params.push_back(c);
-  params.push_back(d);
-  params.push_back(e);
-
-  auto sol = PolynomialSolve(params);
-
-  G4cout << "Sdf " << G4endl;
-
-  auto sdf = 1e99;
-
-  for(auto sv : sol) {
-    G4ThreeVector v(x0,
-                    pow(_r1,2)*y0/(pow(_r1,2) + sv),
-                    pow(_r2,2)*x0/(pow(_r2,2) + sv));
-    auto dist = (v-p).mag();
-    sdf = std::min(sdf,dist);
-    G4cout << sv << " " << dist << " " << sdf <<  G4endl;
-  }
+  auto sdf = pow(y-_y0,2)/pow(_r1,2) + pow(z-_z0,2)/pow(_r2,2) - 1;
   return sdf;
 }
 
@@ -110,6 +84,7 @@ G4SurfaceMeshCGAL* G4HalfSpaceXAEllipticalCylinder::GetSurfaceMesh()  {
   sm->Fill(g4poly);
   sm->Translate(0, _y0,_z0);
   sm->Rotate(G4ThreeVector(0,1,0), M_PI_2);
+  sm->Rotate(G4ThreeVector(1,0,0), M_PI_2);
 
   //return sm;
   return sm;
