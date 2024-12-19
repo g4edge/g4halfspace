@@ -26,8 +26,8 @@
  *
  *                      REC
  * XAEllipticalCylinder XEC
- *                      YEC
- *                      ZEC
+ * YAEllipticalCylinder YEC
+ * ZAEllipticalCylinder ZEC
  *
  *                      QUA
  */
