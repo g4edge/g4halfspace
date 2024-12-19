@@ -12,6 +12,7 @@
 #include "G4HalfSpaceZone.hh"
 #include "G4HalfSpacePlane.hh"
 #include "G4HalfSpaceAARBox.hh"
+#include "G4HalfSpaceRBox.hh"
 #include "G4HalfSpaceSphere.hh"
 #include "G4HalfSpaceXACircularCylinder.hh"
 #include "G4HalfSpaceYACircularCylinder.hh"
@@ -58,6 +59,14 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
                                                          ymin, ymax,
                                                          zmin, zmax);
 
+    }
+    else if(key == "rbox") {
+      size_t surface_id;
+      double vx, vy, vz, dx, dy, dz, rx, ry, rz;
+      ifstr >> surface_id >> vx >> vy >> vz >> dx >> dy >> dz >> rx >> ry >> rz;
+      hs_surface_map[surface_id] = new G4HalfSpaceRBox(G4ThreeVector(vx,vy,vz),
+                                                       G4ThreeVector(dx,dy,dz),
+                                                       G4ThreeVector(rx,ry,rz));
     }
     else if(key == "sphere") {
       size_t surface_id;

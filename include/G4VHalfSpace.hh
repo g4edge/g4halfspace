@@ -8,7 +8,7 @@
 /* G4HalfSpace          FLUKA       MCNP
  * --------------------------------------
  * AARBox               RPP
- *                      BOX
+ * RBox                 BOX
  * Sphere               SPH
  *                      TRC
  *                      ELL
