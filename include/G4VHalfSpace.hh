@@ -11,7 +11,7 @@
  * RBox                 BOX
  * Sphere               SPH
  *                      TRC
- *                      ELL
+ * Ellipsoid            ELL
  *                      WED/RAW
  *
  * Plane                PLA

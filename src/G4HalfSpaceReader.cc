@@ -14,6 +14,7 @@
 #include "G4HalfSpaceAARBox.hh"
 #include "G4HalfSpaceRBox.hh"
 #include "G4HalfSpaceSphere.hh"
+#include "G4HalfSpaceEllipsoid.hh"
 #include "G4HalfSpaceXACircularCylinder.hh"
 #include "G4HalfSpaceYACircularCylinder.hh"
 #include "G4HalfSpaceZACircularCylinder.hh"
@@ -75,6 +76,14 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       hs_surface_map[surface_id] = new G4HalfSpaceSphere(radius, G4ThreeVector(xcentre,
                                                                                ycentre,
                                                                                zcentre));
+    }
+    else if(key == "ellipsoid") {
+      size_t surface_id;
+      double a, b, c, xcentre, ycentre, zcentre, xrotation, yrotation, zrotation;
+      ifstr >> surface_id >> a >> b >> c >> xcentre >> ycentre >> zcentre >> xrotation >> yrotation >> zrotation;
+      hs_surface_map[surface_id] = new G4HalfSpaceEllipsoid(a,b,c,
+                                                            G4ThreeVector(xcentre,ycentre,zcentre),
+                                                            G4ThreeVector(xrotation, yrotation, zrotation));
     }
     else if(key == "xacc") {
       size_t surface_id;
