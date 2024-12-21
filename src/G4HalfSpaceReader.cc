@@ -21,6 +21,7 @@
 #include "G4HalfSpaceXAEllipticalCylinder.hh"
 #include "G4HalfSpaceYAEllipticalCylinder.hh"
 #include "G4HalfSpaceZAEllipticalCylinder.hh"
+#include "G4HalfSpaceQuadric.hh"
 
 
 std::vector<std::string> split(const std::string &s, char delim) {
@@ -120,6 +121,19 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       double xcentre, ycentre, xradius, yradius;
       ifstr >> surface_id >> xcentre >> ycentre >> xradius >> yradius;
       hs_surface_map[surface_id] = new G4HalfSpaceZAEllipticalCylinder(xcentre, ycentre, xradius, yradius);
+    }
+    else if(key == "quadric") {
+      size_t surface_id;
+      double qxx, qxy, qxz, qyy, qyz, qzz, rx, ry, rz, r;
+      ifstr >> surface_id >> qxx >> qxy >> qxz >> qyy >> qyz >> qzz >> rx >> ry >> rz >> r;
+      auto q =new G4HalfSpaceQuadric(qxx, qxy, qxz,
+                                          qyy, qyz,
+                                               qzz,
+                                     rx, ry, rz,
+                                     r);
+      q->Rotate(G4ThreeVector(0,0,0));
+      q->Translate(G4ThreeVector(0,0,0));
+      hs_surface_map[surface_id] = q;
     }
     else if(key == "region") {
       size_t region_id;

@@ -1,13 +1,15 @@
-aarbox 0 -25 25 -25 25 -25 25
-rbox   1 0 0 0 25 25 25 45 45 45 
-sphere 2 30 0 0 0
-xacc   3 0 0 25
-yacc   4 0 0 25
-zacc   5 0 0 25
-xaec   6 0 0 25 10
-yaec   7 0 0 25 10
-zaec   8 0 0 25 10 
-aarbox 30 -50 0 -50 0 -50 0 
+aarbox    0 -25 25 -25 25 -25 25
+rbox      1 0 0 0 25 25 25 45 0 0
+sphere    2 30 0 0 0
+ellipsoid 3 60 40 20 0 0 0 0 0 0
+xacc      4 0 0 25
+yacc      5 0 0 25
+zacc      6 0 0 25
+xaec      7 0 0 25 10
+yaec      8 0 0 25 10
+zaec      9 0 0 25 10
+quadric  18 0.000625 0 0 0.0011 0 0.0025 0 0 0 -1
+aarbox    30 -50 0 -50 0 -50 0
 region 0 |+0|
 region 1 |+1|
 region 2 |+2|
@@ -17,6 +19,7 @@ region 5 |+5 +0|
 region 6 |+6 +0|
 region 7 |+7 +0|
 region 8 |+8 +0|
+region 18 |+18|
 region 30 |+0|+30|
 region 31 |+0 -30|
 region 32 |+0 +30|

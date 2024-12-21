@@ -7,29 +7,29 @@
 
 /* G4HalfSpace          FLUKA       MCNP
  * --------------------------------------
- * AARBox               RPP
- * RBox                 BOX
- * Sphere               SPH
- *                      TRC
- * Ellipsoid            ELL
- *                      WED/RAW
+ * AARBox               RPP                  0
+ * RBox                 BOX                  1
+ * Sphere               SPH                  2
+ *                      TRC                  3
+ * Ellipsoid            ELL                  4
+ *                      WED/RAW              5
  *
- * Plane                PLA
- *                      XYP
- *                      XZP
- *                      YZP
+ * Plane                PLA                  6
+ *                      XYP                  7
+ *                      XZP                  8
+ *                      YZP                  9
  *
- *                      RCC
- * XACircularCylinder   XCC
- * YACircularCylinder   YCC
- * ZACircularCylinder   ZCC
+ *                      RCC                  10
+ * XACircularCylinder   XCC                  11
+ * YACircularCylinder   YCC                  12
+ * ZACircularCylinder   ZCC                  13
  *
- *                      REC
- * XAEllipticalCylinder XEC
- * YAEllipticalCylinder YEC
- * ZAEllipticalCylinder ZEC
+ *                      REC                  14
+ * XAEllipticalCylinder XEC                  15
+ * YAEllipticalCylinder YEC                  16
+ * ZAEllipticalCylinder ZEC                  17
  *
- *                      QUA
+ * Quadric              QUA                  18
  */
 
 class G4VHalfSpace {
