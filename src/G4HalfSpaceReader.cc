@@ -22,7 +22,7 @@
 #include "G4HalfSpaceYAEllipticalCylinder.hh"
 #include "G4HalfSpaceZAEllipticalCylinder.hh"
 #include "G4HalfSpaceQuadric.hh"
-
+#include "G4HalfSpacePlane.hh"
 
 std::vector<std::string> split(const std::string &s, char delim) {
   std::vector<std::string> result;
@@ -85,6 +85,12 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       hs_surface_map[surface_id] = new G4HalfSpaceEllipsoid(a,b,c,
                                                             G4ThreeVector(xcentre,ycentre,zcentre),
                                                             G4ThreeVector(xrotation, yrotation, zrotation));
+    }
+    else if(key == "plane") {
+      size_t surface_id;
+      double nx, ny, nz, d;
+      ifstr >> surface_id >> nx >> ny >> nz >> d;
+      hs_surface_map[surface_id] = new G4HalfSpacePlane(G4ThreeVector(nx,ny,nz), d);
     }
     else if(key == "xacc") {
       size_t surface_id;

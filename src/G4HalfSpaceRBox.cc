@@ -120,7 +120,7 @@ G4SurfaceMeshCGAL* G4HalfSpaceRBox::GetSurfaceMesh()  {
     return cached_mesh;
   }
 
-  cached_mesh = _hsZone->GetSurfaceMesh();
+cached_mesh = _hsZone->GetSurfaceMesh();
 
   return cached_mesh;
 }
