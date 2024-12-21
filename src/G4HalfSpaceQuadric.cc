@@ -31,7 +31,6 @@ G4HalfSpaceQuadric::G4HalfSpaceQuadric(CLHEP::HepMatrix &q,
 
 G4double G4HalfSpaceQuadric::Sdf(const G4ThreeVector&p) const {
 
-  std::cout << "G4HalfSpaceQuadric::Sdf" << std::endl;
   CLHEP::HepVector pv = CLHEP::HepVector(3);
   pv(1) = p.x();
   pv(2) = p.y();
@@ -84,9 +83,6 @@ void G4HalfSpaceQuadric::Translate(const G4ThreeVector& t3v) {
 
   auto pp = _q*t + _q.T()*t + _p;
   auto rp = _r + (t.T()*_q*t + _p.T()*t)(1);
-
-  std::cout << _p << " " << pp << std::endl;
-  std::cout << _r <<  " " << rp << std::endl;
 
   _p = pp;
   _r = rp;
