@@ -13,23 +13,24 @@
  *                      TRC                  3
  * Ellipsoid            ELL                  4
  *                      WED/RAW              5
+ *                      ARB                  6
  *
- * Plane                PLA                  6
- *                      XYP                  7
- *                      XZP                  8
- *                      YZP                  9
+ * Plane                PLA                  7
+ *                      XYP                  8
+ *                      XZP                  9
+ *                      YZP                  10
  *
- *                      RCC                  10
- * XACircularCylinder   XCC                  11
- * YACircularCylinder   YCC                  12
- * ZACircularCylinder   ZCC                  13
+ *                      RCC                  11
+ * XACircularCylinder   XCC                  12
+ * YACircularCylinder   YCC                  13
+ * ZACircularCylinder   ZCC                  14
  *
- *                      REC                  14
- * XAEllipticalCylinder XEC                  15
- * YAEllipticalCylinder YEC                  16
- * ZAEllipticalCylinder ZEC                  17
+ *                      REC                  15
+ * XAEllipticalCylinder XEC                  16
+ * YAEllipticalCylinder YEC                  17
+ * ZAEllipticalCylinder ZEC                  18
  *
- * Quadric              QUA                  18
+ * Quadric              QUA                  19
  */
 
 class G4VHalfSpace {
