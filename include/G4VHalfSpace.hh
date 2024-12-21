@@ -20,7 +20,7 @@
  *                      XZP                  9
  *                      YZP                  10
  *
- *                      RCC                  11
+ * CircularCylinder     RCC                  11
  * XACircularCylinder   XCC                  12
  * YACircularCylinder   YCC                  13
  * ZACircularCylinder   ZCC                  14
