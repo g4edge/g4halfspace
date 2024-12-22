@@ -25,7 +25,7 @@
  * YACircularCylinder   YCC                  13
  * ZACircularCylinder   ZCC                  14
  *
- *                      REC                  15
+ * EllipticCylinder     REC                  15
  * XAEllipticalCylinder XEC                  16
  * YAEllipticalCylinder YEC                  17
  * ZAEllipticalCylinder ZEC                  18

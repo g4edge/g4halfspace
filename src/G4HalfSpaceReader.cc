@@ -19,6 +19,7 @@
 #include "G4HalfSpaceXACircularCylinder.hh"
 #include "G4HalfSpaceYACircularCylinder.hh"
 #include "G4HalfSpaceZACircularCylinder.hh"
+#include "G4HalfSpaceEllipticCylinder.hh"
 #include "G4HalfSpaceXAEllipticalCylinder.hh"
 #include "G4HalfSpaceYAEllipticalCylinder.hh"
 #include "G4HalfSpaceZAEllipticalCylinder.hh"
@@ -100,7 +101,6 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       hs_surface_map[surface_id] = new G4HalfSpaceCircularCylinder(G4ThreeVector(vx,vy,vz),
                                                                    G4ThreeVector(hx,hy,hz),
                                                                    r);
-
     }
     else if(key == "xacc") {
       size_t surface_id;
@@ -119,6 +119,13 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       double xcentre, ycentre, radius;
       ifstr >> surface_id >> xcentre >> ycentre >> radius;
       hs_surface_map[surface_id] = new G4HalfSpaceZACircularCylinder(xcentre, ycentre, radius);
+    }
+    else if(key == "ec") {
+      size_t surface_id;
+      double vx, vy, vz, hx, hy, hz, r1, r2;
+      ifstr >> surface_id >> vx >> vy >> vz >> hx >> hy >> hz >> r1 >> r2;
+      hs_surface_map[surface_id] = new G4HalfSpaceEllipticCylinder(G4ThreeVector(vx,vy,vz),
+                                                                   G4ThreeVector(hx,hy,hz),r1, r2);
     }
     else if(key == "xaec") {
       size_t surface_id;

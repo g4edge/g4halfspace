@@ -2,12 +2,13 @@
 
 #include "G4ThreeVector.hh"
 #include "G4VHalfSpace.hh"
+#include "G4HalfSpaceZone.hh"
 
-class G4HalfEllipticCylinder: public G4VHalfSpace {
+class G4HalfSpaceEllipticCylinder: public G4VHalfSpace {
 public:
-  G4HalfEllipticCylinder();
-  G4HalfEllipticCylinder(const G4ThreeVector& p0, const G4ThreeVector& d, G4double r1, G4double r2);
-  ~G4HalfEllipticCylinder();
+  G4HalfSpaceEllipticCylinder();
+  G4HalfSpaceEllipticCylinder(const G4ThreeVector& v, const G4ThreeVector& h, G4double r1, G4double r2);
+  ~G4HalfSpaceEllipticCylinder();
 
   virtual G4double Sdf(const G4ThreeVector&p) const override;
   virtual std::vector<G4ThreeVector> Intersection(const G4ThreeVector& p, const G4ThreeVector &d) const override;
@@ -19,8 +20,10 @@ public:
   virtual G4SurfaceMeshCGAL* GetSurfaceMesh()  override;
 
 protected:
-  G4ThreeVector _p0 = G4ThreeVector(0,0,0);
-  G4ThreeVector _d = G4ThreeVector(0,0,1);
-  G4double _r1 = 1.0;
-  G4double _r2 = 1.0;
+  G4ThreeVector _v;
+  G4ThreeVector _h;
+  G4double _r1;
+  G4double _r2;
+
+  G4HalfSpaceZone _hsZone = G4HalfSpaceZone();
 };
