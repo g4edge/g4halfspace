@@ -11,6 +11,9 @@
 #include "G4HalfSpaceSolid.hh"
 #include "G4HalfSpaceZone.hh"
 #include "G4HalfSpacePlane.hh"
+#include "G4HalfSpaceXYPlane.hh"
+#include "G4HalfSpaceXZPlane.hh"
+#include "G4HalfSpaceYZPlane.hh"
 #include "G4HalfSpaceAARBox.hh"
 #include "G4HalfSpaceRBox.hh"
 #include "G4HalfSpaceSphere.hh"
@@ -93,6 +96,24 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       double nx, ny, nz, d;
       ifstr >> surface_id >> nx >> ny >> nz >> d;
       hs_surface_map[surface_id] = new G4HalfSpacePlane(G4ThreeVector(nx,ny,nz), d);
+    }
+    else if(key == "xyplane") {
+      size_t surface_id;
+      double z;
+      ifstr >> surface_id >> z;
+      hs_surface_map[surface_id] = new G4HalfSpaceXYPlane(z);
+    }
+    else if(key == "xzplane") {
+      size_t surface_id;
+      double y;
+      ifstr >> surface_id >> y;
+      hs_surface_map[surface_id] = new G4HalfSpaceXZPlane(y);
+    }
+    else if(key == "yzplane") {
+      size_t surface_id;
+      double x;
+      ifstr >> surface_id >> x;
+      hs_surface_map[surface_id] = new G4HalfSpaceYZPlane(x);
     }
     else if(key == "cc") {
       size_t surface_id;

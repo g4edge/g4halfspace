@@ -16,9 +16,9 @@
  *                      ARB                  6
  *
  * Plane                PLA                  7
- *                      XYP                  8
- *                      XZP                  9
- *                      YZP                  10
+ * XYPlane              XYP                  8
+ * XZPlane              XZP                  9
+ * YZPlane              YZP                  10
  *
  * CircularCylinder     RCC                  11
  * XACircularCylinder   XCC                  12
