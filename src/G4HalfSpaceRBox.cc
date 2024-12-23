@@ -39,9 +39,9 @@ G4HalfSpaceRBox::G4HalfSpaceRBox(G4ThreeVector v,
   _h3 = G4ThreeVector(0,0,h[2]);
 
   G4RotationMatrix rotation_g4 = G4RotationMatrix();
-  rotation_g4.rotateX(r[0]/180*M_PI);
-  rotation_g4.rotateY(r[1]/180*M_PI);
-  rotation_g4.rotateZ(r[2]/180*M_PI);
+  rotation_g4.rotateX(r[0]);
+  rotation_g4.rotateY(r[1]);
+  rotation_g4.rotateZ(r[2]);
   rotation_g4.rectify();
 
   _h1 = rotation_g4*_h1;

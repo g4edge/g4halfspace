@@ -92,9 +92,9 @@ void G4HalfSpaceQuadric::Translate(const G4ThreeVector& t3v) {
 
 void G4HalfSpaceQuadric::Rotate(const G4ThreeVector &rv) {
   G4RotationMatrix rm = G4RotationMatrix();
-  rm.rotateX(rv[0]/180*M_PI);
-  rm.rotateY(rv[1]/180*M_PI);
-  rm.rotateZ(rv[2]/180*M_PI);
+  rm.rotateZ(-rv[2]);
+  rm.rotateY(-rv[1]);
+  rm.rotateX(-rv[0]);
   rm.rectify();
   this->Rotate(rm);
 }

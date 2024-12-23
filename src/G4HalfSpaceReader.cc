@@ -70,7 +70,7 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       ifstr >> surface_id >> vx >> vy >> vz >> dx >> dy >> dz >> rx >> ry >> rz;
       hs_surface_map[surface_id] = new G4HalfSpaceRBox(G4ThreeVector(vx,vy,vz),
                                                        G4ThreeVector(dx,dy,dz),
-                                                       G4ThreeVector(rx,ry,rz));
+                                                       G4ThreeVector(rx/180.*M_PI,ry/180.*M_PI,rz/180.*M_PI));
     }
     else if(key == "sphere") {
       size_t surface_id;
@@ -86,7 +86,7 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       ifstr >> surface_id >> a >> b >> c >> xcentre >> ycentre >> zcentre >> xrotation >> yrotation >> zrotation;
       hs_surface_map[surface_id] = new G4HalfSpaceEllipsoid(a,b,c,
                                                             G4ThreeVector(xcentre,ycentre,zcentre),
-                                                            G4ThreeVector(xrotation, yrotation, zrotation));
+                                                            G4ThreeVector(xrotation/180*M_PI, yrotation/180*M_PI, zrotation/180*M_PI));
     }
     else if(key == "plane") {
       size_t surface_id;
@@ -154,8 +154,8 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
                                                qzz,
                                      rx, ry, rz,
                                      r);
-      q->Rotate(G4ThreeVector(0,0,0));
-      q->Translate(G4ThreeVector(0,0,0));
+      //q->Rotate(G4ThreeVector(0,0,0));
+      //q->Translate(G4ThreeVector(0,0,0));
       hs_surface_map[surface_id] = q;
     }
     else if(key == "region") {

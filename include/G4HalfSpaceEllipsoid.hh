@@ -6,6 +6,7 @@
 
 #include "G4ThreeVector.hh"
 #include "G4VHalfSpace.hh"
+#include "G4HalfSpaceZone.hh"
 
 class G4HalfSpaceEllipsoid : public G4VHalfSpace {
 public:
@@ -29,5 +30,7 @@ protected:
   double _c;
   G4ThreeVector _centre;
   G4ThreeVector _rotation;
+
+  G4HalfSpaceZone _hsZone = G4HalfSpaceZone();
 
 };
