@@ -10,7 +10,7 @@
  * AARBox               RPP                  0
  * RBox                 BOX                  1
  * Sphere               SPH                  2
- *                      TRC                  3
+ * CircularCone         TRC                  3
  * Ellipsoid            ELL                  4
  *                      WED/RAW              5
  *                      ARB                  6

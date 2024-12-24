@@ -17,6 +17,7 @@
 #include "G4HalfSpaceAARBox.hh"
 #include "G4HalfSpaceRBox.hh"
 #include "G4HalfSpaceSphere.hh"
+#include "G4HalfSpaceCircularCone.hh"
 #include "G4HalfSpaceEllipsoid.hh"
 #include "G4HalfSpaceCircularCylinder.hh"
 #include "G4HalfSpaceXACircularCylinder.hh"
@@ -82,6 +83,14 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       hs_surface_map[surface_id] = new G4HalfSpaceSphere(radius, G4ThreeVector(xcentre,
                                                                                ycentre,
                                                                                zcentre));
+    }
+    else if(key == "cone") {
+      size_t surface_id;
+      double h, r1, r2, vx, vy, vz, rx, ry, rz;
+      ifstr >> surface_id >> h >> r1 >> r2 >> vx >> vy >> vz >> rx >> ry >> rz;
+      hs_surface_map[surface_id] = new G4HalfSpaceCircularCone(h, r1, r2,
+                                                               G4ThreeVector(vx,vy,vz),
+                                                               G4ThreeVector(rx,ry,rz));
     }
     else if(key == "ellipsoid") {
       size_t surface_id;
