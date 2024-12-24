@@ -1,12 +1,20 @@
 aarbox    0 -25 25 -25 25 -25 25
 rbox      1 0 0 0 25 25 25 45 0 0
 sphere    2 30 0 0 0
-ellipsoid 4 60 40 20 0 0 0 0 0 0
+cone      3 30 30 5 0 0 0 0 0 0
+ellipsoid 4 40 30 20 20 0 0 0 45 0
 plane     7 0 0 1 25
-cc       11 0 0 -20 0 0 40 20
+xyplane   8 10
+xyplane  81 -10
+xzplane   9 10
+xzplane  91 -10
+yzplane  10 10
+yzplane 101 -10 
+cc       11 0 0 -20 0 40 0 20
 xacc     12 0 0 25
 yacc     13 0 0 25
 zacc     14 0 0 25
+ec       15 0 0 -20 0 20 20 10 20
 xaec     16 0 0 25 10
 yaec     17 0 0 25 10
 zaec     18 0 0 25 10
@@ -15,12 +23,15 @@ aarbox   30 -50 0 -50 0 -50 0
 region 0 |+0|
 region 1 |+1|
 region 2 |+2|
+region 3 |+3|
 region 4 |+4|
 region 7 |+7|
+region 8 |+8 -81 +9 -91 +10 -101|
 region 11 |+11|
 region 12 |+12 +0|
 region 13 |+13 +0|
 region 14 |+14 +0|
+region 15 |+15|
 region 16 |+16 +0|
 region 17 |+17 +0|
 region 18 |+18 +0|
