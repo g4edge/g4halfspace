@@ -19,6 +19,7 @@
 #include "G4HalfSpaceSphere.hh"
 #include "G4HalfSpaceCircularCone.hh"
 #include "G4HalfSpaceEllipsoid.hh"
+#include "G4HalfSpaceWedge.hh"
 #include "G4HalfSpaceCircularCylinder.hh"
 #include "G4HalfSpaceXACircularCylinder.hh"
 #include "G4HalfSpaceYACircularCylinder.hh"
@@ -99,6 +100,14 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       hs_surface_map[surface_id] = new G4HalfSpaceEllipsoid(a,b,c,
                                                             G4ThreeVector(xcentre,ycentre,zcentre),
                                                             G4ThreeVector(xrotation/180*M_PI, yrotation/180*M_PI, zrotation/180*M_PI));
+    }
+    else if(key == "wedge") {
+      size_t surface_id;
+      double vx, vy, vz, dx, dy, dz, rx, ry, rz;
+      ifstr >> surface_id >> vx >> vy >> vz >> dx >> dy >> dz >> rx >> ry >> rz;
+      hs_surface_map[surface_id] = new G4HalfSpaceWedge(G4ThreeVector(vx,vy,vz),
+                                                       G4ThreeVector(dx,dy,dz),
+                                                       G4ThreeVector(rx/180.*M_PI,ry/180.*M_PI,rz/180.*M_PI));
     }
     else if(key == "plane") {
       size_t surface_id;

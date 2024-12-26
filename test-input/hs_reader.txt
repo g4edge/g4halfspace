@@ -3,6 +3,7 @@ rbox      1 0 0 0 25 25 25 45 0 0
 sphere    2 30 0 0 0
 cone      3 30 30 5 0 0 0 0 0 0
 ellipsoid 4 40 30 20 20 0 0 0 45 0
+wedge     5 0 0 0 25 25 25 0 0 0
 plane     7 0 0 1 25
 xyplane   8 10
 xyplane  81 -10
@@ -25,6 +26,7 @@ region 1 |+1|
 region 2 |+2|
 region 3 |+3|
 region 4 |+4|
+region 5 |+5|
 region 7 |+7|
 region 8 |+8 -81 +9 -91 +10 -101|
 region 11 |+11|
