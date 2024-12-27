@@ -1,7 +1,3 @@
-//
-// Created by Boogert Stewart on 19/12/2024.
-//
-
 #pragma once
 
 #include "G4ThreeVector.hh"

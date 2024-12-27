@@ -2,8 +2,7 @@
 
 #include "G4ThreeVector.hh"
 #include "G4VHalfSpace.hh"
-
-class G4HalfSpaceZone;
+#include "G4HalfSpaceZone.hh"
 
 class G4HalfSpaceAARBox : public G4VHalfSpace {
 public:
@@ -29,5 +28,5 @@ protected:
   G4double _zmin = -1.0;
   G4double _zmax =  1.0;
 
-  G4HalfSpaceZone* _hsZone;
+  G4HalfSpaceZone _hsZone = G4HalfSpaceZone();
 };

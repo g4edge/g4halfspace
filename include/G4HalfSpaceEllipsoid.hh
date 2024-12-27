@@ -1,7 +1,3 @@
-//
-// Created by Boogert Stewart on 20/12/2024.
-//
-
 #pragma once
 
 #include "G4ThreeVector.hh"
@@ -32,5 +28,4 @@ protected:
   G4ThreeVector _rotation;
 
   G4HalfSpaceZone _hsZone = G4HalfSpaceZone();
-
 };

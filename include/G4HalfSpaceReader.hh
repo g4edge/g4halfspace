@@ -1,9 +1,4 @@
-//
-// Created by Boogert Stewart on 16/12/2024.
-//
-
-#ifndef G4HALFSPACEREADER_HH
-#define G4HALFSPACEREADER_HH
+#pragma once
 
 #include <vector>
 #include <string>
@@ -26,5 +21,3 @@ protected:
   std::map<size_t, G4VHalfSpace*> hs_surface_map;
   std::map<size_t, G4HalfSpaceSolid*> hs_solid_map;
 };
-
-#endif //G4HALFSPACEREADER_HH
