@@ -12,8 +12,8 @@
  * Sphere               SPH                  2
  * CircularCone         TRC                  3
  * Ellipsoid            ELL                  4
- *                      WED/RAW              5
- *                      ARB                  6
+ * Wedge                WED/RAW              5
+ * Arbitrary            ARB                  6
  *
  * Plane                PLA                  7
  * XYPlane              XYP                  8

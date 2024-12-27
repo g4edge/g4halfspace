@@ -20,6 +20,7 @@
 #include "G4HalfSpaceCircularCone.hh"
 #include "G4HalfSpaceEllipsoid.hh"
 #include "G4HalfSpaceWedge.hh"
+#include "G4HalfSpaceArbitrary.hh"
 #include "G4HalfSpaceCircularCylinder.hh"
 #include "G4HalfSpaceXACircularCylinder.hh"
 #include "G4HalfSpaceYACircularCylinder.hh"
@@ -108,6 +109,40 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       hs_surface_map[surface_id] = new G4HalfSpaceWedge(G4ThreeVector(vx,vy,vz),
                                                        G4ThreeVector(dx,dy,dz),
                                                        G4ThreeVector(rx/180.*M_PI,ry/180.*M_PI,rz/180.*M_PI));
+    }
+    else if(key == "arbitrary") {
+      size_t surface_id;
+      G4double v1x, v1y, v1z,
+               v2x, v2y, v2z,
+               v3x, v3y, v3z,
+               v4x, v4y, v4z,
+               v5x, v5y, v5z,
+               v6x, v6y, v6z,
+               v7x, v7y, v7z,
+               v8x, v8y, v8z;
+      G4int fi1, fi2, fi3, fi4, fi5, fi6;
+
+      ifstr >> surface_id
+            >> v1x >> v1y >> v1z
+            >> v2x >> v2y >> v2z
+            >> v3x >> v3y >> v3z
+            >> v4x >> v4y >> v4z
+            >> v5x >> v5y >> v5z
+            >> v6x >> v6y >> v6z
+            >> v7x >> v7y >> v7z
+            >> v8x >> v8y >> v8z
+            >> fi1 >> fi2 >> fi3
+            >> fi4 >> fi5 >> fi6;
+
+      hs_surface_map[surface_id] = new G4HalfSpaceArbitrary(G4ThreeVector(v1x, v1y, v1z),
+                                                            G4ThreeVector(v2x, v2y, v2z),
+                                                            G4ThreeVector(v3x, v3y, v3z),
+                                                            G4ThreeVector(v4x, v4y, v4z),
+                                                            G4ThreeVector(v5x, v5y, v5z),
+                                                            G4ThreeVector(v6x, v6y, v6z),
+                                                            G4ThreeVector(v7x, v7y, v7z),
+                                                            G4ThreeVector(v8x, v8y, v8z),
+                                                            fi1, fi2, fi3, fi4, fi5, fi6);
     }
     else if(key == "plane") {
       size_t surface_id;
