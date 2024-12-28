@@ -64,6 +64,8 @@ G4HalfSpaceCircularCone::G4HalfSpaceCircularCone(G4double h, G4double r1, G4doub
     _hsZone.Rotate(rot);
   }
 
+  _hsZone.Translate(v);
+
 }
 
 
