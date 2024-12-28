@@ -1,0 +1,15 @@
+aarbox    0 -25 25 -25 25 -25 25
+aarbox    1 -50 0 -50 0 -50 0
+aarbox    2 -50 50 -10 10 -10 10
+aarbox    3 -10 10 -50 50 -10 10
+aarbox    4 -10 10 -10 10 -50 50
+aarbox_od 5  25 25 25 100 100 100 
+region 0 |+0|
+region 1 |+1|
+region 2 |+0 +1|
+region 3 |+0 -1|
+region 4 |+0|+1|
+region 5 |+2|
+region 6 |+3|
+region 7 |+4|
+region 8 |+5|

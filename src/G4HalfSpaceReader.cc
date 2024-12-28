@@ -70,6 +70,13 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
                                                          zmin, zmax);
 
     }
+    else if(key == "aarbox_od") {
+      size_t surface_id;
+      double dx, dy, dz, cx, cy, cz;
+      ifstr >> surface_id >> dx >> dy >> dz >> cx >> cy >> cz;
+      hs_surface_map[surface_id] = new G4HalfSpaceAARBox(G4ThreeVector(dx,dy,dz),
+                                                         G4ThreeVector(cx,cy,cz));
+    }
     else if(key == "rbox") {
       size_t surface_id;
       double vx, vy, vz, dx, dy, dz, rx, ry, rz;

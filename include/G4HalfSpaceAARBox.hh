@@ -8,6 +8,7 @@ class G4HalfSpaceAARBox : public G4VHalfSpace {
 public:
   G4HalfSpaceAARBox();
   G4HalfSpaceAARBox(G4double xmin, G4double xmax, G4double ymin, G4double ymax, G4double zmin, G4double zmax);
+  G4HalfSpaceAARBox(const G4ThreeVector &h, const G4ThreeVector &c);
   ~G4HalfSpaceAARBox();
 
   virtual G4double Sdf(const G4ThreeVector&p) const override;

@@ -26,6 +26,11 @@ G4HalfSpaceAARBox::G4HalfSpaceAARBox(G4double xmin, G4double xmax,
   _hsZone.AddIntersection(p6);
 }
 
+G4HalfSpaceAARBox::G4HalfSpaceAARBox(const G4ThreeVector &h, const G4ThreeVector &c) :
+  G4HalfSpaceAARBox(-h.x()+c.x(), h.x()+c.x(),
+                    -h.y()+c.y(), h.y()+c.y(),
+                    -h.z()+c.z(), h.z()+c.z()) {}
+
 G4HalfSpaceAARBox::~G4HalfSpaceAARBox() {
 }
 
