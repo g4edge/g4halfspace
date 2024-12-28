@@ -11,6 +11,7 @@ G4HalfSpaceAARBox::G4HalfSpaceAARBox(G4double xmin, G4double xmax,
                                      _xmin(xmin), _xmax(xmax),
                                      _ymin(ymin), _ymax(ymax),
                                      _zmin(zmin), _zmax(zmax) {
+
   auto p1 = new G4HalfSpacePlane(G4ThreeVector(xmax,0,0),G4ThreeVector(1,0,0));
   auto p2 = new G4HalfSpacePlane(G4ThreeVector(xmin,0,0),G4ThreeVector(-1,0,0));
   auto p3 = new G4HalfSpacePlane(G4ThreeVector(0,ymax,0),G4ThreeVector(0,1,0));
