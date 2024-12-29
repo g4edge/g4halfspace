@@ -46,3 +46,24 @@ file(GLOB HalfSpaceTestHeaders ${PROJECT_SOURCE_DIR}/test/*hh)
 add_executable(g4halfspace_test ${HalfSpaceTestSources} ${HalfSpaceTestHeaders})
 target_compile_options(g4halfspace_test PRIVATE -Werror)
 target_link_libraries(g4halfspace_test ${Geant4_LIBRARIES} g4halfspace)
+
+# Copy over test files
+set(TEST-INPUTS 00_trans.txt 01_aarbox.txt 02_aarbox_od.txt 03_rbox.txt 04_rbox_od.txt)
+foreach(_input ${TEST-INPUTS})
+  configure_file(
+          ${PROJECT_SOURCE_DIR}/test-input/${_input}
+          ${PROJECT_BINARY_DIR}/${_input}
+          COPYONLY
+  )
+endforeach()
+
+# Copy over macros
+set(SCRIPTS vis.mac)
+foreach(_script ${SCRIPTS})
+  configure_file(
+          ${PROJECT_SOURCE_DIR}/${_script}
+          ${PROJECT_BINARY_DIR}/${_script}
+          COPYONLY
+  )
+endforeach()
+

@@ -1,0 +1,39 @@
+trans  0 0 0 0 0 0 0
+trans  1 25 0 0 0 0 0
+trans  2 0 25 0 0 0 0
+trans  3 0 0 25 0 0 0
+trans  4 0 0 0 45 0 0
+trans  5 0 0 0 0 45 0
+trans  6 0 0 0 0 0 45
+trans  7 0 0 25 45 0 0
+rbox_od 0  25 25 25 0 0 0 0 0 0 -1
+rbox_od 1  25 25 25 -25 -25 -25 0 0 0 -1
+rbox_od 2  50 10 10 0 0 0 0 0 0 -1
+rbox_od 3  10 50 10 0 0 0 0 0 0 -1
+rbox_od 4  10 10 50 0 0 0 0 0 0 -1
+rbox_od 5  25 25 25 0 0 0 0 0 0 -1
+rbox_od 6  25 25 25 0 0 0 0 0 0 0
+rbox_od 7  25 25 25 0 0 0 0 0 0 1
+rbox_od 8  25 25 25 0 0 0 0 0 0 2
+rbox_od 9  25 25 25 0 0 0 0 0 0 3
+rbox_od 10 25 25 25 0 0 0 0 0 0 4
+rbox_od 11 25 25 25 0 0 0 0 0 0 5
+rbox_od 12 25 25 25 0 0 0 0 0 0 6
+rbox_od 13 25 25 25 0 0 0 0 0 0 7
+region 0 |+0|
+region 1 |+1|
+region 2 |+2|
+region 3 |+3|
+region 4 |+4|
+region 5 |+5|
+region 6 |+6|
+region 7 |+7|
+region 8 |+8|
+region 9 |+9|
+region 10 |+10|
+region 11 |+11|
+region 12 |+12|
+region 13 |+13|
+region 100 |+0 +1|
+region 101 |+0 -1|
+region 102 |+0|+1|
