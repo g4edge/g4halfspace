@@ -30,7 +30,7 @@ protected:
   G4double _h = 25;
   G4double _r1 = 10;
   G4double _r2 = 20;
-  G4ThreeVector _v = G4ThreeVector(0,0,-5);
+  G4ThreeVector _v = G4ThreeVector(0,0,0);
   G4ThreeVector _r = G4ThreeVector(0,0,0);
 
   G4HalfSpaceZone _hsZone = G4HalfSpaceZone();

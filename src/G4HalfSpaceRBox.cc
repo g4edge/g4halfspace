@@ -30,13 +30,13 @@ G4HalfSpaceRBox::G4HalfSpaceRBox(G4ThreeVector  v,
   this->ComputePlanes();
 }
 
-G4HalfSpaceRBox::G4HalfSpaceRBox(G4ThreeVector v,
-                                 G4ThreeVector h,
+G4HalfSpaceRBox::G4HalfSpaceRBox(G4ThreeVector d,
+                                 G4ThreeVector c,
                                  G4ThreeVector r) :
-                                 _v(v) {
-  _h1 = G4ThreeVector(h[0],0,0);
-  _h2 = G4ThreeVector(0,h[1],0);
-  _h3 = G4ThreeVector(0,0,h[2]);
+                                 _v(c-d) {
+  _h1 = G4ThreeVector(2*d[0],0,0);
+  _h2 = G4ThreeVector(0,2*d[1],0);
+  _h3 = G4ThreeVector(0,0,2*d[2]);
 
   G4RotationMatrix rotation_g4 = G4RotationMatrix();
   rotation_g4.rotateX(r[0]);

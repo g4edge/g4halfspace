@@ -10,8 +10,23 @@ G4HalfSpaceCircularCone::G4HalfSpaceCircularCone() {
 G4HalfSpaceCircularCone::G4HalfSpaceCircularCone(const G4ThreeVector &v,
                                                  const G4ThreeVector &h,
                                                  G4double r1, G4double r2) {
-  auto hmag = h.mag();
+  _h = h.mag();
+  _r1 = r1;
+  _r2 = r2;
 
+  _v = G4ThreeVector(0,0,_h/2)+v;
+
+  G4RotationMatrix rmatrix;
+
+  G4ThreeVector zaxis = G4ThreeVector(0,0,1);
+  G4ThreeVector hnorm = h/h.mag();
+  G4ThreeVector raxis = zaxis.cross(hnorm);
+  G4double angle = asin(raxis.mag());
+
+  if(angle == 0) {
+    raxis = G4ThreeVector(0,0,1);
+  }
+  rmatrix.set(raxis, angle);
 }
 
 

@@ -14,6 +14,7 @@
 #include "G4HalfSpaceXYPlane.hh"
 #include "G4HalfSpaceXZPlane.hh"
 #include "G4HalfSpaceYZPlane.hh"
+#include "G4HalfSpaceTransformation.hh"
 #include "G4HalfSpaceAARBox.hh"
 #include "G4HalfSpaceRBox.hh"
 #include "G4HalfSpaceSphere.hh"
@@ -61,29 +62,66 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
   while(ifstr >> key) {
     std::cout << key << std::endl;
 
-    if(key == "aarbox") {
-      size_t surface_id;
+    if(key == "trans") {
+      size_t trans_id;
+      double dx, dy, dz, rx, ry, rz;
+      ifstr >> trans_id >> dx >> dy >> dz >> rx >> ry >> rz;
+      hs_trans_map[trans_id] = new G4HalfSpaceTransformation(G4ThreeVector(dx,dy,dz),
+                                                             G4ThreeVector(rx/180.*M_PI,ry/180.*M_PI,rz/180.*M_PI));
+    }
+    else if(key == "aarbox") {
+      size_t surface_id = -1;
+      int trans_id = -1;
       double xmin, xmax, ymin, ymax, zmin, zmax;
-      ifstr >> surface_id >> xmin >> xmax >> ymin >> ymax >> zmin >> zmax;
-      hs_surface_map[surface_id] = new G4HalfSpaceAARBox(xmin, xmax,
-                                                         ymin, ymax,
-                                                         zmin, zmax);
-
+      ifstr >> surface_id >> xmin >> xmax >> ymin >> ymax >> zmin >> zmax >> trans_id;
+      if(trans_id < 0) {
+        hs_surface_map[surface_id] = new G4HalfSpaceAARBox(xmin, xmax,
+                                                           ymin, ymax,
+                                                           zmin, zmax);
+      }
+      else {
+        auto t = hs_trans_map[trans_id];
+        auto solid = new G4HalfSpaceRBox(G4ThreeVector((xmax-xmin)/2, (ymax-ymin)/2, (zmax-zmin)/2),
+                                         G4ThreeVector((xmax+xmin)/2, (ymax+ymin)/2, (zmax+zmin)/2),
+                                         G4ThreeVector(0,0,0));
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+        hs_surface_map[surface_id] = solid;
+      }
     }
     else if(key == "aarbox_od") {
       size_t surface_id;
+      int trans_id;
       double dx, dy, dz, cx, cy, cz;
-      ifstr >> surface_id >> dx >> dy >> dz >> cx >> cy >> cz;
-      hs_surface_map[surface_id] = new G4HalfSpaceAARBox(G4ThreeVector(dx,dy,dz),
-                                                         G4ThreeVector(cx,cy,cz));
+      ifstr >> surface_id >> dx >> dy >> dz >> cx >> cy >> cz >> trans_id;
+      if(trans_id <0) {
+        hs_surface_map[surface_id] = new G4HalfSpaceAARBox(G4ThreeVector(dx, dy, dz),
+                                                           G4ThreeVector(cx, cy, cz));
+      }
+      else {
+        auto t = hs_trans_map[trans_id];
+        auto solid = new G4HalfSpaceRBox(G4ThreeVector(dx,dy,dz),
+                                         G4ThreeVector(cx,cy,cz),
+                                         G4ThreeVector(0,0,0));
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+        hs_surface_map[surface_id] = solid;
+      }
     }
     else if(key == "rbox") {
       size_t surface_id;
+      size_t trans_id;
       double vx, vy, vz, dx, dy, dz, rx, ry, rz;
-      ifstr >> surface_id >> vx >> vy >> vz >> dx >> dy >> dz >> rx >> ry >> rz;
-      hs_surface_map[surface_id] = new G4HalfSpaceRBox(G4ThreeVector(vx,vy,vz),
-                                                       G4ThreeVector(dx,dy,dz),
-                                                       G4ThreeVector(rx/180.*M_PI,ry/180.*M_PI,rz/180.*M_PI));
+      ifstr >> surface_id >> vx >> vy >> vz >> dx >> dy >> dz >> rx >> ry >> rz >> trans_id;
+      auto solid  = new G4HalfSpaceRBox(G4ThreeVector(vx,vy,vz),
+                                        G4ThreeVector(dx,dy,dz),
+                                        G4ThreeVector(rx/180.*M_PI,ry/180.*M_PI,rz/180.*M_PI));
+      if(trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
     }
     else if(key == "sphere") {
       size_t surface_id;
@@ -93,13 +131,21 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
                                                                                ycentre,
                                                                                zcentre));
     }
-    else if(key == "cone") {
+    else if(key == "cone_od") {
       size_t surface_id;
       double h, r1, r2, vx, vy, vz, rx, ry, rz;
       ifstr >> surface_id >> h >> r1 >> r2 >> vx >> vy >> vz >> rx >> ry >> rz;
       hs_surface_map[surface_id] = new G4HalfSpaceCircularCone(h, r1, r2,
                                                                G4ThreeVector(vx,vy,vz),
                                                                G4ThreeVector(rx,ry,rz));
+    }
+    else if(key == "cone") {
+      size_t surface_id;
+      double vx, vy, vz, hx, hy, hz, r1, r2;
+      ifstr >> surface_id >> vx >> vy >> vz >> hx >> hy >> hz >> r1 >> r2;
+      hs_surface_map[surface_id] = new G4HalfSpaceCircularCone(G4ThreeVector(vx,vy,vz),
+                                                               G4ThreeVector(hx,hy,hz),
+                                                               r1,r2);
     }
     else if(key == "ellipsoid") {
       size_t surface_id;

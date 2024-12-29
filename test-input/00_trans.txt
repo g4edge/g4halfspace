@@ -1,0 +1,26 @@
+trans  0 0 0 0 0 0 0
+trans  1 30 0 0 0 0 0
+trans  2 0 30 0 0 0 0
+trans  3 0 0 30 0 0 0
+trans  4 0 0 0 45 0 0
+trans  5 0 0 0 0 45 0
+trans  6 0 0 0 0 0 45
+trans  7 0 0 50 45 0 0
+rbox   0 0 0 0 25 25 25 0 0 0 -1
+rbox   1 0 0 0 25 25 25 0 0 0 0
+rbox   2 0 0 0 25 25 25 0 0 0 1
+rbox   3 0 0 0 25 25 25 0 0 0 2
+rbox   4 0 0 0 25 25 25 0 0 0 3
+rbox   5 0 0 0 25 25 25 0 0 0 4
+rbox   6 0 0 0 25 25 25 0 0 0 5
+rbox   7 0 0 0 25 25 25 0 0 0 6
+rbox   8 0 0 0 25 25 25 0 0 0 7
+region 0 |+0|
+region 1 |+1|
+region 2 |+2|
+region 3 |+3|
+region 4 |+4|
+region 5 |+5|
+region 6 |+6|
+region 7 |+7|
+region 8 |+8|

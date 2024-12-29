@@ -18,8 +18,8 @@ public:
                   G4ThreeVector h2,
                   G4ThreeVector h3);
 
-  G4HalfSpaceRBox(G4ThreeVector v,
-                  G4ThreeVector h,
+  G4HalfSpaceRBox(G4ThreeVector d,
+                  G4ThreeVector c,
                   G4ThreeVector r);
 
   void ComputePlanes();

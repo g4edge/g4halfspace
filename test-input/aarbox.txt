@@ -1,9 +1,26 @@
-aarbox    0 -25 25 -25 25 -25 25
-aarbox    1 -50 0 -50 0 -50 0
-aarbox    2 -50 50 -10 10 -10 10
-aarbox    3 -10 10 -50 50 -10 10
-aarbox    4 -10 10 -10 10 -50 50
-aarbox_od 5  25 25 25 100 100 100 
+trans  0 0 0 0 0 0 0
+trans  1 30 0 0 0 0 0
+trans  2 0 30 0 0 0 0
+trans  3 0 0 30 0 0 0
+trans  4 0 0 0 45 0 0
+trans  5 0 0 0 0 45 0
+trans  6 0 0 0 0 0 45
+trans  7 0 0 50 45 0 0
+aarbox    0 -25 25 -25 25 -25 25 -1 
+aarbox    1 -50 0 -50 0 -50 0 -1 
+aarbox    2 -50 50 -10 10 -10 10 -1 
+aarbox    3 -10 10 -50 50 -10 10 -1 
+aarbox    4 -10 10 -10 10 -50 50 -1 
+aarbox_od 5  25 25 25 0 0 0 -1
+aarbox    6 -25 25 -25 25 -25 25 -1
+aarbox    7 -25 25 -25 25 -25 25 0
+aarbox    8 -25 25 -25 25 -25 25 1
+aarbox    9 -25 25 -25 25 -25 25 2
+aarbox    10 -25 25 -25 25 -25 25 3
+aarbox    11 -25 25 -25 25 -25 25 4
+aarbox    12 -25 25 -25 25 -25 25 5
+aarbox    13 -25 25 -25 25 -25 25 6
+aarbox    14 -25 25 -25 25 -25 25 7
 region 0 |+0|
 region 1 |+1|
 region 2 |+0 +1|
@@ -13,3 +30,12 @@ region 5 |+2|
 region 6 |+3|
 region 7 |+4|
 region 8 |+5|
+region 9 |+6|
+region 10 |+7|
+region 11 |+8|
+region 12 |+9|
+region 13 |+10|
+region 14 |+11|
+region 15 |+12|
+region 16 |+13|
+region 17 |+14|

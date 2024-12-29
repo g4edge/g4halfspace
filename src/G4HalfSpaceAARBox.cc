@@ -27,10 +27,10 @@ G4HalfSpaceAARBox::G4HalfSpaceAARBox(G4double xmin, G4double xmax,
   _hsZone.AddIntersection(p6);
 }
 
-G4HalfSpaceAARBox::G4HalfSpaceAARBox(const G4ThreeVector &h, const G4ThreeVector &c) :
-  G4HalfSpaceAARBox(-h.x()+c.x(), h.x()+c.x(),
-                    -h.y()+c.y(), h.y()+c.y(),
-                    -h.z()+c.z(), h.z()+c.z()) {}
+G4HalfSpaceAARBox::G4HalfSpaceAARBox(const G4ThreeVector &d, const G4ThreeVector &c) :
+  G4HalfSpaceAARBox(-d.x()+c.x(), d.x()+c.x(),
+                    -d.y()+c.y(), d.y()+c.y(),
+                    -d.z()+c.z(), d.z()+c.z()) {}
 
 G4HalfSpaceAARBox::~G4HalfSpaceAARBox() {
 }
@@ -45,15 +45,25 @@ std::vector<G4ThreeVector> G4HalfSpaceAARBox::Intersection(const G4ThreeVector& 
 }
 
 void G4HalfSpaceAARBox::Translate(const G4ThreeVector& t) {
+
+  /* translate member variables */
+  _xmin += t.x();
+  _xmax += t.x();
+  _ymin += t.y();
+  _ymin += t.y();
+  _zmin += t.z();
+  _zmin += t.z();
+
+  /* translate hs zone */
   _hsZone.Translate(t);
 }
 
 void G4HalfSpaceAARBox::Rotate(const G4RotationMatrix& r) {
-  _hsZone.Rotate(r);
+  G4cout << "G4HalfSpaceAARBox::Rotate not implemented use RBox" << G4endl;;
 }
 
 void G4HalfSpaceAARBox::Transform(const G4AffineTransform& a) {
-  _hsZone.Transform(a);
+  G4cout << "G4HalfSpaceAARBox::Transform not implemented use RBox" << G4endl;;
 }
 
 G4SurfaceMeshCGAL* G4HalfSpaceAARBox::GetSurfaceMesh()  {

@@ -6,6 +6,7 @@
 
 class G4VHalfSpace;
 class G4HalfSpaceSolid;
+class G4HalfSpaceTransformation;
 
 std::vector<std::string> split(const std::string &s, char delim);
 
@@ -18,6 +19,7 @@ public:
 protected:
   void Read(const G4String &file_name);
 
+  std::map<size_t, G4HalfSpaceTransformation*> hs_trans_map;
   std::map<size_t, G4VHalfSpace*> hs_surface_map;
   std::map<size_t, G4HalfSpaceSolid*> hs_solid_map;
 };
