@@ -145,19 +145,15 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else if(key == "sphere") {
       size_t surface_id;
+      int trans_id;
       double radius, xcentre, ycentre, zcentre;
-      ifstr >> surface_id >> radius >> xcentre >> ycentre >> zcentre;
-      hs_surface_map[surface_id] = new G4HalfSpaceSphere(radius, G4ThreeVector(xcentre,
-                                                                               ycentre,
-                                                                               zcentre));
-    }
-    else if(key == "cone_od") {
-      size_t surface_id;
-      double h, r1, r2, vx, vy, vz, rx, ry, rz;
-      ifstr >> surface_id >> h >> r1 >> r2 >> vx >> vy >> vz >> rx >> ry >> rz;
-      hs_surface_map[surface_id] = new G4HalfSpaceCircularCone(h, r1, r2,
-                                                               G4ThreeVector(vx,vy,vz),
-                                                               G4ThreeVector(rx,ry,rz));
+      ifstr >> surface_id >> xcentre >> ycentre >> zcentre >> radius >> trans_id;
+      auto solid = new G4HalfSpaceSphere(G4ThreeVector(xcentre,ycentre,zcentre),radius);
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
     }
     else if(key == "cone") {
       size_t surface_id;
@@ -166,6 +162,14 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       hs_surface_map[surface_id] = new G4HalfSpaceCircularCone(G4ThreeVector(vx,vy,vz),
                                                                G4ThreeVector(hx,hy,hz),
                                                                r1,r2);
+    }
+    else if(key == "cone_od") {
+      size_t surface_id;
+      double h, r1, r2, vx, vy, vz, rx, ry, rz;
+      ifstr >> surface_id >> h >> r1 >> r2 >> vx >> vy >> vz >> rx >> ry >> rz;
+      hs_surface_map[surface_id] = new G4HalfSpaceCircularCone(h, r1, r2,
+                                                               G4ThreeVector(vx,vy,vz),
+                                                               G4ThreeVector(rx,ry,rz));
     }
     else if(key == "ellipsoid") {
       size_t surface_id;

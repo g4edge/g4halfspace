@@ -6,7 +6,8 @@
 class G4HalfSpaceSphere : public G4VHalfSpace {
 public:
   G4HalfSpaceSphere();
-  G4HalfSpaceSphere(G4double radius, G4ThreeVector centre);
+  G4HalfSpaceSphere(G4double cx, G4double cy, G4double cz, G4double radius);
+  G4HalfSpaceSphere(G4ThreeVector centre, G4double radius);
   ~G4HalfSpaceSphere();
 
   virtual G4double Sdf(const G4ThreeVector&p) const override;

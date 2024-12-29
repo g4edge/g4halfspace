@@ -3,7 +3,12 @@
 #include "G4SurfaceMeshCGAL.hh"
 
 G4HalfSpaceSphere::G4HalfSpaceSphere() {}
-G4HalfSpaceSphere::G4HalfSpaceSphere(G4double radius, G4ThreeVector centre) : _r(radius), _centre(centre) {}
+
+G4HalfSpaceSphere::G4HalfSpaceSphere(G4double cx, G4double cy, G4double cz, G4double radius) :
+G4HalfSpaceSphere(G4ThreeVector(cx,cy,cz), radius) {}
+
+G4HalfSpaceSphere::G4HalfSpaceSphere(G4ThreeVector centre, G4double radius) :
+_centre(centre), _r(radius) {}
 
 G4HalfSpaceSphere::~G4HalfSpaceSphere() {}
 
@@ -43,7 +48,9 @@ void G4HalfSpaceSphere::Translate(const G4ThreeVector& t) {
   _centre = _centre + t;
 }
 
-void G4HalfSpaceSphere::Rotate(const G4RotationMatrix& r) {}
+void G4HalfSpaceSphere::Rotate(const G4RotationMatrix& r) {
+  G4cout << "G4HalfSpaceSphere::Rotate not implemented as sphere is rotationally invariant" << G4endl;;
+}
 
 void G4HalfSpaceSphere::Transform(const G4AffineTransform& a) {
   _centre = a.NetTranslation() + _centre;
