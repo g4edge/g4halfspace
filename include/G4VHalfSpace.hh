@@ -7,30 +7,30 @@
 
 /* G4HalfSpace          FLUKA       MCNP
  * --------------------------------------
- * AARBox               RPP                  0
- * RBox                 BOX                  1
- * Sphere               SPH                  2
- * CircularCone         TRC                  3
- * Ellipsoid            ELL                  4
- * Wedge                WED/RAW              5
- * Arbitrary            ARB                  6
+ * AARBox               RPP                  1
+ * RBox                 BOX                  2
+ * Sphere               SPH                  3
+ * CircularCone         TRC                  4
+ * Ellipsoid            ELL                  5
+ * Wedge                WED/RAW              6
+ * Arbitrary            ARB                  7
  *
- * Plane                PLA                  7
- * XYPlane              XYP                  8
- * XZPlane              XZP                  9
- * YZPlane              YZP                  10
+ * Plane                PLA                  8
+ * XYPlane              XYP                  9
+ * XZPlane              XZP                  10
+ * YZPlane              YZP                  11
  *
- * CircularCylinder     RCC                  11
- * XACircularCylinder   XCC                  12
- * YACircularCylinder   YCC                  13
- * ZACircularCylinder   ZCC                  14
+ * CircularCylinder     RCC                  12
+ * XACircularCylinder   XCC                  13
+ * YACircularCylinder   YCC                  14
+ * ZACircularCylinder   ZCC                  15
  *
- * EllipticCylinder     REC                  15
- * XAEllipticalCylinder XEC                  16
- * YAEllipticalCylinder YEC                  17
- * ZAEllipticalCylinder ZEC                  18
+ * EllipticCylinder     REC                  16
+ * XAEllipticalCylinder XEC                  17
+ * YAEllipticalCylinder YEC                  18
+ * ZAEllipticalCylinder ZEC                  19
  *
- * Quadric              QUA                  19
+ * Quadric              QUA                  20
  */
 
 class G4VHalfSpace {
