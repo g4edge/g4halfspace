@@ -34,3 +34,6 @@ region 10 |+10|
 region 11 |+11|
 region 12 |+12|
 region 13 |+13|
+region 100 |+0 +1|
+region 101 |+0 -1|
+region 102 |+0|+1|
