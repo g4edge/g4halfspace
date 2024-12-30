@@ -115,6 +115,8 @@
 /vis/viewer/set/hiddenMarker true
 /vis/viewer/set/viewpointThetaPhi 120 150
 #
+/vis/scene/endOfEventAction accumulate 2000
+#
 # Re-establish auto refreshing and verbosity:
 /vis/viewer/set/autoRefresh true
 /vis/verbose warnings
