@@ -65,6 +65,11 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
 
     std::cout << key << std::endl;
 
+    if(key[0] == '#') {
+      std::string restOfLine;
+      std::getline(ifstr, restOfLine);
+    }
+
     if(key == "trans") {
       size_t trans_id;
       double dx, dy, dz, rx, ry, rz;
@@ -190,9 +195,25 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else if(key == "ellipsoid") {
       size_t surface_id;
+      int trans_id;
+      double f1x, f1y, f1z, f2x, f2y, f2z, l;
+      ifstr >> surface_id >> f1x >> f1y >> f1z >> f2x >> f2y >> f2z >> l >> trans_id;
+      auto solid = new G4HalfSpaceEllipsoid(G4ThreeVector(f1x, f1y, f1z),
+                                            G4ThreeVector(f2x, f2y, f2z),
+                                            l);
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
+    }
+    else if(key == "ellipsoid_od") {
+      size_t surface_id;
+      int trans_id;
       double a, b, c, xcentre, ycentre, zcentre, xrotation, yrotation, zrotation;
-      ifstr >> surface_id >> a >> b >> c >> xcentre >> ycentre >> zcentre >> xrotation >> yrotation >> zrotation;
-      hs_surface_map[surface_id] = new G4HalfSpaceEllipsoid(a,b,c,
+      ifstr >> surface_id >> a >> b >> c >> xcentre >> ycentre >> zcentre >> xrotation >> yrotation >> zrotation >> trans_id;
+      hs_surface_map[surface_id] = new G4HalfSpaceEllipsoid(G4ThreeVector(a,b,c),
                                                             G4ThreeVector(xcentre,ycentre,zcentre),
                                                             G4ThreeVector(xrotation/180*M_PI, yrotation/180*M_PI, zrotation/180*M_PI));
     }

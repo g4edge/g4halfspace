@@ -3,11 +3,14 @@
 #include "G4ThreeVector.hh"
 #include "G4VHalfSpace.hh"
 #include "G4HalfSpaceZone.hh"
+#include "G4HalfSpaceTransformation.hh"
 
 class G4HalfSpaceEllipsoid : public G4VHalfSpace {
 public:
   G4HalfSpaceEllipsoid();
-  G4HalfSpaceEllipsoid(double a, double b, double c, G4ThreeVector centre, G4ThreeVector rotation);
+  G4HalfSpaceEllipsoid(const G4ThreeVector &f1, const G4ThreeVector &f2, G4double l);
+  G4HalfSpaceEllipsoid(const G4ThreeVector &abc, const G4ThreeVector &centre, const G4ThreeVector &rotation);
+  void ComputeSurfaces();
   ~G4HalfSpaceEllipsoid() = default;
 
   virtual G4double Sdf(const G4ThreeVector&p) const override;
@@ -21,11 +24,20 @@ public:
 
 
 protected:
+  G4ThreeVector _f1;
+  G4ThreeVector _f2;
+  G4double _l;
+
+  G4double _c;
+  G4double _r;
+
+  /*
   double _a;
   double _b;
   double _c;
   G4ThreeVector _centre;
   G4ThreeVector _rotation;
+   */
 
   G4HalfSpaceZone _hsZone = G4HalfSpaceZone();
 };
