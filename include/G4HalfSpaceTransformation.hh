@@ -95,6 +95,15 @@ public:
     return G4AffineTransform(rmat, _t);
   }
 
+  void GetAxisAngle(G4ThreeVector &axis, double &delta) {
+    G4RotationMatrix rmat;
+    rmat.rotateX(_r.x());
+    rmat.rotateY(_r.y());
+    rmat.rotateZ(_r.z());
+    rmat.rectify();
+    rmat.getAngleAxis(delta, axis);
+  }
+
 private:
   G4ThreeVector _t = G4ThreeVector();
   G4ThreeVector _r = G4ThreeVector();

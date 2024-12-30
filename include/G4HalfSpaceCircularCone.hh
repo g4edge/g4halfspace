@@ -12,8 +12,10 @@ public:
   G4HalfSpaceCircularCone(const G4ThreeVector &v, const G4ThreeVector &h,
                           G4double r1, G4double r2);
   G4HalfSpaceCircularCone(G4double h, G4double r1, G4double r2,
-                          const G4ThreeVector &v,
+                          const G4ThreeVector &c,
                           const G4ThreeVector &r);
+  void ComputeSurfaces();
+
   ~G4HalfSpaceCircularCone();
 
   virtual G4double Sdf(const G4ThreeVector&p) const override;
@@ -27,11 +29,10 @@ public:
 
 
 protected:
-  G4double _h = 25;
-  G4double _r1 = 10;
-  G4double _r2 = 20;
+  G4double _r1 = 5;
+  G4double _r2 = 30;
   G4ThreeVector _v = G4ThreeVector(0,0,0);
-  G4ThreeVector _r = G4ThreeVector(0,0,0);
+  G4ThreeVector _h = G4ThreeVector(0,0,30);
 
   G4HalfSpaceZone _hsZone = G4HalfSpaceZone();
 };

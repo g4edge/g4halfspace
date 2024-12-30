@@ -59,7 +59,10 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
   std::stringstream sstr;
   std::string key;
 
+  size_t iLineNumber = 0;
   while(ifstr >> key) {
+    iLineNumber++;
+
     std::cout << key << std::endl;
 
     if(key == "trans") {
@@ -157,19 +160,33 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else if(key == "cone") {
       size_t surface_id;
+      int trans_id;
       double vx, vy, vz, hx, hy, hz, r1, r2;
-      ifstr >> surface_id >> vx >> vy >> vz >> hx >> hy >> hz >> r1 >> r2;
-      hs_surface_map[surface_id] = new G4HalfSpaceCircularCone(G4ThreeVector(vx,vy,vz),
-                                                               G4ThreeVector(hx,hy,hz),
-                                                               r1,r2);
+      ifstr >> surface_id >> vx >> vy >> vz >> hx >> hy >> hz >> r1 >> r2 >> trans_id;
+      auto solid = new G4HalfSpaceCircularCone(G4ThreeVector(vx,vy,vz),
+                                               G4ThreeVector(hx,hy,hz),
+                                               r1,r2);
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
     }
     else if(key == "cone_od") {
       size_t surface_id;
+      int trans_id;
       double h, r1, r2, vx, vy, vz, rx, ry, rz;
-      ifstr >> surface_id >> h >> r1 >> r2 >> vx >> vy >> vz >> rx >> ry >> rz;
-      hs_surface_map[surface_id] = new G4HalfSpaceCircularCone(h, r1, r2,
+      ifstr >> surface_id >> h >> r1 >> r2 >> vx >> vy >> vz >> rx >> ry >> rz >> trans_id;
+       auto solid = new G4HalfSpaceCircularCone(h, r1, r2,
                                                                G4ThreeVector(vx,vy,vz),
                                                                G4ThreeVector(rx,ry,rz));
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
     }
     else if(key == "ellipsoid") {
       size_t surface_id;
@@ -345,6 +362,10 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
         hs_solid->AddZone(zone);
       }
       std::cout << std::endl;
+    }
+    else {
+      G4cout << "G4HalfSpaceReader::Read key not found " << key << " line " << iLineNumber << G4endl;
+      exit(1);
     }
   }
 }
