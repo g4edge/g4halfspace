@@ -1,0 +1,73 @@
+trans  0 0 0 0 0 0 0
+trans  1 30 0 0 0 0 0
+trans  2 0 30 0 0 0 0
+trans  3 0 0 30 0 0 0
+trans  4 0 0 0 45 0 0
+trans  5 0 0 0 0 45 0
+trans  6 0 0 0 0 0 45
+trans  7 0 0 25 45 0 0
+
+yzplane 0 10 -1
+yzplane 1 -10 -1
+xzplane 2 10 -1
+xzplane 3 -10 -1
+xyplane 4 10 -1
+xyplane 5 -10 -1
+
+yzplane 6 10 1
+yzplane 7 -10 1
+xzplane 8 10 1
+xzplane 9 -10 1
+xyplane 10 10 1
+xyplane 11 -10 1
+
+yzplane 12 10 2
+yzplane 13 -10 2
+xzplane 14 10 2
+xzplane 15 -10 2
+xyplane 16 10 2
+xyplane 17 -10 2
+
+yzplane 18 10 3
+yzplane 19 -10 3
+xzplane 20 10 3
+xzplane 21 -10 3
+xyplane 22 10 3
+xyplane 23 -10 3
+
+yzplane 24 10 4
+yzplane 25 -10 4
+xzplane 26 10 4
+xzplane 27 -10 4
+xyplane 28 10 4
+xyplane 29 -10 4
+
+yzplane 30 10 5
+yzplane 31 -10 5
+xzplane 32 10 5
+xzplane 33 -10 5
+xyplane 34 10 5
+xyplane 35 -10 5
+
+yzplane 36 10 6
+yzplane 37 -10 6
+xzplane 38 10 6
+xzplane 39 -10 6
+xyplane 40 10 6
+xyplane 41 -10 6
+
+yzplane 42 10 7
+yzplane 43 -10 7
+xzplane 44 10 7
+xzplane 45 -10 7
+xyplane 46 10 7
+xyplane 47 -10 7
+
+region 0 |+0 -1 +2 -3 +4 -5|
+region 1 |+6 -7 +8 -9 +10 -11|
+region 2 |+12 -13 +14 -15 +16 -17|
+region 3 |+18 -19 +20 -21 +22 -23|
+region 4 |+24 -25 +26 -27 +28 -29|
+region 5 |+30 -31 +32 -33 +34 -35|
+region 6 |+36 -37 +38 -39 +40 -41|
+region 7 |+42 -43 +44 -45 +46 -47|

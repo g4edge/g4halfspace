@@ -352,21 +352,54 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else if(key == "xyplane") {
       size_t surface_id;
+      int trans_id;
       double z;
-      ifstr >> surface_id >> z;
-      hs_surface_map[surface_id] = new G4HalfSpaceXYPlane(z);
+      ifstr >> surface_id >> z >> trans_id;
+      if(trans_id < 0) {
+        hs_surface_map[surface_id] = new G4HalfSpaceXYPlane(z);
+      }
+      else {
+        auto t = hs_trans_map[trans_id];
+        auto solid = new G4HalfSpacePlane(G4ThreeVector(0,0,1),
+                                          G4ThreeVector(0,0,z));
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+        hs_surface_map[surface_id] = solid;
+      }
     }
     else if(key == "xzplane") {
       size_t surface_id;
+      int trans_id;
       double y;
-      ifstr >> surface_id >> y;
-      hs_surface_map[surface_id] = new G4HalfSpaceXZPlane(y);
+      ifstr >> surface_id >> y >> trans_id;
+      if(trans_id < 0) {
+        hs_surface_map[surface_id] = new G4HalfSpaceXZPlane(y);
+      }
+      else {
+        auto t = hs_trans_map[trans_id];
+        auto solid = new G4HalfSpacePlane(G4ThreeVector(0,1,0),
+                                          G4ThreeVector(0,y,0));
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+        hs_surface_map[surface_id] = solid;
+      }
     }
     else if(key == "yzplane") {
       size_t surface_id;
+      int trans_id;
       double x;
-      ifstr >> surface_id >> x;
-      hs_surface_map[surface_id] = new G4HalfSpaceYZPlane(x);
+      ifstr >> surface_id >> x >> trans_id;
+      if(trans_id < 0) {
+        hs_surface_map[surface_id] = new G4HalfSpaceYZPlane(x);
+      }
+      else {
+        auto t = hs_trans_map[trans_id];
+        auto solid = new G4HalfSpacePlane(G4ThreeVector(1,0,0),
+                                          G4ThreeVector(x,0,0));
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+        hs_surface_map[surface_id] = solid;
+      }
     }
     else if(key == "cc") {
       size_t surface_id;
