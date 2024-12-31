@@ -15,7 +15,7 @@ G4HalfSpaceWedge::G4HalfSpaceWedge(std::array<double,3>  v,
     _h2(h2[0], h2[1], h2[2]),
     _h3(h3[0], h3[1], h3[2])
 {
-  this->ComputePlanes();
+  this->ComputeSurfaces();
 }
 
 G4HalfSpaceWedge::G4HalfSpaceWedge(G4ThreeVector  v,
@@ -27,13 +27,14 @@ G4HalfSpaceWedge::G4HalfSpaceWedge(G4ThreeVector  v,
     _h2(h2),
     _h3(h3)
 {
-  this->ComputePlanes();
+  this->ComputeSurfaces();
 }
 
-G4HalfSpaceWedge::G4HalfSpaceWedge(G4ThreeVector v,
-                                   G4ThreeVector h,
-                                   G4ThreeVector r) :
-    _v(v) {
+G4HalfSpaceWedge::G4HalfSpaceWedge(G4ThreeVector h,
+                                   G4ThreeVector c,
+                                   G4ThreeVector r) {
+
+  _v = c - h/2;
   _h1 = G4ThreeVector(h[0],0,0);
   _h2 = G4ThreeVector(0,h[1],0);
   _h3 = G4ThreeVector(0,0,h[2]);
@@ -48,15 +49,15 @@ G4HalfSpaceWedge::G4HalfSpaceWedge(G4ThreeVector v,
   _h2 = rotation_g4*_h2;
   _h3 = rotation_g4*_h3;
 
-  this->ComputePlanes();
+  this->ComputeSurfaces();
 }
 
-void G4HalfSpaceWedge::ComputePlanes() {
+void G4HalfSpaceWedge::ComputeSurfaces() {
   auto p1 = _v + 0.5*_h1 + 0.5*_h2;
   auto p2 = _v + 0.5*_h1 + 0.5*_h3;
   auto p3 = _v + 0.5*_h2 + 0.5*_h3;
   auto p4 = p2 + _h2;
-  auto p5 = _h1;
+  auto p5 = _v+_h1;
 
   auto n1 = _h2.cross(_h1);
   auto n2 = _h1.cross(_h3);
@@ -98,10 +99,16 @@ std::vector<G4ThreeVector> G4HalfSpaceWedge::Intersection(const G4ThreeVector& p
 }
 
 void G4HalfSpaceWedge::Translate(const G4ThreeVector& t) {
+  _v += t;
+
   _hsZone->Translate(t);
 }
 
 void G4HalfSpaceWedge::Rotate(const G4RotationMatrix& r) {
+  _h1 = r*_h1;
+  _h2 = r*_h2;
+  _h3 = r*_h3;
+
   _hsZone->Rotate(r);
 }
 

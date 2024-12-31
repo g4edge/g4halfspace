@@ -18,11 +18,11 @@ public:
                   G4ThreeVector h2,
                   G4ThreeVector h3);
 
-  G4HalfSpaceWedge(G4ThreeVector v,
+  G4HalfSpaceWedge(G4ThreeVector c,
                   G4ThreeVector h,
                   G4ThreeVector r);
 
-  void ComputePlanes();
+  void ComputeSurfaces();
 
   ~G4HalfSpaceWedge();
 

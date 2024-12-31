@@ -217,13 +217,36 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
                                                             G4ThreeVector(xcentre,ycentre,zcentre),
                                                             G4ThreeVector(xrotation/180*M_PI, yrotation/180*M_PI, zrotation/180*M_PI));
     }
-    else if(key == "wedge") {
+    else if(key == "wedge" || key == "raw") {
       size_t surface_id;
-      double vx, vy, vz, dx, dy, dz, rx, ry, rz;
-      ifstr >> surface_id >> vx >> vy >> vz >> dx >> dy >> dz >> rx >> ry >> rz;
-      hs_surface_map[surface_id] = new G4HalfSpaceWedge(G4ThreeVector(vx,vy,vz),
-                                                       G4ThreeVector(dx,dy,dz),
-                                                       G4ThreeVector(rx/180.*M_PI,ry/180.*M_PI,rz/180.*M_PI));
+      int trans_id;
+      double vx, vy, vz, h1x, h1y, h1z, h2x, h2y, h2z, h3x, h3y, h3z;
+      ifstr >> surface_id >> vx >> vy >> vz >> h1x >> h1y >> h1z >> h2x >> h2y >> h2z >> h3x >> h3y >> h3z >> trans_id;
+      auto solid = new G4HalfSpaceWedge(G4ThreeVector(vx,vy,vz),
+                                        G4ThreeVector(h1x, h1y, h1z),
+                                        G4ThreeVector(h2x, h2y, h2z),
+                                        G4ThreeVector(h3x, h3y, h3z));
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
+    }
+    else if(key == "wedge_od") {
+      size_t surface_id;
+      int trans_id;
+      double dx, dy, dz, cx, cy, cz, rx, ry, rz;
+      ifstr >> surface_id >> dx >> dy >> dz >> cx >> cy >> cz >> rx >> ry >> rz >> trans_id;
+      auto solid = new G4HalfSpaceWedge(G4ThreeVector(dx,dy,dz),
+                                        G4ThreeVector(cx,cy,cz),
+                                        G4ThreeVector(rx/180.*M_PI,ry/180.*M_PI,rz/180.*M_PI));
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
     }
     else if(key == "arbitrary") {
       size_t surface_id;
