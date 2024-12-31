@@ -25,6 +25,22 @@ public:
                        G4int fi5,
                        G4int fi6);
 
+  G4HalfSpaceArbitrary(const G4ThreeVector &c,
+                       const G4ThreeVector &v1,
+                       const G4ThreeVector &v2,
+                       const G4ThreeVector &v3,
+                       const G4ThreeVector &v4,
+                       const G4ThreeVector &v5,
+                       const G4ThreeVector &v6,
+                       const G4ThreeVector &v7,
+                       const G4ThreeVector &v8,
+                       G4int fi1,
+                       G4int fi2,
+                       G4int fi3,
+                       G4int fi4,
+                       G4int fi5,
+                       G4int fi6);
+
   void ComputePlanes();
 
   ~G4HalfSpaceArbitrary();

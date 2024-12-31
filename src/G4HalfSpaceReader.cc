@@ -250,6 +250,7 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else if(key == "arbitrary") {
       size_t surface_id;
+      int trans_id;
       G4double v1x, v1y, v1z,
                v2x, v2y, v2z,
                v3x, v3y, v3z,
@@ -270,17 +271,71 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
             >> v7x >> v7y >> v7z
             >> v8x >> v8y >> v8z
             >> fi1 >> fi2 >> fi3
-            >> fi4 >> fi5 >> fi6;
+            >> fi4 >> fi5 >> fi6
+            >> trans_id;
 
-      hs_surface_map[surface_id] = new G4HalfSpaceArbitrary(G4ThreeVector(v1x, v1y, v1z),
-                                                            G4ThreeVector(v2x, v2y, v2z),
-                                                            G4ThreeVector(v3x, v3y, v3z),
-                                                            G4ThreeVector(v4x, v4y, v4z),
-                                                            G4ThreeVector(v5x, v5y, v5z),
-                                                            G4ThreeVector(v6x, v6y, v6z),
-                                                            G4ThreeVector(v7x, v7y, v7z),
-                                                            G4ThreeVector(v8x, v8y, v8z),
-                                                            fi1, fi2, fi3, fi4, fi5, fi6);
+      auto solid = new G4HalfSpaceArbitrary(G4ThreeVector(v1x, v1y, v1z),
+                                            G4ThreeVector(v2x, v2y, v2z),
+                                            G4ThreeVector(v3x, v3y, v3z),
+                                            G4ThreeVector(v4x, v4y, v4z),
+                                            G4ThreeVector(v5x, v5y, v5z),
+                                            G4ThreeVector(v6x, v6y, v6z),
+                                            G4ThreeVector(v7x, v7y, v7z),
+                                            G4ThreeVector(v8x, v8y, v8z),
+                                            fi1, fi2, fi3, fi4, fi5, fi6);
+
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
+    }
+    else if(key == "arbitrary_od") {
+      size_t surface_id;
+      int trans_id;
+      G4double cx, cy, cz,
+          v1x, v1y, v1z,
+          v2x, v2y, v2z,
+          v3x, v3y, v3z,
+          v4x, v4y, v4z,
+          v5x, v5y, v5z,
+          v6x, v6y, v6z,
+          v7x, v7y, v7z,
+          v8x, v8y, v8z;
+      G4int fi1, fi2, fi3, fi4, fi5, fi6;
+
+      ifstr >> surface_id
+            >> cx >> cy >> cz
+            >> v1x >> v1y >> v1z
+            >> v2x >> v2y >> v2z
+            >> v3x >> v3y >> v3z
+            >> v4x >> v4y >> v4z
+            >> v5x >> v5y >> v5z
+            >> v6x >> v6y >> v6z
+            >> v7x >> v7y >> v7z
+            >> v8x >> v8y >> v8z
+            >> fi1 >> fi2 >> fi3
+            >> fi4 >> fi5 >> fi6
+            >> trans_id;
+
+      auto solid = new G4HalfSpaceArbitrary(G4ThreeVector(cx,cy,cz),
+                                            G4ThreeVector(v1x, v1y, v1z),
+                                            G4ThreeVector(v2x, v2y, v2z),
+                                            G4ThreeVector(v3x, v3y, v3z),
+                                            G4ThreeVector(v4x, v4y, v4z),
+                                            G4ThreeVector(v5x, v5y, v5z),
+                                            G4ThreeVector(v6x, v6y, v6z),
+                                            G4ThreeVector(v7x, v7y, v7z),
+                                            G4ThreeVector(v8x, v8y, v8z),
+                                            fi1, fi2, fi3, fi4, fi5, fi6);
+
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
     }
     else if(key == "plane") {
       size_t surface_id;
