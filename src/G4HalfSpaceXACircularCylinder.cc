@@ -16,7 +16,7 @@ G4HalfSpaceXACircularCylinder::G4HalfSpaceXACircularCylinder(G4double y,
 G4HalfSpaceXACircularCylinder::~G4HalfSpaceXACircularCylinder() {}
 
 G4double G4HalfSpaceXACircularCylinder::Sdf(const G4ThreeVector&p) const {
-  return sqrt(pow(p.y() - _y0,2) + pow(p.z() - _z0,2)) - _r;
+  return sqrt(pow(p.y() - _y0,2) + pow(p.z() - _z0,2)) - pow(_r,2);
 }
 
 std::vector<G4ThreeVector> G4HalfSpaceXACircularCylinder::Intersection(const G4ThreeVector& p, const G4ThreeVector &d) const {
