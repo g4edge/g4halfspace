@@ -20,10 +20,10 @@ typedef Kernel_ECER::Direction_3 Direction_3_ECER;
 G4HalfSpacePlane::G4HalfSpacePlane() : _n(G4ThreeVector(0,0,1)), _p0(G4ThreeVector(0,0,1))
 {};
 
-G4HalfSpacePlane::G4HalfSpacePlane(const G4ThreeVector &p0, const G4ThreeVector &n) : _p0(p0), _n(n)
+G4HalfSpacePlane::G4HalfSpacePlane(const G4ThreeVector &h, const G4ThreeVector &v ) : _p0(v), _n(h)
 {}
 
-G4HalfSpacePlane::G4HalfSpacePlane(const G4ThreeVector &n, G4double d) : G4HalfSpacePlane(n.x(), n.y(), n.z(), d)
+G4HalfSpacePlane::G4HalfSpacePlane(const G4ThreeVector &h, G4double d) : G4HalfSpacePlane(h.x(), h.y(), h.z(), d)
 {}
 
 G4HalfSpacePlane::G4HalfSpacePlane(G4double a, G4double b, G4double c, G4double d) {

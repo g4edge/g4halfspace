@@ -339,9 +339,16 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else if(key == "plane") {
       size_t surface_id;
-      double nx, ny, nz, d;
-      ifstr >> surface_id >> nx >> ny >> nz >> d;
-      hs_surface_map[surface_id] = new G4HalfSpacePlane(G4ThreeVector(nx,ny,nz), d);
+      int trans_id;
+      double nx, ny, nz, vx, vy, vz;
+      ifstr >> surface_id >> nx >> ny >> nz >> vx >> vy >> vz >> trans_id;
+      auto solid = new G4HalfSpacePlane(G4ThreeVector(nx,ny,nz), G4ThreeVector(vx,vy,vz));
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
     }
     else if(key == "xyplane") {
       size_t surface_id;

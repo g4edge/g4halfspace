@@ -6,8 +6,8 @@
 class G4HalfSpacePlane : public G4VHalfSpace {
 public:
   G4HalfSpacePlane();
-  G4HalfSpacePlane(const G4ThreeVector& p0, const G4ThreeVector& n);
-  G4HalfSpacePlane(const G4ThreeVector& n, G4double d);
+  G4HalfSpacePlane(const G4ThreeVector& h, const G4ThreeVector& v);
+  G4HalfSpacePlane(const G4ThreeVector& h, G4double d);
   G4HalfSpacePlane(G4double a, G4double b, G4double c, G4double d);
   ~G4HalfSpacePlane();
 
