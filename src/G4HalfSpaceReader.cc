@@ -403,8 +403,9 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else if(key == "cc") {
       size_t surface_id;
+      int trans_id;
       double vx, vy, vz, hx, hy, hz, r;
-      ifstr >> surface_id >> vx >> vy >> vz >> hx >> hy >> hz >> r;
+      ifstr >> surface_id >> vx >> vy >> vz >> hx >> hy >> hz >> r >> trans_id;
       hs_surface_map[surface_id] = new G4HalfSpaceCircularCylinder(G4ThreeVector(vx,vy,vz),
                                                                    G4ThreeVector(hx,hy,hz),
                                                                    r);
