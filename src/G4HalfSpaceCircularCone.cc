@@ -52,10 +52,10 @@ void G4HalfSpaceCircularCone::ComputeSurfaces(){
                                                  0, 0, 0,
                                                  0);
 
-  G4HalfSpacePlane *p1 = new G4HalfSpacePlane(G4ThreeVector(0, 0, z1),
-                                              G4ThreeVector(0, 0, -1));
-  G4HalfSpacePlane *p2 = new G4HalfSpacePlane(G4ThreeVector(0, 0, z2),
-                                              G4ThreeVector(0, 0, 1));
+  G4HalfSpacePlane *p1 = new G4HalfSpacePlane(G4ThreeVector(0, 0, -1),
+                                              G4ThreeVector(0, 0, z1));
+  G4HalfSpacePlane *p2 = new G4HalfSpacePlane(G4ThreeVector(0, 0, 1),
+                                              G4ThreeVector(0, 0, z2));
 
 
   _hsZone.AddIntersection(q);
