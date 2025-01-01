@@ -41,7 +41,7 @@ G4HalfSpaceEllipticCylinder::G4HalfSpaceEllipticCylinder(const G4ThreeVector& v,
   _hsZone.AddIntersection(p2);
 
   _hsZone.Rotate(rmatrix);
-  _hsZone.Translate(rmatrix*G4ThreeVector(0,0,hmag/2)+_v);
+  _hsZone.Translate(_v+rmatrix*G4ThreeVector(0,0,hmag/2));
 }
 
 G4HalfSpaceEllipticCylinder::~G4HalfSpaceEllipticCylinder() {}
@@ -86,9 +86,9 @@ G4SurfaceMeshCGAL* G4HalfSpaceEllipticCylinder::GetSurfaceMesh()  {
   G4HalfSpaceTransformation trans = G4HalfSpaceTransformation(_h);
   G4ThreeVector axis;
   G4double angle;
-
   trans.GetAxisAngle(axis,angle);
-  sm->Rotate(axis,angle);
+
+  sm->Rotate(axis,-angle);
   sm->Translate(_v+trans.GetRotationMatrix()*G4ThreeVector(0,0,_h.mag()/2.));
   return sm;
 }

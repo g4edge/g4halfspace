@@ -90,35 +90,42 @@ std::vector<G4ThreeVector> G4HalfSpaceCircularCone::Intersection(const G4ThreeVe
 }
 
 void G4HalfSpaceCircularCone::Translate(const G4ThreeVector& t) {
+
   _v += t;
+
   _hsZone.Translate(t);
 }
 
 void G4HalfSpaceCircularCone::Rotate(const G4RotationMatrix& r) {
-  _h = r*_h;
+
   _v = r*_v;
+  _h = r*_h;
+
   _hsZone.Rotate(r);
 }
 
 void G4HalfSpaceCircularCone::Transform(const G4AffineTransform& a) {
+
+  Rotate(a.NetRotation());
+  Translate(a.NetTranslation());
+
   _hsZone.Transform(a);
 }
 
 G4SurfaceMeshCGAL* G4HalfSpaceCircularCone::GetSurfaceMesh()  {
 
-
-  double angle;
-  G4ThreeVector axis;
-  G4HalfSpaceTransformation t = G4HalfSpaceTransformation(_h);
-  t.GetAxisAngle(axis, angle);
-
-
   G4Cons c = G4Cons("temp",0, _r1, 0, _r2, _h.mag()/2, 0, 2*M_PI);
   G4Polyhedron *g4poly = c.GetPolyhedron();
   G4SurfaceMeshCGAL *sm = new G4SurfaceMeshCGAL();
   sm->Fill(g4poly);
+
+  G4HalfSpaceTransformation trans = G4HalfSpaceTransformation(_h);
+  G4ThreeVector axis;
+  double angle;
+  trans.GetAxisAngle(axis, angle);
+
   sm->Rotate(axis, -angle);
-  sm->Translate(_v+t.GetRotationMatrix()*G4ThreeVector(0,0,_h.mag()/2));
+  sm->Translate(_v+trans.GetRotationMatrix()*G4ThreeVector(0,0,_h.mag()/2));
 
   return sm;
 }

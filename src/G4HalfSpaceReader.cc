@@ -406,9 +406,15 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       int trans_id;
       double vx, vy, vz, hx, hy, hz, r;
       ifstr >> surface_id >> vx >> vy >> vz >> hx >> hy >> hz >> r >> trans_id;
-      hs_surface_map[surface_id] = new G4HalfSpaceCircularCylinder(G4ThreeVector(vx,vy,vz),
+      auto solid = new G4HalfSpaceCircularCylinder(G4ThreeVector(vx,vy,vz),
                                                                    G4ThreeVector(hx,hy,hz),
                                                                    r);
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
     }
     else if(key == "xacc") {
       size_t surface_id;

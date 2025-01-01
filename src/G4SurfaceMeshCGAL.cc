@@ -228,6 +228,14 @@ void G4SurfaceMeshCGAL::Rotate(const G4ThreeVector &a, G4double angle) {
   CGAL::Polygon_mesh_processing::transform(rotn,sm);
 }
 
+void G4SurfaceMeshCGAL::Rotate(const G4RotationMatrix &m) {
+
+  auto rotn = Aff_transformation_3(m.xx(),m.xy(),m.xz(),
+                                   m.yx(),m.yy(),m.yz(),
+                                   m.zx(),m.zy(),m.zz(),1);
+  CGAL::Polygon_mesh_processing::transform(rotn,sm);
+}
+
 
 G4int G4SurfaceMeshCGAL::AddVertex(double x, double y, double z)
 {

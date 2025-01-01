@@ -15,35 +15,22 @@ G4HalfSpaceCircularCylinder::G4HalfSpaceCircularCylinder(const G4ThreeVector &v,
                                                          G4double r) :
                                                          _v(v), _h(h), _r(r) {
 
-  auto hmag = h.mag();
-
-  G4RotationMatrix rmatrix;
-
-  G4ThreeVector zaxis = G4ThreeVector(0,0,1);
-  G4ThreeVector hnorm = _h/_h.mag();
-  G4ThreeVector raxis = zaxis.cross(hnorm);
-  G4double angle = asin(raxis.mag());
-
-  if(angle ==0) {
-    raxis = G4ThreeVector(0,0,1);
-  }
-  rmatrix.set(raxis, angle);
-
   G4HalfSpaceQuadric *q = new G4HalfSpaceQuadric(1/pow(_r,2), 0, 0,
                                                  1/pow(_r,2), 0,
                                                  0,
                                                  0,0,0,
                                                  -1);
   G4HalfSpacePlane *p1 = new G4HalfSpacePlane(G4ThreeVector(0,0,-1),
-                                              hmag/2);
+                                              h.mag()/2);
   G4HalfSpacePlane *p2 = new G4HalfSpacePlane(G4ThreeVector(0,0,1),
-                                              hmag/2);
+                                              h.mag()/2);
   _hsZone.AddIntersection(q);
   _hsZone.AddIntersection(p1);
   _hsZone.AddIntersection(p2);
 
-  _hsZone.Translate(_v + G4ThreeVector(0,0,hmag/2));
-  _hsZone.Rotate(rmatrix);
+  G4HalfSpaceTransformation t = G4HalfSpaceTransformation(_h);
+  _hsZone.Rotate(t.GetRotationMatrix());
+  _hsZone.Translate(_v + t.GetRotationMatrix()*G4ThreeVector(0,0,_h.mag()/2));
 
 }
 
@@ -68,10 +55,10 @@ void G4HalfSpaceCircularCylinder::Translate(const G4ThreeVector& t) {
 
 void G4HalfSpaceCircularCylinder::Rotate(const G4RotationMatrix& r) {
 
-  _v = r*_v;
-  _h = r*_h;
+  _v = r.inverse()*_v;
+  _h = r.inverse()*_h;
 
-  _hsZone.Rotate(r);
+  _hsZone.Rotate(r.inverse());
 }
 
 void G4HalfSpaceCircularCylinder::Transform(const G4AffineTransform& a) {
@@ -92,9 +79,10 @@ G4SurfaceMeshCGAL* G4HalfSpaceCircularCylinder::GetSurfaceMesh()  {
   G4HalfSpaceTransformation trans = G4HalfSpaceTransformation(_h);
   G4ThreeVector axis;
   G4double angle;
-
   trans.GetAxisAngle(axis,angle);
-  sm->Translate(_v+G4ThreeVector(0,0,_h.mag()/2.));
+
   sm->Rotate(axis,-angle);
+  sm->Translate(_v+trans.GetRotationMatrix()*G4ThreeVector(0,0,_h.mag()/2.));
+
   return sm;
 }

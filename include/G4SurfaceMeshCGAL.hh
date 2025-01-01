@@ -5,6 +5,7 @@
 class G4Polyhedron;
 class G4TessellatedSolid;
 #include "G4ThreeVector.hh"
+#include "G4RotationMatrix.hh"
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wshadow"
@@ -139,6 +140,7 @@ public:
   void Translate(G4double dx, G4double dy, G4double dz);
   void Translate(const G4ThreeVector &t);
   void Rotate(const G4ThreeVector &axis, G4double angle);
+  void Rotate(const G4RotationMatrix &rotationMatrix);
 
   G4int AddVertex(double x, double y, double z);
   G4int AddFace(int i1, int i2, int i3);
