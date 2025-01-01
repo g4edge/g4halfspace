@@ -412,21 +412,63 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else if(key == "xacc") {
       size_t surface_id;
+      int trans_id;
       double ycentre, zcentre, radius;
-      ifstr >> surface_id >> ycentre >> zcentre >> radius;
-      hs_surface_map[surface_id] = new G4HalfSpaceXACircularCylinder(ycentre, zcentre, radius);
+      ifstr >> surface_id >> ycentre >> zcentre >> radius >> trans_id;
+      if (trans_id < 0) {
+        hs_surface_map[surface_id] = new G4HalfSpaceXACircularCylinder(ycentre, zcentre, radius);
+      }
+      else {
+        auto t = hs_trans_map[trans_id];
+        auto solid = new G4HalfSpaceQuadric(0, 0, 0,
+                                            1./pow(radius,2), 0,
+                                            1./pow(radius,2),
+                                            0, 0, 0,
+                                            -1);
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+        hs_surface_map[surface_id] = solid;
+      }
     }
     else if(key == "yacc") {
       size_t surface_id;
+      int trans_id;
       double xcentre, zcentre, radius;
-      ifstr >> surface_id >> xcentre >> zcentre >> radius;
-      hs_surface_map[surface_id] = new G4HalfSpaceYACircularCylinder(xcentre, zcentre, radius);
+      ifstr >> surface_id >> xcentre >> zcentre >> radius >> trans_id;
+      if (trans_id < 0) {
+        hs_surface_map[surface_id] = new G4HalfSpaceYACircularCylinder(xcentre, zcentre, radius);
+      }
+      else {
+        auto t = hs_trans_map[trans_id];
+        auto solid = new G4HalfSpaceQuadric(1./pow(radius,2), 0, 0,
+                                            0, 0,
+                                            1./pow(radius,2),
+                                            0, 0, 0,
+                                            -1);
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+        hs_surface_map[surface_id] = solid;
+      }
     }
     else if(key == "zacc") {
       size_t surface_id;
+      int trans_id;
       double xcentre, ycentre, radius;
-      ifstr >> surface_id >> xcentre >> ycentre >> radius;
-      hs_surface_map[surface_id] = new G4HalfSpaceZACircularCylinder(xcentre, ycentre, radius);
+      ifstr >> surface_id >> xcentre >> ycentre >> radius >> trans_id;
+      if (trans_id < 0) {
+        hs_surface_map[surface_id] = new G4HalfSpaceZACircularCylinder(xcentre, ycentre, radius);
+      }
+      else {
+        auto t = hs_trans_map[trans_id];
+        auto solid = new G4HalfSpaceQuadric(1./pow(radius,2), 0, 0,
+                                            1./pow(radius,2), 0,
+                                            0,
+                                            0, 0, 0,
+                                            -1);
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+        hs_surface_map[surface_id] = solid;
+      }
     }
     else if(key == "ec") {
       size_t surface_id;
@@ -455,8 +497,9 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else if(key == "quadric") {
       size_t surface_id;
+      int trans_id;
       double qxx, qxy, qxz, qyy, qyz, qzz, rx, ry, rz, r;
-      ifstr >> surface_id >> qxx >> qxy >> qxz >> qyy >> qyz >> qzz >> rx >> ry >> rz >> r;
+      ifstr >> surface_id >> qxx >> qxy >> qxz >> qyy >> qyz >> qzz >> rx >> ry >> rz >> r >> trans_id;
       auto q =new G4HalfSpaceQuadric(qxx, qxy, qxz,
                                           qyy, qyz,
                                                qzz,
