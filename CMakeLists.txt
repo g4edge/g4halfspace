@@ -52,7 +52,7 @@ set(TEST-INPUTS 00_trans.txt 01_aarbox.txt 02_aarbox_od.txt 03_rbox.txt 04_rbox_
                 05_sphere.txt 06_cone.txt 07_cone_od.txt 08_ellipsoid.txt
                 09_ellipsoid_od.txt 10_wedge.txt 11_wedge_od.txt 12_arbitrary.txt
                 13_arbitrary_od.txt 14_plane.txt 15_xyzplane.txt 16_circularcylinder.txt
-                17_xyzacircularcylinder.txt
+                17_xyzacircularcylinder.txt 18_ellipticalcylinder.txt
                 20_quadric.txt)
 foreach(_input ${TEST-INPUTS})
   configure_file(

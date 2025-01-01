@@ -1,14 +1,17 @@
 #include "G4HalfSpaceEllipticCylinder.hh"
 #include "G4HalfSpacePlane.hh"
 #include "G4HalfSpaceQuadric.hh"
+#include "G4HalfSpaceTransformation.hh"
+#include "G4EllipticalTube.hh"
 
 G4HalfSpaceEllipticCylinder::G4HalfSpaceEllipticCylinder() {}
 
 G4HalfSpaceEllipticCylinder::G4HalfSpaceEllipticCylinder(const G4ThreeVector& v,
-                                               const G4ThreeVector& h,
-                                               G4double r1,
-                                               G4double r2) :
-    _v(h), _h(h), _r1(r1), _r2(r2) {
+                                                         const G4ThreeVector& h,
+                                                         G4double r1,
+                                                         G4double r2) :
+    _v(v), _h(h), _r1(r1), _r2(r2) {
+
   auto hmag = h.mag();
 
   G4RotationMatrix rmatrix;
@@ -32,14 +35,13 @@ G4HalfSpaceEllipticCylinder::G4HalfSpaceEllipticCylinder(const G4ThreeVector& v,
                                               hmag/2);
   G4HalfSpacePlane *p2 = new G4HalfSpacePlane(G4ThreeVector(0,0,1),
                                               hmag/2);
-  q->Rotate(rmatrix);
-  p1->Rotate(rmatrix);
-  p2->Rotate(rmatrix);
 
   _hsZone.AddIntersection(q);
   _hsZone.AddIntersection(p1);
   _hsZone.AddIntersection(p2);
 
+  _hsZone.Rotate(rmatrix);
+  _hsZone.Translate(rmatrix*G4ThreeVector(0,0,hmag/2)+_v);
 }
 
 G4HalfSpaceEllipticCylinder::~G4HalfSpaceEllipticCylinder() {}
@@ -53,23 +55,40 @@ std::vector<G4ThreeVector> G4HalfSpaceEllipticCylinder::Intersection(const G4Thr
 }
 
 void G4HalfSpaceEllipticCylinder::Translate(const G4ThreeVector& t) {
+
+  _v += t;
+
   _hsZone.Translate(t);
 }
 
 void G4HalfSpaceEllipticCylinder::Rotate(const G4RotationMatrix& r) {
+
+  _v = r*_v;
+  _h = r*_h;
+
   _hsZone.Rotate(r);
 }
 
 void G4HalfSpaceEllipticCylinder::Transform(const G4AffineTransform& a) {
+
+  Rotate(a.NetRotation());
+  Translate(a.NetTranslation());
+
   _hsZone.Transform(a);
 }
 
 G4SurfaceMeshCGAL* G4HalfSpaceEllipticCylinder::GetSurfaceMesh()  {
-  if(cached_mesh) {
-    G4cout << "G4HalfSpaceEllipticalCylinder::GetSurfaceMesh cached" << G4endl;
-    return cached_mesh;
-  }
+  G4EllipticalTube t = G4EllipticalTube("temp",_r1,_r2,_h.mag()/2);
+  G4Polyhedron *g4poly = t.GetPolyhedron();
+  G4SurfaceMeshCGAL *sm = new G4SurfaceMeshCGAL();
+  sm->Fill(g4poly);
 
-  cached_mesh = _hsZone.GetSurfaceMesh();
+  G4HalfSpaceTransformation trans = G4HalfSpaceTransformation(_h);
+  G4ThreeVector axis;
+  G4double angle;
 
-  return cached_mesh;}
+  trans.GetAxisAngle(axis,angle);
+  sm->Rotate(axis,angle);
+  sm->Translate(_v+trans.GetRotationMatrix()*G4ThreeVector(0,0,_h.mag()/2.));
+  return sm;
+}

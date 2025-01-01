@@ -472,10 +472,18 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else if(key == "ec") {
       size_t surface_id;
+      int trans_id;
       double vx, vy, vz, hx, hy, hz, r1, r2;
-      ifstr >> surface_id >> vx >> vy >> vz >> hx >> hy >> hz >> r1 >> r2;
-      hs_surface_map[surface_id] = new G4HalfSpaceEllipticCylinder(G4ThreeVector(vx,vy,vz),
-                                                                   G4ThreeVector(hx,hy,hz),r1, r2);
+      ifstr >> surface_id >> vx >> vy >> vz >> hx >> hy >> hz >> r1 >> r2 >> trans_id;
+      auto solid = new G4HalfSpaceEllipticCylinder(G4ThreeVector(vx,vy,vz),
+                                                   G4ThreeVector(hx,hy,hz),
+                                                   r1, r2);
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
     }
     else if(key == "xaec") {
       size_t surface_id;

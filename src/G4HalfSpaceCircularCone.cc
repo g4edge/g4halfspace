@@ -74,7 +74,6 @@ void G4HalfSpaceCircularCone::ComputeSurfaces(){
 
   G4HalfSpaceTransformation t = G4HalfSpaceTransformation(_h);
   _hsZone.Rotate(t.GetRotationMatrix());
-
   _hsZone.Translate(_v+t.GetRotationMatrix()*G4ThreeVector(0,0,(z1+z2)/2-z1));
 }
 
