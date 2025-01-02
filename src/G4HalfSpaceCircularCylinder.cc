@@ -55,10 +55,10 @@ void G4HalfSpaceCircularCylinder::Translate(const G4ThreeVector& t) {
 
 void G4HalfSpaceCircularCylinder::Rotate(const G4RotationMatrix& r) {
 
-  _v = r.inverse()*_v;
-  _h = r.inverse()*_h;
+  _v = r*_v;
+  _h = r*_h;
 
-  _hsZone.Rotate(r.inverse());
+  _hsZone.Rotate(r);
 }
 
 void G4HalfSpaceCircularCylinder::Transform(const G4AffineTransform& a) {
