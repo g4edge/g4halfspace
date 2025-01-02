@@ -7,7 +7,8 @@
 class G4HalfSpaceEllipticCylinder: public G4VHalfSpace {
 public:
   G4HalfSpaceEllipticCylinder();
-  G4HalfSpaceEllipticCylinder(const G4ThreeVector& v, const G4ThreeVector& h, G4double r1, G4double r2);
+  G4HalfSpaceEllipticCylinder(const G4ThreeVector& v, const G4ThreeVector& h,
+                              const G4ThreeVector& r1, const G4ThreeVector &r2);
   ~G4HalfSpaceEllipticCylinder();
 
   virtual G4double Sdf(const G4ThreeVector&p) const override;
@@ -22,8 +23,8 @@ public:
 protected:
   G4ThreeVector _v;
   G4ThreeVector _h;
-  G4double _r1;
-  G4double _r2;
+  G4ThreeVector _r1;
+  G4ThreeVector _r2;
 
   G4HalfSpaceZone _hsZone = G4HalfSpaceZone();
 };

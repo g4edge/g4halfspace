@@ -485,11 +485,12 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     else if(key == "ec") {
       size_t surface_id;
       int trans_id;
-      double vx, vy, vz, hx, hy, hz, r1, r2;
-      ifstr >> surface_id >> vx >> vy >> vz >> hx >> hy >> hz >> r1 >> r2 >> trans_id;
+      double vx, vy, vz, hx, hy, hz, r1x, r1y, r1z, r2x, r2y, r2z;
+      ifstr >> surface_id >> vx >> vy >> vz >> hx >> hy >> hz >> r1x >> r1y >> r1z >> r2x >> r2y >> r2z >> trans_id;
       auto solid = new G4HalfSpaceEllipticCylinder(G4ThreeVector(vx,vy,vz),
                                                    G4ThreeVector(hx,hy,hz),
-                                                   r1, r2);
+                                                   G4ThreeVector(r1x,r1y,r1z),
+                                                   G4ThreeVector(r2x,r2y,r2z));
       if (trans_id > -1) {
         auto t = hs_trans_map[trans_id];
         solid->Rotate(t->GetRotationMatrix());

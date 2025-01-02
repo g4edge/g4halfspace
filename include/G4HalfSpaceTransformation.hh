@@ -12,6 +12,54 @@ public:
                             const G4ThreeVector &r) : _t(t), _r(r) {
   }
 
+  G4HalfSpaceTransformation(const G4ThreeVector xp,
+                            const G4ThreeVector yp,
+                            const G4ThreeVector zp) {
+
+    G4RotationMatrix rmatrix;
+    rmatrix.setRows(xp,yp,zp);
+    rmatrix = rmatrix.inverse();
+
+    auto a_11 = rmatrix.xx();
+    auto a_12 = rmatrix.xy();
+    auto a_13 = rmatrix.xz();
+
+    auto a_21 = rmatrix.yx();
+    auto a_22 = rmatrix.yy();
+    auto a_23 = rmatrix.yz();
+
+    auto a_31 = rmatrix.zx();
+    auto a_32 = rmatrix.zy();
+    auto a_33 = rmatrix.zz();
+
+    if( fabs(a_31-1) < 1e-9 && a_31 > 1.0)
+      a_31 = 1.0;
+    else if( fabs(a_31+1) < 1e-9 && a_31 < -1.0)
+      a_31 = -1.0;
+
+    double x = 0;
+    double y = 0;
+    double z = 0;
+
+    if( fabs(a_31) != 1) {
+      x = atan2(a_32, a_33);
+      y = asin(-a_31);
+      z = atan2(a_21, a_11);
+    }
+    else if(a_31 == -1) {
+      z = 0.0;
+      x = atan2(a_21, a_11) + z;
+      y = M_PI/2.0;
+    }
+    else if(a_31 == 1) {
+      z = 0.0;
+      x = atan2(-a_12, -a_13) - z;
+      y = -M_PI/2.0;
+    }
+
+    _r.set(x,y,z);
+
+  }
   G4HalfSpaceTransformation(const G4ThreeVector &v) {
 
     G4RotationMatrix rmatrix;
@@ -44,9 +92,9 @@ public:
     else if( fabs(a_31+1) < 1e-9 && a_31 < -1.0)
       a_31 = -1.0;
 
-    double x;
-    double y;
-    double z;
+    double x = 0;
+    double y = 0;
+    double z = 0;
 
     if( fabs(a_31) != 1) {
       x = atan2(a_32, a_33);
@@ -102,6 +150,13 @@ public:
     rmat.rotateZ(_r.z());
     rmat.rectify();
     rmat.getAngleAxis(delta, axis);
+  }
+
+  std::string toString() {
+    std::stringstream ss;
+    ss << _t << " " << _r;
+
+    return ss.str();
   }
 
 private:
