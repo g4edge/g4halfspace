@@ -12,12 +12,12 @@ G4HalfSpaceAARBox::G4HalfSpaceAARBox(G4double xmin, G4double xmax,
                                      _ymin(ymin), _ymax(ymax),
                                      _zmin(zmin), _zmax(zmax) {
 
-  auto p1 = new G4HalfSpacePlane(G4ThreeVector(xmax,0,0),G4ThreeVector(1,0,0));
-  auto p2 = new G4HalfSpacePlane(G4ThreeVector(xmin,0,0),G4ThreeVector(-1,0,0));
-  auto p3 = new G4HalfSpacePlane(G4ThreeVector(0,ymax,0),G4ThreeVector(0,1,0));
-  auto p4 = new G4HalfSpacePlane(G4ThreeVector(0,ymin,0),G4ThreeVector(0,-1,0));
-  auto p5 = new G4HalfSpacePlane(G4ThreeVector(0,0,zmax),G4ThreeVector(0,0,1));
-  auto p6 = new G4HalfSpacePlane(G4ThreeVector(0,0,zmin),G4ThreeVector(0,0,-1));
+  auto p1 = new G4HalfSpacePlane(G4ThreeVector(1,0,0),G4ThreeVector(xmax,0,0));
+  auto p2 = new G4HalfSpacePlane(G4ThreeVector(-1,0,0),G4ThreeVector(xmin,0,0));
+  auto p3 = new G4HalfSpacePlane(G4ThreeVector(0,1,0),G4ThreeVector(0,ymax,0));
+  auto p4 = new G4HalfSpacePlane(G4ThreeVector(0,-1,0),G4ThreeVector(0,ymin,0));
+  auto p5 = new G4HalfSpacePlane(G4ThreeVector(0,0,1),G4ThreeVector(0,0,zmax));
+  auto p6 = new G4HalfSpacePlane(G4ThreeVector(0,0,-1),G4ThreeVector(0,0,zmin));
 
   _hsZone.AddIntersection(p1);
   _hsZone.AddIntersection(p2);
