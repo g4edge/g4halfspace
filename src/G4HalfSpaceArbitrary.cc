@@ -106,7 +106,7 @@ void G4HalfSpaceArbitrary::ComputePlanes() {
     n = n/n.mag();
 
 
-    auto pl = new G4HalfSpacePlane(pv2,n);
+    auto pl = new G4HalfSpacePlane(n, pv2);
     _hsZone.AddIntersection(pl);
   }
 }
