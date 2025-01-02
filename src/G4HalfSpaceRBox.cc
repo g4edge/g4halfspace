@@ -73,12 +73,12 @@ void G4HalfSpaceRBox::ComputePlanes() {
   n5 = n5/n5.mag();
 
   _hsZone = new G4HalfSpaceZone();
-  auto pl1 = new G4HalfSpacePlane(p1,n1);
-  auto pl2 = new G4HalfSpacePlane(p2,n2);
-  auto pl3 = new G4HalfSpacePlane(p3,n3);
-  auto pl4 = new G4HalfSpacePlane(p4,n4);
-  auto pl5 = new G4HalfSpacePlane(p5,n5);
-  auto pl6 = new G4HalfSpacePlane(p6,n6);
+  auto pl1 = new G4HalfSpacePlane(n1,p1);
+  auto pl2 = new G4HalfSpacePlane(n2,p2);
+  auto pl3 = new G4HalfSpacePlane(n3,p3);
+  auto pl4 = new G4HalfSpacePlane(n4,p4);
+  auto pl5 = new G4HalfSpacePlane(n5,p5);
+  auto pl6 = new G4HalfSpacePlane(n6,p6);
 
   _hsZone->AddIntersection(pl1);
   _hsZone->AddIntersection(pl2);
