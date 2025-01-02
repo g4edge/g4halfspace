@@ -6,6 +6,7 @@ trans  4 0 0 0 45 0 0
 trans  5 0 0 0 0 45 0
 trans  6 0 0 0 0 0 45
 trans  7 0 0 25 45 0 0
+
 ellipsoid_od 0 30 30 60 0 0 0 0 0 0  -1
 ellipsoid_od 1 30 30 60 -25 0 0 0 0 0 -1
 ellipsoid_od 2 30 30 60 0 -25 0 0 0 0 -1
@@ -14,6 +15,15 @@ ellipsoid_od 4 30 30 60 0 0 0 45 0 0 -1
 ellipsoid_od 5 30 30 60 0 0 0 0 45 0 -1
 ellipsoid_od 6 30 30 60 0 0 0 0 0 45 -1
 ellipsoid_od 7 30 30 60 0 0 0 0 45 45 -1
+
+ellipsoid_od 20 30 30 60 0 0 0 0 0 0  0
+ellipsoid_od 21 30 30 60 0 0 0 0 0 0  1
+ellipsoid_od 22 30 30 60 0 0 0 0 0 0  2
+ellipsoid_od 23 30 30 60 0 0 0 0 0 0  3
+ellipsoid_od 24 30 30 60 0 0 0 0 0 0  4
+ellipsoid_od 25 30 30 60 0 0 0 0 0 0  5
+ellipsoid_od 26 30 30 60 0 0 0 0 0 0  6
+
 region 0 |+0|
 region 1 |+1|
 region 2 |+2|
@@ -22,6 +32,16 @@ region 4 |+4|
 region 5 |+5|
 region 6 |+6|
 region 7 |+7|
+
+region 20 |+20|
+region 21 |+21|
+region 22 |+22|
+region 23 |+23|
+region 24 |+24|
+region 25 |+25|
+region 26 |+26|
+region 20 |+27|
+
 region 100 |+0 +1|
 region 101 |+0 -1|
 region 102 |+0|+1|

@@ -6,6 +6,7 @@ trans  4 0 0 0 45 0 0
 trans  5 0 0 0 0 45 0
 trans  6 0 0 0 0 0 45
 trans  7 0 0 25 45 0 0
+
 wedge_od 0 50 50 50 0 0 0 0 0 0 -1
 wedge_od 1 50 50 50 25 0 0 0 0 0 -1
 wedge_od 2 50 50 50  0 25 0 0 0 0 -1
@@ -14,14 +15,16 @@ wedge_od 4 50 50 50  0 0 0 45 0 0 -1
 wedge_od 5 50 50 50  0 0 0 0 45 0 -1
 wedge_od 6 50 50 50  0 0 0 0 0 45 -1
 wedge_od 7 50 50 50  0 0 0 45 45 45 -1
-wedge_od 8 50 50 50 0 0 0 0 0 0 0
-wedge_od 9 50 50 50 0 0 0 0 0 0 1
-wedge_od 10 50 50 50 0 0 0 0 0 0 2
-wedge_od 11 50 50 50 0 0 0 0 0 0 3
-wedge_od 12 50 50 50 0 0 0 0 0 0 4
-wedge_od 13 50 50 50 0 0 0 0 0 0 5
-wedge_od 14 50 50 50 0 0 0 0 0 0 6
-wedge_od 15 50 50 50 0 0 0 0 0 0 7
+
+wedge_od 20 50 50 50 0 0 0 0 0 0 0
+wedge_od 21 50 50 50 0 0 0 0 0 0 1
+wedge_od 22 50 50 50 0 0 0 0 0 0 2
+wedge_od 23 50 50 50 0 0 0 0 0 0 3
+wedge_od 24 50 50 50 0 0 0 0 0 0 4
+wedge_od 25 50 50 50 0 0 0 0 0 0 5
+wedge_od 26 50 50 50 0 0 0 0 0 0 6
+wedge_od 27 50 50 50 0 0 0 0 0 0 7
+
 region 0 |+0|
 region 1 |+1|
 region 2 |+2|
@@ -30,11 +33,12 @@ region 4 |+4|
 region 5 |+5|
 region 6 |+6|
 region 7 |+7|
-region 8 |+8|
-region 9 |+9|
-region 10 |+10|
-region 11 |+11|
-region 12 |+12|
-region 13 |+13|
-region 14 |+14|
-region 15 |+15|
+
+region 20 |+20|
+region 21 |+21|
+region 22 |+22|
+region 23 |+23|
+region 24 |+24|
+region 25 |+25|
+region 26 |+26|
+region 27 |+27|

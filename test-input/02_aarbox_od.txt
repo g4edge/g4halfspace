@@ -6,34 +6,39 @@ trans  4 0 0 0 45 0 0
 trans  5 0 0 0 0 45 0
 trans  6 0 0 0 0 0 45
 trans  7 0 0 25 45 0 0
+
 aarbox_od 0  25 25 25 0 0 0 -1
 aarbox_od 1  25 25 25 -25 -25 -25 -1 
 aarbox_od 2  50 10 10 0 0 0 -1 
 aarbox_od 3  10 50 10 0 0 0 -1 
 aarbox_od 4  10 10 50 0 0 0 -1 
 aarbox_od 5  25 25 25 0 0 0  -1
-aarbox_od 6  25 25 25 0 0 0 0
-aarbox_od 7  25 25 25 0 0 0 1
-aarbox_od 8  25 25 25 0 0 0 2
-aarbox_od 9  25 25 25 0 0 0 3
-aarbox_od 10 25 25 25 0 0 0 4
-aarbox_od 11 25 25 25 0 0 0 5
-aarbox_od 12 25 25 25 0 0 0 6
-aarbox_od 13 25 25 25 0 0 0 7
+
+aarbox_od 20  25 25 25 0 0 0 0
+aarbox_od 21  25 25 25 0 0 0 1
+aarbox_od 22  25 25 25 0 0 0 2
+aarbox_od 23  25 25 25 0 0 0 3
+aarbox_od 24 25 25 25 0 0 0 4
+aarbox_od 25 25 25 25 0 0 0 5
+aarbox_od 26 25 25 25 0 0 0 6
+aarbox_od 27 25 25 25 0 0 0 7
+
 region 0 |+0|
 region 1 |+1|
 region 2 |+2|
 region 3 |+3|
 region 4 |+4|
 region 5 |+5|
-region 6 |+6|
-region 7 |+7|
-region 8 |+8|
-region 9 |+9|
-region 10 |+10|
-region 11 |+11|
-region 12 |+12|
-region 13 |+13|
+
+region 20 |+20|
+region 21 |+21|
+region 22 |+22|
+region 23 |+23|
+region 24 |+24|
+region 25 |+25|
+region 26 |+26|
+region 27 |+27|
+
 region 100 |+0 +1|
 region 101 |+0 -1|
 region 102 |+0|+1|

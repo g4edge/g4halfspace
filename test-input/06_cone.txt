@@ -14,14 +14,14 @@ cone   3 -30 0 0 0 0 30 5 30 -1
 cone   4 0 -30 0 0 0 30 5 30 -1
 cone   5 -0 0 -30 0 0 30 5 30 -1
 
-cone   6 0 0 0 0 0 30 5 30 0
-cone   7 0 0 0 0 0 30 5 30 1
-cone   8 0 0 0 0 0 30 5 30 2
-cone   9 0 0 0 0 0 30 5 30 3
-cone  10 0 0 0 0 0 30 5 30 4
-cone  11 0 0 0 0 0 30 5 30 5
-cone  12 0 0 0 0 0 30 5 30 6
-cone  13 0 0 0 0 0 30 5 30 7
+cone  20 0 0 0 0 0 30 5 30 0
+cone  21 0 0 0 0 0 30 5 30 1
+cone  22 0 0 0 0 0 30 5 30 2
+cone  23 0 0 0 0 0 30 5 30 3
+cone  24 0 0 0 0 0 30 5 30 4
+cone  25 0 0 0 0 0 30 5 30 5
+cone  26 0 0 0 0 0 30 5 30 6
+cone  27 0 0 0 0 0 30 5 30 7
 
 region 0 |+0|
 region 1 |+1|
@@ -30,11 +30,11 @@ region 3 |+3|
 region 4 |+4|
 region 5 |+5|
 
-region 6 |+6|
-region 7 |+7|
-region 8 |+8|
-region 9 |+9|
-region 10 |+10|
-region 11 |+11|
-region 12 |+12|
-region 13 |+13|
+region 20 |+20|
+region 21 |+21|
+region 22 |+22|
+region 23 |+23|
+region 24 |+24|
+region 25 |+25|
+region 26 |+26|
+region 27 |+27|
