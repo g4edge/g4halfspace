@@ -213,9 +213,15 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       int trans_id;
       double a, b, c, xcentre, ycentre, zcentre, xrotation, yrotation, zrotation;
       ifstr >> surface_id >> a >> b >> c >> xcentre >> ycentre >> zcentre >> xrotation >> yrotation >> zrotation >> trans_id;
-      hs_surface_map[surface_id] = new G4HalfSpaceEllipsoid(G4ThreeVector(a,b,c),
-                                                            G4ThreeVector(xcentre,ycentre,zcentre),
-                                                            G4ThreeVector(xrotation/180*M_PI, yrotation/180*M_PI, zrotation/180*M_PI));
+      auto solid = new G4HalfSpaceEllipsoid(G4ThreeVector(a,b,c),
+                                            G4ThreeVector(xcentre,ycentre,zcentre),
+                                            G4ThreeVector(xrotation/180*M_PI, yrotation/180*M_PI, zrotation/180*M_PI));
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
     }
     else if(key == "wedge" || key == "raw") {
       size_t surface_id;
