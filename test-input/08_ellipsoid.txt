@@ -7,20 +7,38 @@ trans  5 0 0 0 0 45 0
 trans  6 0 0 0 0 0 45
 trans  7 0 0 25 45 0 0
 
-ellipsoid 0 0 0 -25 0 0 25 75 -1
-ellipsoid 1 0 -10 -25 0 10 25 75 -1
-ellipsoid 2 -25 0 -25 -25 0 25 75 -1
-ellipsoid 3 0 -25 -25 0 -25 25 75 -1
-ellipsoid 4 0 0 -50 0 0 0 75 -1
+ellipsoid 0    0   0 -25      0   0 25    75 -1
+ellipsoid 1    0 -10 -25      0  10 25    75 -1
+ellipsoid 2  -25   0 -25    -25   0 25    75 -1
+ellipsoid 3    0 -25 -25      0 -25 25    75 -1
+ellipsoid 4    0   0 -50      0   0  0    75 -1
 
-ellipsoid 20 0 0 -25 0 0 25 75 0
-ellipsoid 21 0 0 -25 0 0 25 75 1
-ellipsoid 22 0 0 -25 0 0 25 75 2
-ellipsoid 23 0 0 -25 0 0 25 75 3
-ellipsoid 24 0 0 -25 0 0 25 75 4
-ellipsoid 25 0 0 -25 0 0 25 75 5
-ellipsoid 26 0 0 -25 0 0 25 75 6
-ellipsoid 27 0 0 -25 0 0 25 75 7
+ellipsoid 20   0   0 -25      0 0 25    75 0
+ellipsoid 21   0   0 -25      0 0 25    75 1
+ellipsoid 22   0   0 -25      0 0 25    75 2
+ellipsoid 23   0   0 -25      0 0 25    75 3
+ellipsoid 24   0   0 -25      0 0 25    75 4
+ellipsoid 25   0   0 -25      0 0 25    75 5
+ellipsoid 26   0   0 -25      0 0 25    75 6
+ellipsoid 27   0   0 -25      0 0 25    75 7
+
+ellipsoid 30   0 -25   0      0 25 0    75 0
+ellipsoid 31   0 -25   0      0 25 0    75 1
+ellipsoid 32   0 -25   0      0 25 0    75 2
+ellipsoid 33   0 -25   0      0 25 0    75 3
+ellipsoid 34   0 -25   0      0 25 0    75 4
+ellipsoid 35   0 -25   0      0 25 0    75 5
+ellipsoid 36   0 -25   0      0 25 0    75 6
+ellipsoid 37   0 -25   0      0 25 0    75 7
+
+ellipsoid 40 -25   0   0     25  0 0    75 0
+ellipsoid 41 -25   0   0     25  0 0    75 1
+ellipsoid 42 -25   0   0     25  0 0    75 2
+ellipsoid 43 -25   0   0     25  0 0    75 3
+ellipsoid 44 -25   0   0     25  0 0    75 4
+ellipsoid 45 -25   0   0     25  0 0    75 5
+ellipsoid 46 -25   0   0     25  0 0    75 6
+ellipsoid 47 -25   0   0     25  0 0    75 7
 
 region 0 |+0|
 region 1 |+1|
@@ -36,3 +54,21 @@ region 24 |+24|
 region 25 |+25|
 region 26 |+26|
 region 27 |+27|
+
+region 30 |+30|
+region 31 |+31|
+region 32 |+32|
+region 33 |+33|
+region 34 |+34|
+region 35 |+35|
+region 36 |+36|
+region 37 |+37|
+
+region 40 |+40|
+region 41 |+41|
+region 42 |+42|
+region 43 |+43|
+region 44 |+44|
+region 45 |+45|
+region 46 |+46|
+region 47 |+47|

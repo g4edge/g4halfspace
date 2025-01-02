@@ -1,0 +1,33 @@
+trans  0 0 0 0 0 0 0
+trans  1 10 0 0 0 0 0
+trans  2 0 10 0 0 0 0
+trans  3 0 0 10 0 0 0
+trans  4 0 0 0 45 0 0
+trans  5 0 0 0 0 45 0
+trans  6 0 0 0 0 0 45
+trans  7 0 0 10 45 0 0
+
+aarbox 0 -30 30    -30 30    -30 30    -1
+xyplane  1    0    -1
+
+xyplane  20    0    0
+xyplane  21    0    1
+xyplane  22    0    2
+xyplane  23    0    3
+xyplane  24    0    4
+xyplane  25    0    5
+xyplane  26    0    6
+xyplane  27    0    7
+
+region 0 |+0|
+
+region 1 |+0 +1|
+
+region 20 |+0 +20|
+region 21 |+0 +21|
+region 22 |+0 +22|
+region 23 |+0 +23|
+region 24 |+0 +24|
+region 25 |+0 +25|
+region 26 |+0 +26|
+region 27 |+0 +27|

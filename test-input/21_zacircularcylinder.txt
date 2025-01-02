@@ -1,0 +1,31 @@
+trans  0 0 0 0 0 0 0
+trans  1 30 0 0 0 0 0
+trans  2 0 30 0 0 0 0
+trans  3 0 0 30 0 0 0
+trans  4 0 0 0 45 0 0
+trans  5 0 0 0 0 45 0
+trans  6 0 0 0 0 0 45
+trans  7 0 0 25 45 0 0
+
+yzplane 0 100 -1
+yzplane 1 -100 -1
+xzplane 2 100 -1
+xzplane 3 -100 -1
+xyplane 4 100 -1
+xyplane 5 -100 -1
+
+xacc 6 0 0 25 -1
+yacc 7 0 0 25 -1
+zacc 8 0 0 25 -1
+
+xacc 9 0 0 25 5
+yacc 10 0 0 25 4
+zacc 11 0 0 25 4
+
+region 0 |+0 -1 +6|
+region 1 |+2 -3 +7|
+region 2 |+4 -5 +8|
+
+region 3 |+0 -1 +9|
+region 4 |+0 -1 +10|
+region 5 |+0 -1 +11|
