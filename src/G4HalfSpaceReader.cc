@@ -500,21 +500,66 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else if(key == "xaec") {
       size_t surface_id;
+      int trans_id;
       double ycentre, zcentre, yradius, zradius;
-      ifstr >> surface_id >> ycentre >> zcentre >> yradius >> zradius;
-      hs_surface_map[surface_id] = new G4HalfSpaceXAEllipticalCylinder(ycentre, zcentre, yradius, zradius);
+      ifstr >> surface_id >> ycentre >> zcentre >> yradius >> zradius >> trans_id;
+      if(trans_id < 0) {
+        hs_surface_map[surface_id] = new G4HalfSpaceXAEllipticalCylinder(ycentre, zcentre, yradius, zradius);
+      }
+      else {
+        auto t = hs_trans_map[trans_id];
+        auto solid = new G4HalfSpaceQuadric(0,0,0,
+                                            1/pow(yradius,2), 0,
+                                            1/pow(zradius,2),
+                                            0, 0, 0,
+                                            -1);
+        solid->Translate(G4ThreeVector(0,ycentre,zcentre));
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+        hs_surface_map[surface_id] = solid;
+      }
     }
     else if(key == "yaec") {
       size_t surface_id;
+      int trans_id;
       double xcentre, zcentre, xradius, zradius;
-      ifstr >> surface_id >> xcentre >> zcentre >> xradius >> zradius;
-      hs_surface_map[surface_id] = new G4HalfSpaceYAEllipticalCylinder(xcentre, zcentre, xradius, zradius);
+      ifstr >> surface_id >> xcentre >> zcentre >> xradius >> zradius >> trans_id;
+      if (trans_id < 0) {
+        hs_surface_map[surface_id] = new G4HalfSpaceYAEllipticalCylinder(xcentre, zcentre, xradius, zradius);
+      }
+      else {
+        auto t = hs_trans_map[trans_id];
+        auto solid = new G4HalfSpaceQuadric(1/pow(xradius,2),0,0,
+                                            0, 0,
+                                            1/pow(zradius,2),
+                                            0, 0, 0,
+                                            -1);
+        solid->Translate(G4ThreeVector(xcentre,0,zcentre));
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+        hs_surface_map[surface_id] = solid;
+      }
     }
     else if(key == "zaec") {
       size_t surface_id;
+      int trans_id;
       double xcentre, ycentre, xradius, yradius;
-      ifstr >> surface_id >> xcentre >> ycentre >> xradius >> yradius;
-      hs_surface_map[surface_id] = new G4HalfSpaceZAEllipticalCylinder(xcentre, ycentre, xradius, yradius);
+      ifstr >> surface_id >> xcentre >> ycentre >> xradius >> yradius >> trans_id;
+      if (trans_id < 0) {
+        hs_surface_map[surface_id] = new G4HalfSpaceZAEllipticalCylinder(xcentre, ycentre, xradius, yradius);
+      }
+      else {
+        auto t = hs_trans_map[trans_id];
+        auto solid = new G4HalfSpaceQuadric(1/pow(xradius,2),0,0,
+                                            1/pow(yradius,2), 0,
+                                            0,
+                                            0, 0, 0,
+                                            -1);
+        solid->Translate(G4ThreeVector(xcentre,ycentre,0));
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+        hs_surface_map[surface_id] = solid;
+      }
     }
     else if(key == "quadric") {
       size_t surface_id;
