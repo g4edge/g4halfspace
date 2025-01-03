@@ -614,7 +614,8 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     }
     else {
       G4cout << "G4HalfSpaceReader::Read key not found " << key << " line " << iLineNumber << G4endl;
-      exit(1);
+      std::string restOfLine;
+      std::getline(ifstr, restOfLine);
     }
   }
 }
