@@ -7,25 +7,28 @@ trans  5 0 0 0 0 45 0
 trans  6 0 0 0 0 0 45
 trans  7 0 0 25 45 0 0
 
-yzplane 0 100 -1
-yzplane 1 -100 -1
-xzplane 2 100 -1
-xzplane 3 -100 -1
-xyplane 4 100 -1
-xyplane 5 -100 -1
+aarbox 0 -100 100    -100 100    -100 100    -1
 
-xacc 6 0 0 25 -1
-yacc 7 0 0 25 -1
-zacc 8 0 0 25 -1
+xacc 1  0 0 30 -1
 
-xacc 9 0 0 25 5
-yacc 10 0 0 25 4
-zacc 11 0 0 25 4
+xacc 20  0 0 30 0
+xacc 21  0 0 30 1
+xacc 22  0 0 30 2
+xacc 23  0 0 30 3
+xacc 24  0 0 30 4
+xacc 25  0 0 30 5
+xacc 26  0 0 30 6
+xacc 27  0 0 30 7
 
-region 0 |+0 -1 +6|
-region 1 |+2 -3 +7|
-region 2 |+4 -5 +8|
+region 0 |+0|
+region 1 |+0 +1|
 
-region 3 |+0 -1 +9|
-region 4 |+0 -1 +10|
-region 5 |+0 -1 +11|
+region 20 |+0 +20|
+region 21 |+0 +21|
+region 22 |+0 +22|
+region 23 |+0 +23|
+region 24 |+0 +24|
+region 25 |+0 +25|
+region 26 |+0 +26|
+region 27 |+0 +27|
+
