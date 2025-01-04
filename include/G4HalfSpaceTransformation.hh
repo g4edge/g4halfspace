@@ -67,7 +67,7 @@ public:
     auto vnorm = v / v.mag();
     G4ThreeVector zaxis = G4ThreeVector(0, 0, 1);
     G4ThreeVector raxis = zaxis.cross(vnorm);
-    G4double angle = asin(raxis.mag());
+    G4double angle = acos(zaxis.dot(vnorm));
 
     if (angle == 0) {
       raxis = G4ThreeVector(0, 0, 1);
@@ -103,7 +103,7 @@ public:
     }
     else if(a_31 == -1) {
       z = 0.0;
-      x = atan2(a_21, a_11) + z;
+      x = atan2(a_12, a_13) + z;
       y = M_PI/2.0;
     }
     else if(a_31 == 1) {
