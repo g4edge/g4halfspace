@@ -2,6 +2,8 @@
 
 #include "G4Ellipsoid.hh"
 
+#include <Eigen/Dense>
+
 G4HalfSpaceQuadric::G4HalfSpaceQuadric() {}
 
 G4HalfSpaceQuadric::G4HalfSpaceQuadric(double qxx, double qxy, double qxz,
@@ -96,21 +98,27 @@ void G4HalfSpaceQuadric::Rotate(const G4ThreeVector &rv) {
   rm.rotateY(-rv[1]);
   rm.rotateX(-rv[0]);
   rm.rectify();
+
+  G4cout << "G4HalfSpaceQuadric::Rotate(const G4ThreeVector &rv)" << G4endl;
+  G4cout << rm << G4endl;
   this->Rotate(rm);
 }
 
-void G4HalfSpaceQuadric::Rotate(const G4RotationMatrix& r) {
-  auto rinv = r.inverse();
+void G4HalfSpaceQuadric::Rotate(const G4RotationMatrix& rm) {
+  G4cout << "G4HalfSpaceQuadric::Rotate(const G4RotationMatrix& r)" << G4endl;
+  G4cout << rm << G4endl;
+
+  auto rminv = rm.inverse();
   auto m = CLHEP::HepMatrix(3,3);
-  m(1,1) = rinv.xx();
-  m(1,2) = rinv.xy();
-  m(1,3) = rinv.xz();
-  m(2,1) = rinv.yx();
-  m(2,2) = rinv.yy();
-  m(2,3) = rinv.yz();
-  m(3,1) = rinv.zx();
-  m(3,2) = rinv.zy();
-  m(3,3) = rinv.zz();
+  m(1,1) = rminv.xx();
+  m(1,2) = rminv.xy();
+  m(1,3) = rminv.xz();
+  m(2,1) = rminv.yx();
+  m(2,2) = rminv.yy();
+  m(2,3) = rminv.yz();
+  m(3,1) = rminv.zx();
+  m(3,2) = rminv.zy();
+  m(3,3) = rminv.zz();
 
   auto qp = m.T() * _q * m;
   auto pp = _p.T() * m;
@@ -127,6 +135,7 @@ void G4HalfSpaceQuadric::Transform(const G4AffineTransform& a) {
 }
 
 G4SurfaceMeshCGAL* G4HalfSpaceQuadric::GetSurfaceMesh() {
+
   std::cout << "G4HalfSpaceQuadric::GetSurfaceMesh" << std::endl;
   G4Ellipsoid t = G4Ellipsoid("test", 10, 20, 30);
   G4Polyhedron *g4poly = t.GetPolyhedron();
@@ -134,4 +143,47 @@ G4SurfaceMeshCGAL* G4HalfSpaceQuadric::GetSurfaceMesh() {
   sm->Fill(g4poly);
 
   return sm;
+}
+
+CLHEP::HepMatrix G4HalfSpaceQuadric::GetRotationFromQuadraticForm(G4ThreeVector &g4_eigenvalues) {
+  Eigen::Matrix3d mtemp;
+  mtemp << _q(1,1), _q(1,2), _q(1,3),
+           _q(2,1), _q(2,2), _q(2,3),
+           _q(3,1), _q(3,2), _q(3,3);
+
+  Eigen::EigenSolver<Eigen::Matrix3d> stemp(mtemp);
+
+  Eigen::Vector3d eigenvalues = stemp.eigenvalues().real();
+  Eigen::Matrix3d eigenvectors = stemp.eigenvectors().real();
+
+  if (stemp.info() != Eigen::Success) {
+    std::cerr << "Error: Eigenvalue computation failed!" << std::endl;
+  }
+
+  G4cout << "Eigenvalues:\n" << eigenvalues << G4endl;
+  G4cout << "Eigenvectors:\n" << eigenvectors << G4endl;
+
+
+  g4_eigenvalues.set(eigenvalues[0],eigenvalues[1],eigenvalues[2]);
+
+  CLHEP::HepMatrix g4_eigenvectors = CLHEP::HepMatrix(3,3);
+
+  g4_eigenvectors(1,1) = eigenvectors(0,0);
+  g4_eigenvectors(1,2) = eigenvectors(0,1);
+  g4_eigenvectors(1,3) = eigenvectors(0,2);
+
+  g4_eigenvectors(2,1) = eigenvectors(1,0);
+  g4_eigenvectors(2,2) = eigenvectors(1,1);
+  g4_eigenvectors(2,3) = eigenvectors(1,2);
+
+  g4_eigenvectors(3,1) = eigenvectors(2,0);
+  g4_eigenvectors(3,2) = eigenvectors(2,1);
+  g4_eigenvectors(3,3) = eigenvectors(2,2);
+
+  return g4_eigenvectors;
+
+}
+
+G4ThreeVector G4HalfSpaceQuadric::GetTranslationFromQuadricEqn() {
+  return G4ThreeVector();
 }

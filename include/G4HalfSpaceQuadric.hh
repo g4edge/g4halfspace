@@ -30,6 +30,9 @@ public:
 
   virtual G4SurfaceMeshCGAL* GetSurfaceMesh()  override;
 
+  CLHEP::HepMatrix GetRotationFromQuadraticForm(G4ThreeVector &eigenvalues);
+  G4ThreeVector GetTranslationFromQuadricEqn();
+
 protected:
   CLHEP::HepMatrix _q = CLHEP::HepMatrix(3,3);
   CLHEP::HepVector _p = CLHEP::HepVector(3);

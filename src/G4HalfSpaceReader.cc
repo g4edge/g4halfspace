@@ -566,14 +566,17 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       int trans_id;
       double qxx, qxy, qxz, qyy, qyz, qzz, rx, ry, rz, r;
       ifstr >> surface_id >> qxx >> qxy >> qxz >> qyy >> qyz >> qzz >> rx >> ry >> rz >> r >> trans_id;
-      auto q =new G4HalfSpaceQuadric(qxx, qxy, qxz,
-                                          qyy, qyz,
-                                               qzz,
-                                     rx, ry, rz,
-                                     r);
-      //q->Rotate(G4ThreeVector(0,0,0));
-      //q->Translate(G4ThreeVector(0,0,0));
-      hs_surface_map[surface_id] = q;
+      auto solid =new G4HalfSpaceQuadric(qxx, qxy, qxz,
+                                         qyy, qyz,
+                                         qzz,
+                                         rx, ry, rz,
+                                         r);
+      if (trans_id > -1) {
+        auto t = hs_trans_map[trans_id];
+        solid->Rotate(t->GetRotationMatrix());
+        solid->Translate(t->GetTranslation());
+      }
+      hs_surface_map[surface_id] = solid;
     }
     else if(key == "region") {
       size_t region_id;
