@@ -152,7 +152,7 @@ public:
     rmat.getAngleAxis(delta, axis);
   }
 
-  std::string toString() {
+  std::string ToString() {
     std::stringstream ss;
     ss << _t << " " << _r;
 
