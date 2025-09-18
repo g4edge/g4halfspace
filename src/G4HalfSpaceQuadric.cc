@@ -1,5 +1,6 @@
 #include "G4HalfSpaceQuadric.hh"
 #include "G4HalfSpaceRotation.hh"
+#include "G4ImplicitSurfaceCGAL.hh"
 
 #include "G4Ellipsoid.hh"
 
@@ -145,18 +146,18 @@ G4SurfaceMeshCGAL* G4HalfSpaceQuadric::GetSurfaceMesh() {
   // determine rotation of quadric
   G4ThreeVector evals;
   auto evecs = GetRotationFromQuadraticForm(evals);
-
   G4HalfSpaceRotation rot = G4HalfSpaceRotation(evecs);
   G4cout << rot.ToString() << G4endl;
 
+  // mesh quadric
+  return make_mesh(*this, 200*200);
 
-  std::cout << "G4HalfSpaceQuadric::GetSurfaceMesh" << std::endl;
-  G4Ellipsoid t = G4Ellipsoid("test", 10, 20, 30);
-  G4Polyhedron *g4poly = t.GetPolyhedron();
-  G4SurfaceMeshCGAL *sm = new G4SurfaceMeshCGAL();
-  sm->Fill(g4poly);
-
-  return sm;
+  //std::cout << "G4HalfSpaceQuadric::GetSurfaceMesh" << std::endl;
+  //G4Ellipsoid t = G4Ellipsoid("test", 10, 20, 30);
+  //G4Polyhedron *g4poly = t.GetPolyhedron();
+  //G4SurfaceMeshCGAL *sm = new G4SurfaceMeshCGAL();
+  //sm->Fill(g4poly);
+  //return sm;
 }
 
 CLHEP::HepMatrix G4HalfSpaceQuadric::GetRotationFromQuadraticForm(G4ThreeVector &g4_eigenvalues) {
