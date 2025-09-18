@@ -20,6 +20,8 @@ public:
                      CLHEP::HepVector &p,
                      double r);
 
+  G4HalfSpaceQuadric(const G4HalfSpaceQuadric &);
+
   virtual G4double Sdf(const G4ThreeVector&p) const override;
   std::vector<G4ThreeVector> Intersection(const G4ThreeVector& p, const G4ThreeVector& v) const override;
 
@@ -33,9 +35,13 @@ public:
   CLHEP::HepMatrix GetRotationFromQuadraticForm(G4ThreeVector &eigenvalues);
   G4ThreeVector GetTranslationFromQuadricEqn();
 
+  std::string ToStringEquation();
+
 protected:
   CLHEP::HepMatrix _q = CLHEP::HepMatrix(3,3);
   CLHEP::HepVector _p = CLHEP::HepVector(3);
   double _r = 0;
+
+  std::string ValueToStringPretty(double val, std::string term);
 
 };

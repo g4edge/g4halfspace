@@ -1,4 +1,5 @@
 #include "G4HalfSpaceQuadric.hh"
+#include "G4HalfSpaceRotation.hh"
 
 #include "G4Ellipsoid.hh"
 
@@ -30,6 +31,8 @@ G4HalfSpaceQuadric::G4HalfSpaceQuadric(CLHEP::HepMatrix &q,
                                        CLHEP::HepVector &p,
                                        double r) : _q(q), _p(p), _r(r) {}
 
+G4HalfSpaceQuadric::G4HalfSpaceQuadric(const G4HalfSpaceQuadric &other) :
+  _q(other._q), _p(other._p), _r(other._r) {}
 
 G4double G4HalfSpaceQuadric::Sdf(const G4ThreeVector&p) const {
 
@@ -136,6 +139,17 @@ void G4HalfSpaceQuadric::Transform(const G4AffineTransform& a) {
 
 G4SurfaceMeshCGAL* G4HalfSpaceQuadric::GetSurfaceMesh() {
 
+  //
+  G4cout << ToStringEquation() << G4endl;
+
+  // determine rotation of quadric
+  G4ThreeVector evals;
+  auto evecs = GetRotationFromQuadraticForm(evals);
+
+  G4HalfSpaceRotation rot = G4HalfSpaceRotation(evecs);
+  G4cout << rot.ToString() << G4endl;
+
+
   std::cout << "G4HalfSpaceQuadric::GetSurfaceMesh" << std::endl;
   G4Ellipsoid t = G4Ellipsoid("test", 10, 20, 30);
   G4Polyhedron *g4poly = t.GetPolyhedron();
@@ -151,34 +165,42 @@ CLHEP::HepMatrix G4HalfSpaceQuadric::GetRotationFromQuadraticForm(G4ThreeVector 
            _q(2,1), _q(2,2), _q(2,3),
            _q(3,1), _q(3,2), _q(3,3);
 
-  Eigen::EigenSolver<Eigen::Matrix3d> stemp(mtemp);
+  Eigen::SelfAdjointEigenSolver<Eigen::Matrix3d> stemp(mtemp);
 
   Eigen::Vector3d eigenvalues = stemp.eigenvalues().real();
   Eigen::Matrix3d eigenvectors = stemp.eigenvectors().real();
+
+  //if (eigenvectors.determinant() < 0) eigenvectors.col(0) *= -1;
 
   if (stemp.info() != Eigen::Success) {
     std::cerr << "Error: Eigenvalue computation failed!" << std::endl;
   }
 
-  G4cout << "Eigenvalues:\n" << eigenvalues << G4endl;
-  G4cout << "Eigenvectors:\n" << eigenvectors << G4endl;
+  Eigen::MatrixXd eigenvectors_reordered(eigenvectors.rows(), eigenvectors.cols());
+  Eigen::Vector3d eigenvalues_reordered(eigenvalues.size());
+  for (int j = 0; j< eigenvectors.cols(); j++) {
+      eigenvectors_reordered.col(2-j) = eigenvectors.col(j);
+      eigenvalues_reordered(2-j) = eigenvalues[j];
+  }
 
-
-  g4_eigenvalues.set(eigenvalues[0],eigenvalues[1],eigenvalues[2]);
+  G4cout << "Eigenvalues:\n" << eigenvalues_reordered << G4endl;
+  G4cout << "Eigenvectors:\n" << eigenvectors_reordered << G4endl;
+  G4cout << "Determinant:" << eigenvectors_reordered.determinant() << G4endl;
+  g4_eigenvalues.set(eigenvalues[2],eigenvalues[1],eigenvalues[0]);
 
   CLHEP::HepMatrix g4_eigenvectors = CLHEP::HepMatrix(3,3);
 
-  g4_eigenvectors(1,1) = eigenvectors(0,0);
-  g4_eigenvectors(1,2) = eigenvectors(0,1);
-  g4_eigenvectors(1,3) = eigenvectors(0,2);
+  g4_eigenvectors(1,1) = eigenvectors_reordered(0,0);
+  g4_eigenvectors(1,2) = eigenvectors_reordered(0,1);
+  g4_eigenvectors(1,3) = eigenvectors_reordered(0,2);
 
-  g4_eigenvectors(2,1) = eigenvectors(1,0);
-  g4_eigenvectors(2,2) = eigenvectors(1,1);
-  g4_eigenvectors(2,3) = eigenvectors(1,2);
+  g4_eigenvectors(2,1) = eigenvectors_reordered(1,0);
+  g4_eigenvectors(2,2) = eigenvectors_reordered(1,1);
+  g4_eigenvectors(2,3) = eigenvectors_reordered(1,2);
 
-  g4_eigenvectors(3,1) = eigenvectors(2,0);
-  g4_eigenvectors(3,2) = eigenvectors(2,1);
-  g4_eigenvectors(3,3) = eigenvectors(2,2);
+  g4_eigenvectors(3,1) = eigenvectors_reordered(2,0);
+  g4_eigenvectors(3,2) = eigenvectors_reordered(2,1);
+  g4_eigenvectors(3,3) = eigenvectors_reordered(2,2);
 
   return g4_eigenvectors;
 
@@ -186,4 +208,38 @@ CLHEP::HepMatrix G4HalfSpaceQuadric::GetRotationFromQuadraticForm(G4ThreeVector 
 
 G4ThreeVector G4HalfSpaceQuadric::GetTranslationFromQuadricEqn() {
   return G4ThreeVector();
+}
+
+std::string G4HalfSpaceQuadric::ToStringEquation() {
+  std::stringstream ss;
+
+  ss << ValueToStringPretty(_q(1,1), "x^2")
+     << ValueToStringPretty(_q(2,2), "y^2")
+     << ValueToStringPretty(_q(3,3), "z^2")
+     << ValueToStringPretty(_q(1,2) + _q(2,1), "xy")
+     << ValueToStringPretty(_q(1,3) + _q(3,1), "xz")
+     << ValueToStringPretty(_q(2,3) + _q(3,2), "yz")
+     << ValueToStringPretty(_p(1), "x")
+     << ValueToStringPretty(_p(2), "y")
+     << ValueToStringPretty(_p(3), "z")
+     << ValueToStringPretty(_r, "");
+
+  return ss.str();
+}
+
+std::string G4HalfSpaceQuadric::ValueToStringPretty(double val, std::string term) {
+  std::stringstream ss;
+
+  if(val > 0) {
+    ss << "+" << val;
+    if(term != "")
+      ss << "*" << term;
+  }
+  else if(val < 0) {
+    ss << val;
+    if(term != "")
+      ss << "*" << term;
+  }
+
+  return ss.str();
 }
