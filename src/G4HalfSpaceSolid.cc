@@ -94,7 +94,7 @@ G4bool G4HalfSpaceSolid::CalculateExtent(const EAxis pAxis,
 
 EInside G4HalfSpaceSolid::Inside(const G4ThreeVector& p) const {
 
-    G4double sdf = Sdf(p);
+  G4double sdf = Sdf(p);
 
   if (sdf < -kCarTolerance/2.0) {
     return kInside;
