@@ -54,7 +54,11 @@ set(TEST-INPUTS 00_trans.txt 01_aarbox.txt 02_aarbox_od.txt 03_rbox.txt 04_rbox_
                 13_arbitrary_od.txt 14_plane.txt 15_xplane.txt 16_yplane.txt 17_zplane.txt
                 18_circularcylinder.txt 19_xacircularcylinder.txt 20_yacircularcylinder.txt
                 21_zacircularcylinder.txt 22_ellipticalcylinder.txt 23_xaellipticalcylinder.txt
-                24_yaellipticalcylinder.txt 25_zaellipticalcylinder.txt 26_quadric.txt)
+                24_yaellipticalcylinder.txt 25_zaellipticalcylinder.txt 26_quadric.txt
+		        27_quadric_ellipsoid.txt 28_quadric_elliptic_paraboloid.txt 29_quadric_hyperbolic_paraboloid.txt
+                30_quadric_hyperboloid_onesheet.txt 31_quadric_hyperboloid_twosheet.txt
+                32_quadric_elliptic_cone.txt 33_quadric_elliptic_cylinder.txt
+                34_quadric_hyperbolic_cylinder.txt 35_quadric_parabolic_cylinder.txt)
 foreach(_input ${TEST-INPUTS})
   configure_file(
           ${PROJECT_SOURCE_DIR}/test-input/${_input}
