@@ -150,7 +150,7 @@ G4SurfaceMeshCGAL* G4HalfSpaceQuadric::GetSurfaceMesh() {
   G4cout << rot.ToString() << G4endl;
 
   // mesh quadric
-  return make_mesh(*this, 200*200);
+  return make_mesh(*this, 500*500);
 
   //std::cout << "G4HalfSpaceQuadric::GetSurfaceMesh" << std::endl;
   //G4Ellipsoid t = G4Ellipsoid("test", 10, 20, 30);
