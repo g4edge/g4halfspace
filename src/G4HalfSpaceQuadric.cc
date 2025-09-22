@@ -92,8 +92,6 @@ void G4HalfSpaceQuadric::Translate(const G4ThreeVector& t3v) {
 
   _p = pp;
   _r = rp;
-
-
 }
 
 void G4HalfSpaceQuadric::Rotate(const G4ThreeVector &rv) {
@@ -140,24 +138,25 @@ void G4HalfSpaceQuadric::Transform(const G4AffineTransform& a) {
 
 G4SurfaceMeshCGAL* G4HalfSpaceQuadric::GetSurfaceMesh() {
 
-  //
-  G4cout << ToStringEquation() << G4endl;
-
+#if 0
   // determine rotation of quadric
+  G4cout << ToStringEquation() << G4endl;
   G4ThreeVector evals;
   auto evecs = GetRotationFromQuadraticForm(evals);
   G4HalfSpaceRotation rot = G4HalfSpaceRotation(evecs);
   G4cout << rot.ToString() << G4endl;
+  std::cout << "G4HalfSpaceQuadric::GetSurfaceMesh" << std::endl;
+  G4Ellipsoid t = G4Ellipsoid("test", 10, 20, 30);
+  G4Polyhedron *g4poly = t.GetPolyhedron();
+  G4SurfaceMeshCGAL *sm = new G4SurfaceMeshCGAL();
+  sm->Fill(g4poly);
+  return sm;
+#endif
 
-  // mesh quadric
-  return make_mesh(*this, 500*500);
+  // mesh quadric mesh
+  return make_mesh(*this, 2000*2000);
 
-  //std::cout << "G4HalfSpaceQuadric::GetSurfaceMesh" << std::endl;
-  //G4Ellipsoid t = G4Ellipsoid("test", 10, 20, 30);
-  //G4Polyhedron *g4poly = t.GetPolyhedron();
-  //G4SurfaceMeshCGAL *sm = new G4SurfaceMeshCGAL();
-  //sm->Fill(g4poly);
-  //return sm;
+
 }
 
 CLHEP::HepMatrix G4HalfSpaceQuadric::GetRotationFromQuadraticForm(G4ThreeVector &g4_eigenvalues) {

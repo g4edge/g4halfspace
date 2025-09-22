@@ -2,7 +2,17 @@
 
 #include "PrimaryGeneratorAction.hh"
 
-ActionInitialization::ActionInitialization() : G4VUserActionInitialization() {}
+#include "G4HalfSpaceTest.hh"
+
+ActionInitialization::ActionInitialization() :
+  G4VUserActionInitialization(),
+  _test(nullptr)
+{}
+
+ActionInitialization::ActionInitialization(G4HalfSpaceTest *test) :
+  G4VUserActionInitialization(),
+  _test(test)
+{}
 
 ActionInitialization::~ActionInitialization() {}
 
@@ -10,5 +20,10 @@ void ActionInitialization::BuildForMaster() const {}
 
 void ActionInitialization::Build() const
 {
-  SetUserAction(new PrimaryGeneratorAction);
+  if(_test == nullptr) {
+    SetUserAction(new PrimaryGeneratorAction());
+  }
+  else {
+    SetUserAction(new PrimaryGeneratorAction(_test));
+  }
 }

@@ -1,44 +1,44 @@
 trans  0 0 0 0 0 0 0
-trans  1 25 0 0 0 0 0
-trans  2 0 25 0 0 0 0
-trans  3 0 0 25 0 0 0
+trans  1 300 0 0 0 0 0
+trans  2 0 300 0 0 0 0
+trans  3 0 0 300 0 0 0
 trans  4 0 0 0 45 0 0
 trans  5 0 0 0 0 45 0
 trans  6 0 0 0 0 0 45
-trans  7 0 0 25 45 0 0
+trans  7 0 0 300 45 0 0
 
-ellipsoid 0    0   0 -25      0   0 25    75 -1
-ellipsoid 1    0 -10 -25      0  10 25    75 -1
-ellipsoid 2  -25   0 -25    -25   0 25    75 -1
-ellipsoid 3    0 -25 -25      0 -25 25    75 -1
-ellipsoid 4    0   0 -50      0   0  0    75 -1
+ellipsoid 0    0     0 -250       0    0 250    750 -1
+ellipsoid 1    0  -100 -250       0  100 250    750 -1
+ellipsoid 2 -250     0 -250    -250    0 250    750 -1
+ellipsoid 3    0  -250 -250       0 -250 250    750 -1
+ellipsoid 4    0   0   -500       0    0   0    750 -1
 
-ellipsoid 20   0   0 -25      0 0 25    75 0
-ellipsoid 21   0   0 -25      0 0 25    75 1
-ellipsoid 22   0   0 -25      0 0 25    75 2
-ellipsoid 23   0   0 -25      0 0 25    75 3
-ellipsoid 24   0   0 -25      0 0 25    75 4
-ellipsoid 25   0   0 -25      0 0 25    75 5
-ellipsoid 26   0   0 -25      0 0 25    75 6
-ellipsoid 27   0   0 -25      0 0 25    75 7
+ellipsoid 20   0   0 -250      0 0 250    750 0
+ellipsoid 21   0   0 -250      0 0 250    750 1
+ellipsoid 22   0   0 -250      0 0 250    750 2
+ellipsoid 23   0   0 -250      0 0 250    750 3
+ellipsoid 24   0   0 -250      0 0 250    750 4
+ellipsoid 25   0   0 -250      0 0 250    750 5
+ellipsoid 26   0   0 -250      0 0 250    750 6
+ellipsoid 27   0   0 -250      0 0 250    750 7
 
-ellipsoid 30   0 -25   0      0 25 0    75 0
-ellipsoid 31   0 -25   0      0 25 0    75 1
-ellipsoid 32   0 -25   0      0 25 0    75 2
-ellipsoid 33   0 -25   0      0 25 0    75 3
-ellipsoid 34   0 -25   0      0 25 0    75 4
-ellipsoid 35   0 -25   0      0 25 0    75 5
-ellipsoid 36   0 -25   0      0 25 0    75 6
-ellipsoid 37   0 -25   0      0 25 0    75 7
+ellipsoid 30   0 -250   0      0 250 0    750 0
+ellipsoid 31   0 -250   0      0 250 0    750 1
+ellipsoid 32   0 -250   0      0 250 0    750 2
+ellipsoid 33   0 -250   0      0 250 0    750 3
+ellipsoid 34   0 -250   0      0 250 0    750 4
+ellipsoid 35   0 -250   0      0 250 0    750 5
+ellipsoid 36   0 -250   0      0 250 0    750 6
+ellipsoid 37   0 -250   0      0 250 0    750 7
 
-ellipsoid 40 -25   0   0     25  0 0    75 0
-ellipsoid 41 -25   0   0     25  0 0    75 1
-ellipsoid 42 -25   0   0     25  0 0    75 2
-ellipsoid 43 -25   0   0     25  0 0    75 3
-ellipsoid 44 -25   0   0     25  0 0    75 4
-ellipsoid 45 -25   0   0     25  0 0    75 5
-ellipsoid 46 -25   0   0     25  0 0    75 6
-ellipsoid 47 -25   0   0     25  0 0    75 7
+ellipsoid 40 -250   0   0     250  0 0    750 0
+ellipsoid 41 -250   0   0     250  0 0    750 1
+ellipsoid 42 -250   0   0     250  0 0    750 2
+ellipsoid 43 -250   0   0     250  0 0    750 3
+ellipsoid 44 -250   0   0     250  0 0    750 4
+ellipsoid 45 -250   0   0     250  0 0    750 5
+ellipsoid 46 -250   0   0     250  0 0    750 6
+ellipsoid 47 -250   0   0     250  0 0    750 7
 
 region 0 |+0|
 region 1 |+1|

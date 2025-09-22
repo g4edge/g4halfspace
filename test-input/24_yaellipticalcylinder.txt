@@ -1,24 +1,24 @@
 trans  0 0 0 0 0 0 0
-trans  1 30 0 0 0 0 0
-trans  2 0 30 0 0 0 0
-trans  3 0 0 30 0 0 0
+trans  1 300 0 0 0 0 0
+trans  2 0 300 0 0 0 0
+trans  3 0 0 300 0 0 0
 trans  4 0 0 0 45 0 0
 trans  5 0 0 0 0 45 0
 trans  6 0 0 0 0 0 45
-trans  7 0 0 25 45 0 0
+trans  7 0 0 300 45 0 0
 
-aarbox 0 -100 100    -100 100    -100 100    -1
+aarbox 0 -500 500    -500 500    -500 500    -1
 
-yaex 1   0 0 10 30 -1
+yaec 1   0 0 100 300 -1
 
-yaex 20  0 0 10 30 0
-yaex 21  0 0 10 30 1
-yaex 22  0 0 10 30 2
-yaex 23  0 0 10 30 3
-yaex 24  0 0 10 30 4
-yaex 25  0 0 10 30 5
-yaex 26  0 0 10 30 6
-yaex 27  0 0 10 30 7
+yaec 20  0 0 100 300 0
+yaec 21  0 0 100 300 1
+yaec 22  0 0 100 300 2
+yaec 23  0 0 100 300 3
+yaec 24  0 0 100 300 4
+yaec 25  0 0 100 300 5
+yaec 26  0 0 100 300 6
+yaec 27  0 0 100 300 7
 
 region 0 |+0|
 region 1 |+0 +1|
@@ -31,3 +31,5 @@ region 24 |+0 +24|
 region 25 |+0 +25|
 region 26 |+0 +26|
 region 27 |+0 +27|
+
+test 0 25_yaellipticalcylinder.dat zdir 0 0 -900 1

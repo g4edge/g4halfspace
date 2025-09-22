@@ -27,12 +27,17 @@ int main(int argc, char** argv)
 {
   auto hsr = G4HalfSpaceReader(argv[1]);
   auto hs_region = std::stoi(argv[2]);
+  auto hs_test = std::stoi(argv[3]);
 
   auto* runManager = G4RunManagerFactory::CreateRunManager();
 
-  runManager->SetUserInitialization(new DetectorConstruction(hsr.GetSolid(hs_region)));
+  auto solid = hsr.GetSolid(hs_region);
+  auto test = hsr.GetTest(hs_test);
+  solid->AddTestInstrument(test);
+
+  runManager->SetUserInitialization(new DetectorConstruction(solid));
+  runManager->SetUserInitialization(new ActionInitialization(test));
   runManager->SetUserInitialization(new FTFP_BERT);
-  runManager->SetUserInitialization(new ActionInitialization());
 
   runManager->Initialize();
 
@@ -45,10 +50,10 @@ int main(int argc, char** argv)
 
   runManager->BeamOn(0);
 
-  if (argc == 4)  // batch mode
+  if (argc == 5)  // batch mode
   {
       G4String command = "/control/execute ";
-      G4String fileName = argv[3];
+      G4String fileName = argv[4];
       UImanager->ApplyCommand(command + fileName);
   }
   else  // interactive mode
@@ -58,6 +63,9 @@ int main(int argc, char** argv)
       ui->SessionStart();
       delete ui;
   }
+
+  if(test != nullptr)
+    test->print_data();
 
   delete visManager;
   delete runManager;

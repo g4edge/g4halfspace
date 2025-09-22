@@ -2,6 +2,7 @@
 
 #include "G4VSolid.hh"
 #include "G4HalfSpaceZone.hh"
+#include "G4HalfSpaceTest.hh"
 
 class G4HalfSpaceSolid : public G4VSolid, G4VHalfSpace {
 public:
@@ -43,7 +44,9 @@ public:
   virtual std::ostream& StreamInfo(std::ostream& os) const  override;
   virtual void DescribeYourselfTo (G4VGraphicsScene& scene) const override;
 
+  void AddTestInstrument(G4HalfSpaceTest *test);
 protected:
   std::vector<G4HalfSpaceZone*> _zones;
 
+  G4HalfSpaceTest *_test = nullptr;
 };

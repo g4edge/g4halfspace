@@ -1,24 +1,24 @@
 trans  0 0 0 0 0 0 0
-trans  1 30 0 0 0 0 0
-trans  2 0 30 0 0 0 0
-trans  3 0 0 30 0 0 0
+trans  1 300 0 0 0 0 0
+trans  2 0 300 0 0 0 0
+trans  3 0 0 300 0 0 0
 trans  4 0 0 0 45 0 0
 trans  5 0 0 0 0 45 0
 trans  6 0 0 0 0 0 45
-trans  7 0 0 25 45 0 0
+trans  7 0 0 300 45 0 0
 
-aarbox 0 -100 100    -100 100    -100 100    -1
+aarbox 0 -500 500    -500 500    -500 500    -1
 
-yacc 1  0 0 30 -1
+yacc 1  0 0 300 -1
 
-yacc 20  0 0 30 0
-yacc 21  0 0 30 1
-yacc 22  0 0 30 2
-yacc 23  0 0 30 3
-yacc 24  0 0 30 4
-yacc 25  0 0 30 5
-yacc 26  0 0 30 6
-yacc 27  0 0 30 7
+yacc 20  0 0 300 0
+yacc 21  0 0 300 1
+yacc 22  0 0 300 2
+yacc 23  0 0 300 3
+yacc 24  0 0 300 4
+yacc 25  0 0 300 5
+yacc 26  0 0 300 6
+yacc 27  0 0 300 7
 
 region 0 |+0|
 region 1 |+0 +1|

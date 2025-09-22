@@ -20,6 +20,7 @@ G4HalfSpaceCircularCone::G4HalfSpaceCircularCone(const G4ThreeVector &v,
 G4HalfSpaceCircularCone::G4HalfSpaceCircularCone(G4double h, G4double r1, G4double r2,
                                                  const G4ThreeVector &c, const G4ThreeVector &r)
 {
+  std::cout << c << " " << r << std::endl;
   _r1 = r1;
   _r2 = r2;
   auto t = G4HalfSpaceTransformation(c, r);

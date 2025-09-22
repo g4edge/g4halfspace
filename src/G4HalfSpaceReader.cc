@@ -32,6 +32,7 @@
 #include "G4HalfSpaceZAEllipticalCylinder.hh"
 #include "G4HalfSpaceQuadric.hh"
 #include "G4HalfSpacePlane.hh"
+#include "G4HalfSpaceTest.hh"
 
 std::vector<std::string> split(const std::string &s, char delim) {
   std::vector<std::string> result;
@@ -52,6 +53,10 @@ G4HalfSpaceReader::G4HalfSpaceReader(const G4String &file_name) {
 
 G4HalfSpaceSolid* G4HalfSpaceReader::GetSolid(size_t region) {
   return hs_solid_map[region];
+}
+
+G4HalfSpaceTest* G4HalfSpaceReader::GetTest(size_t test) {
+  return hs_test_map[test];
 }
 
 void G4HalfSpaceReader::Read(const G4String &file_name) {
@@ -184,8 +189,8 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       double h, r1, r2, vx, vy, vz, rx, ry, rz;
       ifstr >> surface_id >> h >> r1 >> r2 >> vx >> vy >> vz >> rx >> ry >> rz >> trans_id;
        auto solid = new G4HalfSpaceCircularCone(h, r1, r2,
-                                                               G4ThreeVector(vx,vy,vz),
-                                                               G4ThreeVector(rx,ry,rz));
+                                                G4ThreeVector(vx,vy,vz),
+                                                G4ThreeVector(rx,ry,rz));
       if (trans_id > -1) {
         auto t = hs_trans_map[trans_id];
         solid->Rotate(t->GetRotationMatrix());
@@ -614,6 +619,23 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
         hs_solid->AddZone(zone);
       }
       std::cout << std::endl;
+    }
+    else if(key == "test") {
+      size_t test_id;
+      std::string test_file_name;
+      std::string type;
+      double source_position_x, source_position_y, source_position_z;
+      std::size_t ntest;
+
+      ifstr >> test_id >> test_file_name >> type >> source_position_x >> source_position_y >> source_position_z >> ntest;
+
+      auto test = new G4HalfSpaceTest(test_file_name,
+                                      G4HalfSpaceTest::type_from_string(type),
+                                      G4ThreeVector(source_position_x, source_position_y, source_position_z),
+                                      ntest);
+      hs_test_map[test_id] = test;
+
+
     }
     else {
       G4cout << "G4HalfSpaceReader::Read key not found " << key << " line " << iLineNumber << G4endl;

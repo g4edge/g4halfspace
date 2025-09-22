@@ -96,26 +96,53 @@ EInside G4HalfSpaceSolid::Inside(const G4ThreeVector& p) const {
 
   G4double sdf = Sdf(p);
 
+  G4HalfSpaceTestDataEntry *data = new G4HalfSpaceTestDataEntry();
+  data->_type = G4HalfSpaceTestDataEntry::Type::Inside;
+  data->_position = p;
+  if(_test != nullptr) {
+    _test->add_data(data);
+  }
+
   if (sdf < -kCarTolerance/2.0) {
+    data->_inside = kInside;
     return kInside;
   }
   else if (fabs(sdf) < kCarTolerance/2.0) {
+    data->_inside = kSurface;
     return kSurface;
   }
   else {
+    data->_inside = kOutside;
     return kOutside;
   }
 }
 
 G4ThreeVector G4HalfSpaceSolid::SurfaceNormal(const G4ThreeVector& p) const {
+  G4HalfSpaceTestDataEntry *data = new G4HalfSpaceTestDataEntry();
+  data->_type = G4HalfSpaceTestDataEntry::Type::Normal;
+  data->_position = p;
+  if(_test != nullptr) {
+    _test->add_data(data);
+  }
+  data->_normal = Normal(p,1e-5);
+
   return Normal(p,1e-5);
 }
 
 G4double G4HalfSpaceSolid::DistanceToIn(const G4ThreeVector& p,
                                         const G4ThreeVector& v) const {
+  G4HalfSpaceTestDataEntry *data = new G4HalfSpaceTestDataEntry();
+  data->_type = G4HalfSpaceTestDataEntry::Type::DistanceToInDir;
+  data->_position = p;
+  data->_direction = v;
+  if(_test != nullptr) {
+    _test->add_data(data);
+  }
+
   G4ThreeVector i2;
 
   if (Inside(p) == EInside::kInside) {
+    data->_distance = 0;
     return 0;
   }
 
@@ -142,24 +169,40 @@ G4double G4HalfSpaceSolid::DistanceToIn(const G4ThreeVector& p,
   });
   std::sort(inter.begin(), inter.end(), g4tvSort);
 
-  //if(inter.size() > 0) {
+  data->_ntrialintersections = trialInter.size();
+  data->_nintersections = inter.size();
+
   for(auto i : inter) {
     if (SurfaceNormal(i).dot(v) <= 0) {
+      data->_distance = (i - p).mag();
       return (i - p).mag();
     }
   }
 
+  data->_distance = kInfinity;
   return kInfinity;
 }
 
 G4double G4HalfSpaceSolid::DistanceToIn(const G4ThreeVector& p) const {
 
+  G4HalfSpaceTestDataEntry *data = new G4HalfSpaceTestDataEntry();
+  data->_type = G4HalfSpaceTestDataEntry::Type::DistanceToIn;
+  data->_position = p;
+  if(_test != nullptr) {
+    _test->add_data(data);
+  }
+
+  data->_distance = 0;
+  return 0;
+
   G4double distToIn = Sdf(p);
 
   if(distToIn >= 0 ) {
+    data->_distance = distToIn;
     return distToIn;
   }
   else {
+    data->_distance = 0;
     return 0;
   }
 }
@@ -170,7 +213,16 @@ G4double G4HalfSpaceSolid::DistanceToOut(const G4ThreeVector& p,
                                          G4bool* validNorm,
                                          G4ThreeVector* n) const {
 
+  G4HalfSpaceTestDataEntry *data = new G4HalfSpaceTestDataEntry();
+  data->_type = G4HalfSpaceTestDataEntry::Type::DistanceToOutDir;
+  data->_position = p;
+  data->_direction = v;
+  if(_test != nullptr) {
+    _test->add_data(data);
+  }
+
   if(Inside(p) == EInside::kOutside) {
+    data->_distance = 0;
     return 0;
   }
 
@@ -199,22 +251,40 @@ G4double G4HalfSpaceSolid::DistanceToOut(const G4ThreeVector& p,
   });
   std::sort(inter.begin(), inter.end(), g4tvSort);
 
+  data->_ntrialintersections = trialInter.size();
+  data->_nintersections = inter.size();
+
   for(auto i : inter) {
     if (SurfaceNormal(i).dot(v) >= 0) {
+      data->_distance = (i-p).mag();
       return (i-p).mag();
     }
   }
 
+  data->_distance = 0;
   return 0;
 }
 
 G4double G4HalfSpaceSolid::DistanceToOut(const G4ThreeVector& p) const {
-    G4double distToOut= Sdf(p);
+
+  G4HalfSpaceTestDataEntry *data = new G4HalfSpaceTestDataEntry();
+  data->_type = G4HalfSpaceTestDataEntry::Type::DistanceToOut;
+  data->_position = p;
+  if(_test != nullptr) {
+    _test->add_data(data);
+  }
+
+  data->_distance = 0;
+  return 0;
+
+  G4double distToOut= Sdf(p);
 
   if(distToOut < 0 ) {
+    data->_distance = fabs(distToOut);
     return fabs(distToOut);
   }
   else {
+    data->_distance = 0;
     return 0;
   }
 }
@@ -235,4 +305,8 @@ void G4HalfSpaceSolid::DescribeYourselfTo(G4VGraphicsScene& scene) const {
   scene.AddPrimitive(*((G4Polyhedron*)ph));
 
   return;
+}
+
+void G4HalfSpaceSolid::AddTestInstrument(G4HalfSpaceTest *test) {
+  _test = test;
 }

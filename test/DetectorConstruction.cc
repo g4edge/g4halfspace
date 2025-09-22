@@ -25,7 +25,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct() {
 
   //////////////////////////////
   // Envelope parameters
-  G4double env_sizeXY = 20*cm, env_sizeZ = 30*cm;
+  G4double env_sizeXY = 1000*cm, env_sizeZ = 1000*cm;
   G4Material* env_mat = nist->FindOrBuildMaterial("G4_Al");
 
   //////////////////////////////

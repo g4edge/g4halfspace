@@ -33,6 +33,12 @@ void G4VHalfSpace::QuadraticSolve(G4double a, G4double b, G4double c,
   x1 = 0;
   x2 = 0;
 
+  if(a == 0) {
+    nSoln = 1;
+    x1 = -c/b;
+    return;
+  }
+
   auto des = b*b - 4*a*c;
   if(des < 0 ) {
     return;

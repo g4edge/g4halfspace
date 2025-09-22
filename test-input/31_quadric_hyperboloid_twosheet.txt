@@ -8,7 +8,7 @@ trans  6 0 0 0 0 0 45
 trans  7 0 0 25 45 0 0
 
 quadric  0 0.01 0 0 0.0025 0 0.0011 0 0 0 -1 -1
-aarbox  1 -100 100    -100 100    -100 100    -1
+aarbox  1 -500 500    -500 500    -500 500    -1
 
 quadric 20 0.0025 0 0 0.0025 0 -0.0025 0 0 0 1 0
 quadric 21 0.0025 0 0 0.0025 0 -0.0025 0 0 0 1 1
@@ -21,11 +21,13 @@ quadric 27 0.0025 0 0 0.0025 0 -0.0025 0 0 0 1 7
 
 region 0 |+0|
 
-region 20 |+20|
-region 21 |+21|
-region 22 |+22|
-region 23 |+23|
-region 24 |+24|
-region 25 |+25|
-region 26 |+26|
-region 27 |+27|
+region 20 |+1 +20|
+region 21 |+1 +21|
+region 22 |+1 +22|
+region 23 |+1 +23|
+region 24 |+1 +24|
+region 25 |+1 +25|
+region 26 |+1 +26|
+region 27 |+1 +27|
+
+test 0 31_quadric_hyperboloid_twpsheet.dat zdir 0 0 -900 1

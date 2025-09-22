@@ -1,24 +1,24 @@
 trans  0 0 0 0 0 0 0
-trans  1 30 0 0 0 0 0
-trans  2 0 30 0 0 0 0
-trans  3 0 0 30 0 0 0
+trans  1 300 0 0 0 0 0
+trans  2 0 300 0 0 0 0
+trans  3 0 0 300 0 0 0
 trans  4 0 0 0 45 0 0
 trans  5 0 0 0 0 45 0
 trans  6 0 0 0 0 0 45
-trans  7 0 0 25 45 0 0
+trans  7 0 0 300 45 0 0
 
-aarbox 0 -100 100    -100 100    -100 100    -1
+aarbox 0 -500 500    -500 500    -500 500    -1
 
-zacc 1  0 0 30 -1
+zacc 1  0 0 300 -1
 
-zacc 20  0 0 30 0
-zacc 21  0 0 30 1
-zacc 22  0 0 30 2
-zacc 23  0 0 30 3
-zacc 24  0 0 30 4
-zacc 25  0 0 30 5
-zacc 26  0 0 30 6
-zacc 27  0 0 30 7
+zacc 20  0 0 300 0
+zacc 21  0 0 300 1
+zacc 22  0 0 300 2
+zacc 23  0 0 300 3
+zacc 24  0 0 300 4
+zacc 25  0 0 300 5
+zacc 26  0 0 300 6
+zacc 27  0 0 300 7
 
 region 0 |+0|
 region 1 |+0 +1|
