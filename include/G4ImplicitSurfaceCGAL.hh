@@ -9,6 +9,8 @@
 #include <CGAL/IO/facets_in_complex_2_to_triangle_mesh.h>
 #include <CGAL/Surface_mesh.h>
 #include <CGAL/Polygon_mesh_processing/orientation.h>
+#include <CGAL/Polygon_mesh_processing/compute_normal.h>
+
 
 
 // default triangulation for Surface_mesher
@@ -22,6 +24,8 @@ typedef FT_GT (*Function)(Point_3_GT);
 
 typedef CGAL::Implicit_surface_3<GT, Function> Surface_3_GT;
 typedef CGAL::Surface_mesh<Point_3_GT> Surface_mesh_GT;
+
+namespace PMP = CGAL::Polygon_mesh_processing;
 
 class G4HalfSpaceQuadric;
 class G4SurfaceMeshCGAL;

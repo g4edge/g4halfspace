@@ -26,12 +26,28 @@ G4SurfaceMeshCGAL* make_mesh(G4HalfSpaceQuadric &quadric, double sphere_size) {
                                                      10,  // radius bound
                                                      10); // distance bound
   // meshing surface
-  CGAL::make_surface_mesh(c2t3, surface, criteria, CGAL::Non_manifold_tag());
+  //CGAL::make_surface_mesh(c2t3, surface, criteria, CGAL::Non_manifold_tag());
+  CGAL::make_surface_mesh(c2t3, surface, criteria, CGAL::Manifold_with_boundary_tag());
 
   Surface_mesh_3 *sm = new Surface_mesh_3();
   CGAL::facets_in_complex_2_to_triangle_mesh(c2t3, *sm);
   std::cout << "G4ImplicitSufaceCGAL Final number of points: " << tr.number_of_vertices() << "\n";
-  CGAL::Polygon_mesh_processing::reverse_face_orientations(*sm);
+
+  // get mesh point, offset by normal and evaluate implicit function
+  Surface_mesh_3::Face_index face_index;
+  face_index = *(sm->faces().begin());
+  auto vertex = sm->point(*CGAL::vertices_around_face(sm->halfedge(face_index), *sm).begin());
+  auto normal = PMP::compute_face_normal(face_index, *sm);
+
+  auto displaced = vertex + normal;
+
+  auto sgn = quadric.Sdf(G4ThreeVector(CGAL::to_double(displaced.x()),
+                                                 CGAL::to_double(displaced.y()),
+                                                 CGAL::to_double(displaced.z())));
+
+  if (sgn < 0)
+    CGAL::Polygon_mesh_processing::reverse_face_orientations(*sm);
+
   G4SurfaceMeshCGAL *g4_sm = new G4SurfaceMeshCGAL(sm);
   delete sm;
 
