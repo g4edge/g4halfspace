@@ -71,6 +71,7 @@ void G4HalfSpaceRBox::ComputePlanes() {
   n3 = n3/n3.mag();
   n4 = n4/n4.mag();
   n5 = n5/n5.mag();
+  n6 = n6/n6.mag();
 
   _hsZone = new G4HalfSpaceZone();
   auto pl1 = new G4HalfSpacePlane(n1,p1);
