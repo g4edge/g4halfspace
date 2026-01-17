@@ -45,9 +45,9 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
     if(_test == nullptr) {
       G4ThreeVector v(0, 0, 1);
       fParticleGun->SetParticlePosition(
-        G4ThreeVector(900 * (G4UniformRand() - 0.5) * mm,
-                      900 * (G4UniformRand() - 0.5) * mm,
-                      -900 * mm));
+        G4ThreeVector(1100 * (G4UniformRand() - 0.5) * mm,
+                      1100 * (G4UniformRand() - 0.5) * mm,
+                      -1100 * mm));
       v = v / v.mag();
       fParticleGun->SetParticleMomentumDirection(v);
     }
