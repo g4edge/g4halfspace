@@ -7,7 +7,7 @@ trans  5 0 0 0 0 45 0
 trans  6 0 0 0 0 0 45
 trans  7 0 0 300 45 0 0
 
-quadric  0 0.01 0 0 0.0025 0 0.0011 0 0 0 -1 -1
+quadric 0 1.6e-05 0 0 4e-06 0 1.7778e-06 0 0 0 -1 -1
 aarbox  1 -500 500    -500 500    -500 500    -1
 
 quadric 20 1.6e-05 0 0 4e-06 0 1.7778e-06 0 0 0 -1 0
@@ -30,4 +30,4 @@ region 25 |+25|
 region 26 |+26|
 region 27 |+27|
 
-test 0 27_quadric_ellipsoid.dat zdir 0 0 -900 1
+test 0 27_quadric_ellipsoid.dat zdir 0 0 -1100 1

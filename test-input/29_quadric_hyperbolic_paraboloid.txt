@@ -30,4 +30,4 @@ region 25 |+1 +25|
 region 26 |+1 +26|
 region 27 |+1 +27|
 
-test 0 29_quadric_hyperbolic_paraboloid.dat zdir 0 0 -900 1
+test 0 29_quadric_hyperbolic_paraboloid.dat zdir 0 0 -1100 1
