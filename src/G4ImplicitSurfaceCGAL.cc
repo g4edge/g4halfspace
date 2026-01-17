@@ -39,7 +39,7 @@ G4SurfaceMeshCGAL* make_mesh(G4HalfSpaceQuadric &quadric, double sphere_size) {
   auto vertex = sm->point(*CGAL::vertices_around_face(sm->halfedge(face_index), *sm).begin());
   auto normal = PMP::compute_face_normal(face_index, *sm);
 
-  auto displaced = vertex + normal;
+  auto displaced = vertex + 3*normal;
 
   auto sgn = quadric.Sdf(G4ThreeVector(CGAL::to_double(displaced.x()),
                                        CGAL::to_double(displaced.y()),
