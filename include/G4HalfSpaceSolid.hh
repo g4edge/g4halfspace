@@ -43,6 +43,7 @@ public:
   virtual G4GeometryType  GetEntityType() const  override;
   virtual std::ostream& StreamInfo(std::ostream& os) const  override;
   virtual void DescribeYourselfTo (G4VGraphicsScene& scene) const override;
+  virtual G4ThreeVector GetPointOnSurface() const override;
 
   void AddTestInstrument(G4HalfSpaceTest *test);
 protected:

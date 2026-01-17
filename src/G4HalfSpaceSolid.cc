@@ -307,6 +307,10 @@ void G4HalfSpaceSolid::DescribeYourselfTo(G4VGraphicsScene& scene) const {
   return;
 }
 
+G4ThreeVector G4HalfSpaceSolid::GetPointOnSurface() const {
+  return G4ThreeVector(0,0,0);
+}
+
 void G4HalfSpaceSolid::AddTestInstrument(G4HalfSpaceTest *test) {
   _test = test;
 }
