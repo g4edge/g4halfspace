@@ -53,37 +53,3 @@ G4SurfaceMeshCGAL* make_mesh(G4HalfSpaceQuadric &quadric, double sphere_size) {
 
   return g4_sm;
 }
-
-/*
-G4SurfaceMeshCGAL* make_mesh_new(G4HalfSpaceQuadric &quadric, double sphere_size) {
-  Surface_mesh_EPIC mesh;
-
-  struct Implicit_function {
-    G4HalfSpaceQuadric &hsq;
-
-    Implicit_function(G4HalfSpaceQuadric &hsqIn) : hsq(hsqIn) {}
-
-    typedef FT_EPIC return_type;
-
-    // Example: Sphere of radius 2 centered at origin
-    return_type operator()(const Point_3& p) const {
-      G4ThreeVector g4_p(CGAL::to_double(p.x()),
-                         CGAL::to_double(p.y()),
-                         CGAL::to_double(p.z()));
-      return FT_EPIC(hsq.Sdf(g4_p));
-    }
-  };
-
-  Implicit_function function(quadric);
-  Sphere_3_EPIC bounding_sphere(Point_3(0, 0, 0), sphere_size);
-
-  CGAL::Implicit_surface_3<Kernel_EPIC, Implicit_function> surface(function,
-                                                                   bounding_sphere);
-
-  CGAL::Surface_mesh_default_criteria_3<Kernel_EPIC> criteria(30, 0.1, 0.1);
-  //CGAL::make_surface_mesh(mesh, surface, criteria, CGAL::Manifold_tag());
-
-  G4SurfaceMeshCGAL *g4_sm = new G4SurfaceMeshCGAL(&mesh);
-  return g4_sm;
-}
- */
