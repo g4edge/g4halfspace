@@ -43,10 +43,10 @@ void G4HalfSpaceTest::add_data(G4HalfSpaceTestDataEntry *data) {
 
 void G4HalfSpaceTest::print_data() {
   for(auto d : _data) {
-    std::cout << G4HalfSpaceTestDataEntry::string_from_type(d->_type) << " "
-              << d->_position << " " << d->_direction << " "
-              << " " << (int)d->_inside << " " << d->_distance
-              << " " << d->_normal << " "
-              << d->_ntrialintersections << " " << d->_nintersections << std::endl;
+    G4cout << G4HalfSpaceTestDataEntry::string_from_type(d->_type) << " "
+           << d->_position << " " << d->_direction << " "
+           << " " << (int)d->_inside << " " << d->_distance
+           << " " << d->_normal << " "
+           << d->_ntrialintersections << " " << d->_nintersections << std::endl;
   }
 }

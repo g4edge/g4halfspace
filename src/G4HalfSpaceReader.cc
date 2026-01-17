@@ -69,7 +69,7 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
     iLineNumber++;
 
 #if _DEBUG
-    std::cout << key << std::endl;
+    G4cout << key << std::endl;
 #endif
     if(key[0] == '#') {
       std::string restOfLine;
@@ -592,7 +592,7 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
       std::getline(ifstr, region_boolean);
 
 #if _DEBUG
-      std::cout << "region_id=" << region_id << " " << region_boolean << std::endl;
+      G4cout << "region_id=" << region_id << " " << region_boolean << std::endl;
 #endif
       auto zone = split(region_boolean, '|');
 
@@ -601,7 +601,7 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
 
       for (auto z : zone) {
 #if _DEBUG
-        std::cout << "zone=" << z << std::endl;
+        G4cout << "zone=" << z << std::endl;
 #endif
         // create zone
         auto zone = new G4HalfSpaceZone();
@@ -609,7 +609,7 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
         // create booleans
         for (auto boo: split(z, ' ')) {
 #if _DEBUG
-          std::cout << "bool=" << boo << std::endl;
+          G4cout << "bool=" << boo << std::endl;
 #endif
           if (boo[0] == '+') {
             auto surf_id = std::stoi(boo.substr(1));
@@ -623,7 +623,7 @@ void G4HalfSpaceReader::Read(const G4String &file_name) {
         hs_solid->AddZone(zone);
       }
 #if _DEBUG
-      std::cout << std::endl;
+      G4cout << std::endl;
 #endif
     }
     else if(key == "test") {

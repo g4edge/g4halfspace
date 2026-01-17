@@ -149,7 +149,7 @@ G4SurfaceMeshCGAL* G4HalfSpaceQuadric::GetSurfaceMesh() {
   G4HalfSpaceRotation rot = G4HalfSpaceRotation(evecs);
 #if _DEBUG
   G4cout << rot.ToString() << G4endl;
-  std::cout << "G4HalfSpaceQuadric::GetSurfaceMesh" << std::endl;
+  G4cout << "G4HalfSpaceQuadric::GetSurfaceMesh" << std::endl;
 #endif
   G4Ellipsoid t = G4Ellipsoid("test", 10, 20, 30);
   G4Polyhedron *g4poly = t.GetPolyhedron();

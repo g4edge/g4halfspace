@@ -310,7 +310,7 @@ int G4SurfaceMeshCGAL::NumberOfNonManifoldVertices() {
   {
     if(CGAL::Polygon_mesh_processing::is_non_manifold_vertex(v, sm))
     {
-      std::cout << "vertex " << v << " is non-manifold" << std::endl;
+      G4cout << "vertex " << v << " is non-manifold" << std::endl;
       ++counter;
     }
   }

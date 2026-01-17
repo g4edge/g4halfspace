@@ -53,7 +53,7 @@ G4HalfSpaceArbitrary::G4HalfSpaceArbitrary(const G4ThreeVector &v1,
   _faceVertIndex.insert(_faceVertIndex.end(), fi5d.begin(), fi5d.end());
   _faceVertIndex.insert(_faceVertIndex.end(), fi6d.begin(), fi6d.end());
 
-  std::cout << ToString() << std::endl;
+  G4cout << ToString() << std::endl;
 
   this->ComputePlanes();
 }
@@ -101,7 +101,7 @@ void G4HalfSpaceArbitrary::ComputePlanes() {
 
     auto n = d2.cross(d1);
 
-    std::cout << "(" << planeVertIndices[0] << "," <<  planeVertIndices[1] << "," << planeVertIndices[2] << ") " << fc << " " << pv2 << " " << n << std::endl;
+    G4cout << "(" << planeVertIndices[0] << "," <<  planeVertIndices[1] << "," << planeVertIndices[2] << ") " << fc << " " << pv2 << " " << n << std::endl;
 
     n = n/n.mag();
 

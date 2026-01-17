@@ -8,7 +8,7 @@ FT_GT sphere_function (Point_3_GT p) {
 }
 
 G4SurfaceMeshCGAL* make_mesh(G4HalfSpaceQuadric &quadric, double sphere_size) {
-  std::cout << "G4ImplicitSufaceCGAL make_mesh" << std::endl;
+  G4cout << "G4ImplicitSufaceCGAL make_mesh" << std::endl;
   Tr tr;            // 3D-Delaunay triangulation
   C2t3 c2t3 (tr);   // 2D-complex in 3D-Delaunay triangulation
 
@@ -31,7 +31,7 @@ G4SurfaceMeshCGAL* make_mesh(G4HalfSpaceQuadric &quadric, double sphere_size) {
 
   Surface_mesh_3 *sm = new Surface_mesh_3();
   CGAL::facets_in_complex_2_to_triangle_mesh(c2t3, *sm);
-  std::cout << "G4ImplicitSufaceCGAL Final number of points: " << tr.number_of_vertices() << "\n";
+  G4cout << "G4ImplicitSufaceCGAL Final number of points: " << tr.number_of_vertices() << "\n";
 
   // get mesh point, offset by normal and evaluate implicit function
   Surface_mesh_3::Face_index face_index;

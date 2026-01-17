@@ -67,7 +67,7 @@ void G4VHalfSpace::QuinticSolve(G4double a, G4double b, G4double c, G4double d, 
 
   for(int i =0;i<r.rows();++i)
   {
-    std::cout << i << " " << r[i] << std::endl;
+    G4cout << i << " " << r[i] << std::endl;
   }
 }
 
