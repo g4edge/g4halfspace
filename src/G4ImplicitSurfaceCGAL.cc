@@ -4,7 +4,7 @@
 
 FT_GT sphere_function (Point_3_GT p) {
   const FT_GT x2=p.x()*p.x(), y2=p.y()*p.y(), z2=p.z()*p.z();
-  return x2+y2+z2-10*10;
+  return x2+y2+z2-1000*1000;
 }
 
 G4SurfaceMeshCGAL* make_mesh(G4HalfSpaceQuadric &quadric, double sphere_size) {
@@ -23,8 +23,8 @@ G4SurfaceMeshCGAL* make_mesh(G4HalfSpaceQuadric &quadric, double sphere_size) {
 
   // defining meshing criteria
   CGAL::Surface_mesh_default_criteria_3<Tr> criteria(30.,  // angular bound
-                                                     10,  // radius bound
-                                                     10); // distance bound
+                                                     75,  // radius bound
+                                                     75); // distance bound
   // meshing surface
   //CGAL::make_surface_mesh(c2t3, surface, criteria, CGAL::Non_manifold_tag());
   CGAL::make_surface_mesh(c2t3, surface, criteria, CGAL::Manifold_with_boundary_tag());
@@ -53,3 +53,37 @@ G4SurfaceMeshCGAL* make_mesh(G4HalfSpaceQuadric &quadric, double sphere_size) {
 
   return g4_sm;
 }
+
+/*
+G4SurfaceMeshCGAL* make_mesh_new(G4HalfSpaceQuadric &quadric, double sphere_size) {
+  Surface_mesh_EPIC mesh;
+
+  struct Implicit_function {
+    G4HalfSpaceQuadric &hsq;
+
+    Implicit_function(G4HalfSpaceQuadric &hsqIn) : hsq(hsqIn) {}
+
+    typedef FT_EPIC return_type;
+
+    // Example: Sphere of radius 2 centered at origin
+    return_type operator()(const Point_3& p) const {
+      G4ThreeVector g4_p(CGAL::to_double(p.x()),
+                         CGAL::to_double(p.y()),
+                         CGAL::to_double(p.z()));
+      return FT_EPIC(hsq.Sdf(g4_p));
+    }
+  };
+
+  Implicit_function function(quadric);
+  Sphere_3_EPIC bounding_sphere(Point_3(0, 0, 0), sphere_size);
+
+  CGAL::Implicit_surface_3<Kernel_EPIC, Implicit_function> surface(function,
+                                                                   bounding_sphere);
+
+  CGAL::Surface_mesh_default_criteria_3<Kernel_EPIC> criteria(30, 0.1, 0.1);
+  //CGAL::make_surface_mesh(mesh, surface, criteria, CGAL::Manifold_tag());
+
+  G4SurfaceMeshCGAL *g4_sm = new G4SurfaceMeshCGAL(&mesh);
+  return g4_sm;
+}
+ */
