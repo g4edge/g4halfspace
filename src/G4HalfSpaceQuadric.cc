@@ -101,15 +101,18 @@ void G4HalfSpaceQuadric::Rotate(const G4ThreeVector &rv) {
   rm.rotateX(-rv[0]);
   rm.rectify();
 
+#if _DEBUG
   G4cout << "G4HalfSpaceQuadric::Rotate(const G4ThreeVector &rv)" << G4endl;
   G4cout << rm << G4endl;
+#endif
   this->Rotate(rm);
 }
 
 void G4HalfSpaceQuadric::Rotate(const G4RotationMatrix& rm) {
+#if _DEBUG
   G4cout << "G4HalfSpaceQuadric::Rotate(const G4RotationMatrix& r)" << G4endl;
   G4cout << rm << G4endl;
-
+#endif
   auto rminv = rm.inverse();
   auto m = CLHEP::HepMatrix(3,3);
   m(1,1) = rminv.xx();
@@ -144,8 +147,10 @@ G4SurfaceMeshCGAL* G4HalfSpaceQuadric::GetSurfaceMesh() {
   G4ThreeVector evals;
   auto evecs = GetRotationFromQuadraticForm(evals);
   G4HalfSpaceRotation rot = G4HalfSpaceRotation(evecs);
+#if _DEBUG
   G4cout << rot.ToString() << G4endl;
   std::cout << "G4HalfSpaceQuadric::GetSurfaceMesh" << std::endl;
+#endif
   G4Ellipsoid t = G4Ellipsoid("test", 10, 20, 30);
   G4Polyhedron *g4poly = t.GetPolyhedron();
   G4SurfaceMeshCGAL *sm = new G4SurfaceMeshCGAL();
