@@ -154,7 +154,7 @@ G4SurfaceMeshCGAL* G4HalfSpaceQuadric::GetSurfaceMesh() {
 #endif
 
   // mesh quadric mesh
-  return make_mesh(*this, 2000*2000);
+  return make_mesh(*this, 3000*3000);
 
 
 }
