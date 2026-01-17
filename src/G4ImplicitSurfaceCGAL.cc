@@ -42,8 +42,8 @@ G4SurfaceMeshCGAL* make_mesh(G4HalfSpaceQuadric &quadric, double sphere_size) {
   auto displaced = vertex + normal;
 
   auto sgn = quadric.Sdf(G4ThreeVector(CGAL::to_double(displaced.x()),
-                                                 CGAL::to_double(displaced.y()),
-                                                 CGAL::to_double(displaced.z())));
+                                       CGAL::to_double(displaced.y()),
+                                       CGAL::to_double(displaced.z())));
 
   if (sgn < 0)
     CGAL::Polygon_mesh_processing::reverse_face_orientations(*sm);
