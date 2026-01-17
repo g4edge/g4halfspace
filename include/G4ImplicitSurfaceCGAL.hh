@@ -11,8 +11,6 @@
 #include <CGAL/Polygon_mesh_processing/orientation.h>
 #include <CGAL/Polygon_mesh_processing/compute_normal.h>
 
-
-
 // default triangulation for Surface_mesher
 typedef CGAL::Surface_mesh_default_triangulation_3 Tr;
 typedef CGAL::Complex_2_in_triangulation_3<Tr> C2t3;
