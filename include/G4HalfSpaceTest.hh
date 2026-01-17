@@ -7,7 +7,7 @@
 class G4HalfSpaceTestDataEntry {
 public:
   enum class Type {Inside, DistanceToIn, DistanceToInDir,
-                   DistanceToOut, DistanceToOutDir, Normal};
+                   DistanceToOut, DistanceToOutDir, Normal, PointOnSurface};
 
   G4HalfSpaceTestDataEntry() {};
 
