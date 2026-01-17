@@ -25,13 +25,35 @@
 
 int main(int argc, char** argv)
 {
-  auto hsr = G4HalfSpaceReader(argv[1]);
-  auto hs_region = std::stoi(argv[2]);
-  auto hs_test = std::stoi(argv[3]);
+  std::string file_name;
+  size_t hs_region = -1;
+  size_t hs_test = -1;
+
+  if(argc == 1 || argc > 4) {
+    std::cout << "./g4halfspace filename region_number test_number" << std::endl;
+    exit(1);
+  }
+
+  if(argc >= 2) {
+    file_name = argv[1];
+  }
+  if(argc >= 3) {
+    hs_region = std::stoi(argv[2]);
+  }
+  if(argc == 4) {
+    hs_test = std::stoi(argv[3]);
+  }
+
+  auto hsr = G4HalfSpaceReader(file_name);
 
   auto* runManager = G4RunManagerFactory::CreateRunManager();
 
   auto solid = hsr.GetSolid(hs_region);
+  if(!solid) {
+    std::cout << "Not a valid solid number" << std::endl;
+    exit(1);
+  }
+
   auto test = hsr.GetTest(hs_test);
   solid->AddTestInstrument(test);
 
