@@ -1,0 +1,72 @@
+# flair project file
+Version: 300
+Mode: fluka
+md5: b292517d82b2e3cbf5aa7db69a8c8c95
+Input:
+TITLE
+*Set the defaults for precision simulations
+DEFAULTS PRECISIO
+*Define the beam characteristics
+BEAM
+*Define the beam position
+BEAMPOS
+GEOBEGIN COMBNAME
+BOX body1 -50 -50 -50 100 0 0 0 100 0 0 0 100
+	@select=8
+END
+REGION REG1
+	+body1
+	@select=1
+END
+GEOEND
+*..+....1....+....2....+....3....+....4....+....5....+....6....+....7..
+*Set the random number seed
+RANDOMIZ , 1.0
+ASSIGNMA , BLCKHOLE REG1
+*Set the number of primary histories to be simulated in the run
+START
+STOP
+EndInput
+
+Page: Flair
+
+# Run information
+Run: <default>
+End
+
+# Plots information
+Plot: Red
+	Type: Geometry
+	basisu: 0 0 1
+	basisv: 1 0 0
+	coord: Z-X
+	extends: 33.48979766803841 25.873737762222824
+	group: Geometry
+	layer: Lattice
+	origin: -18.3256 0 -3.04595
+End
+Plot: Green
+	Type: Geometry
+	basisu: 0.836516 0.0173376 0.547668
+	basisv: 0.224144 0.901221 -0.370891
+	extends: 100.0 77.25856697819314
+	group: Geometry
+	layer: 3D
+End
+Plot: Blue
+	Type: Geometry
+	basisu: 0 0 1
+	coord: Z-Y
+	extends: 83.33333333333334 64.12253374870197
+	group: Geometry
+	layer: Lattice
+	origin: 0 -16.4943 3.32295
+End
+Plot: Magenta
+	Type: Geometry
+	coord: X-Y
+	extends: 172.79999999999995 132.96448598130837
+	group: Geometry
+	layer: Lattice
+	origin: 14.0611 -22.8476 0
+End
