@@ -2,7 +2,7 @@
 #include "G4HalfSpaceZone.hh"
 #include "G4HalfSpacePlane.hh"
 #include "G4ThreeVector.hh"
-#include "G4ios.hh"
+#include "G4FlukaReader.hh"
 
 #include "G4BooleanSolid.hh"
 #include "G4GDMLParser.hh"
@@ -13,6 +13,7 @@
 #include "G4UIExecutive.hh"
 #include "G4UImanager.hh"
 #include "G4VisExecutive.hh"
+#include "G4ios.hh"
 
 #include "FTFP_BERT.hh"
 #include "ActionInitialization.hh"
@@ -26,35 +27,50 @@
 int main(int argc, char** argv)
 {
   std::string file_name;
-  size_t hs_region = -1;
-  size_t hs_test = -1;
+
+  G4HalfSpaceSolid *solid = nullptr;
+  G4HalfSpaceTest *test = nullptr;
 
   if(argc == 1 || argc > 4) {
     std::cout << "./g4halfspace filename region_number test_number" << std::endl;
     exit(1);
   }
 
+  // First argument is file name
   if(argc >= 2) {
     file_name = argv[1];
   }
-  if(argc >= 3) {
-    hs_region = std::stoi(argv[2]);
+
+  // Halfspace file
+  if( file_name.find(".inp") == std::string::npos ) {
+    G4HalfSpaceReader reader(file_name);
+
+    if (argc >= 3) {
+      auto hs_region = std::stoi(argv[2]);
+      solid = reader.GetSolid(hs_region);
+    }
+    if (argc == 4) {
+      auto hs_test = std::stoi(argv[3]);
+      test = reader.GetTest(hs_test);
+    }
   }
-  if(argc == 4) {
-    hs_test = std::stoi(argv[3]);
+  // FLUKA file
+  else {
+    G4FlukaReader reader(file_name);
+
+    if (argc >= 3) {
+      solid = reader.GetSolid(argv[2]);
+    }
   }
 
-  auto hsr = G4HalfSpaceReader(file_name);
-
-  auto* runManager = G4RunManagerFactory::CreateRunManager();
-
-  auto solid = hsr.GetSolid(hs_region);
-  if(!solid) {
-    std::cout << "Not a valid solid number" << std::endl;
+  // Check solid
+  if(solid == nullptr) {
+    G4cout << "Solid is nullptr!" << G4endl;
     exit(1);
   }
 
-  auto test = hsr.GetTest(hs_test);
+  auto* runManager = G4RunManagerFactory::CreateRunManager();
+
   solid->AddTestInstrument(test);
 
   runManager->SetUserInitialization(new DetectorConstruction(solid));

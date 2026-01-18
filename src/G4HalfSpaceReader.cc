@@ -7,6 +7,7 @@
 
 #include "G4String.hh"
 
+#include "utils.hh"
 #include "G4HalfSpaceReader.hh"
 #include "G4HalfSpaceSolid.hh"
 #include "G4HalfSpaceZone.hh"
@@ -34,32 +35,25 @@
 #include "G4HalfSpacePlane.hh"
 #include "G4HalfSpaceTest.hh"
 
-std::vector<std::string> split(const std::string &s, char delim) {
-  std::vector<std::string> result;
-  std::stringstream ss (s);
-  std::string item;
-
-  while (getline (ss, item, delim)) {
-    if(item != " ")
-      result.push_back (item);
-  }
-
-  return result;
-}
-
 G4HalfSpaceReader::G4HalfSpaceReader(const G4String &file_name) {
-  this->Read(file_name);
+  this->Load(file_name);
 }
 
 G4HalfSpaceSolid* G4HalfSpaceReader::GetSolid(size_t region) {
   return hs_solid_map[region];
 }
 
+G4HalfSpaceSolid* G4HalfSpaceReader::GetSolid(const G4String &region_name) {
+  size_t region = std::stoul(region_name);
+  return hs_solid_map[region];
+}
+
+
 G4HalfSpaceTest* G4HalfSpaceReader::GetTest(size_t test) {
   return hs_test_map[test];
 }
 
-void G4HalfSpaceReader::Read(const G4String &file_name) {
+void G4HalfSpaceReader::Load(const G4String &file_name) {
   std::ifstream ifstr(file_name);
   std::stringstream sstr;
   std::string key;
