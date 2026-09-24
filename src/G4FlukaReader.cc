@@ -225,15 +225,19 @@ void G4FlukaReader::Load(const G4String& file_name) {
       const std::string regionName = tokens[0];
       auto* solid = new G4HalfSpaceSolid(regionName);
       const auto zoneTerms = ParseRegionExpression(line);
+      bool regionValid = true;
 
       for (const auto& zoneTerm : zoneTerms) {
         auto* zone = new G4HalfSpaceZone();
+        bool zoneValid = true;
         for (const auto& [sign, bodyName] : zoneTerm) {
           const auto it = body_map.find(bodyName);
           if (it == body_map.end()) {
             G4cout << "G4FlukaReader::Load unknown body '" << bodyName
                    << "' in region " << regionName << G4endl;
-            continue;
+            zoneValid = false;
+            regionValid = false;
+            break;
           }
 
           if (sign == '+') {
@@ -242,11 +246,20 @@ void G4FlukaReader::Load(const G4String& file_name) {
             zone->AddSubtraction(it->second);
           }
         }
-        solid->AddZone(zone);
+        if (zoneValid) {
+          solid->AddZone(zone);
+        }
       }
 
+      if (!regionValid || zoneTerms.empty()) {
+        continue;
+      }
+
+      const bool regionExists = region_map.find(regionName) != region_map.end();
       region_map[regionName] = solid;
-      region_order.push_back(regionName);
+      if (!regionExists) {
+        region_order.push_back(regionName);
+      }
     }
   }
 }
