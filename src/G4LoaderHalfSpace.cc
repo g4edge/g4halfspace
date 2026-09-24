@@ -168,7 +168,18 @@ G4VHalfSpace* G4LoaderHalfSpace::CreateHalfSpace(const SurfaceRecord &record) co
       if (record.radius <= 0.0) {
         return nullptr;
       }
-      return new G4HalfSpaceSphere(record.location, record.radius);
+
+      if (!record.reversed) {
+        return new G4HalfSpaceSphere(record.location, record.radius);
+      }
+
+      auto *quadric = new G4HalfSpaceQuadric(-1.0 / std::pow(record.radius, 2), 0, 0,
+                                             -1.0 / std::pow(record.radius, 2), 0,
+                                             -1.0 / std::pow(record.radius, 2),
+                                             0, 0, 0,
+                                             1);
+      quadric->Translate(record.location);
+      return quadric;
     }
 
     case SurfaceType::Cylinder: {
@@ -176,11 +187,12 @@ G4VHalfSpace* G4LoaderHalfSpace::CreateHalfSpace(const SurfaceRecord &record) co
         return nullptr;
       }
 
-      auto *quadric = new G4HalfSpaceQuadric(1.0 / std::pow(record.radius, 2), 0, 0,
-                                             1.0 / std::pow(record.radius, 2), 0,
+      auto orientation = record.reversed ? -1.0 : 1.0;
+      auto *quadric = new G4HalfSpaceQuadric(orientation / std::pow(record.radius, 2), 0, 0,
+                                             orientation / std::pow(record.radius, 2), 0,
                                              0,
                                              0, 0, 0,
-                                             -1);
+                                             -orientation);
       quadric->Rotate(RotationFromZAxis(record.direction));
       quadric->Translate(record.location);
       return quadric;
@@ -192,10 +204,11 @@ G4VHalfSpace* G4LoaderHalfSpace::CreateHalfSpace(const SurfaceRecord &record) co
         return nullptr;
       }
 
+      auto orientation = record.reversed ? -1.0 : 1.0;
       auto apex = record.location - UnitOrDefault(record.direction) * (record.refRadius / tan_angle);
-      auto *quadric = new G4HalfSpaceQuadric(1, 0, 0,
-                                             1, 0,
-                                             -std::pow(tan_angle, 2),
+      auto *quadric = new G4HalfSpaceQuadric(orientation, 0, 0,
+                                             orientation, 0,
+                                             -orientation * std::pow(tan_angle, 2),
                                              0, 0, 0,
                                              0);
       quadric->Rotate(RotationFromZAxis(record.direction));
