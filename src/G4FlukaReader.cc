@@ -36,15 +36,17 @@ std::vector<std::string> splitWhitespace(const std::string& line) {
 }
 
 bool appendNumericParameters(const std::vector<std::string>& tokens, size_t start, std::vector<double>& values) {
+  std::vector<double> parsedValues;
   for (size_t index = start; index < tokens.size(); ++index) {
     try {
-      values.push_back(std::stod(tokens[index]));
+      parsedValues.push_back(std::stod(tokens[index]));
     }
     catch (const std::exception&) {
       return false;
     }
   }
 
+  values.insert(values.end(), parsedValues.begin(), parsedValues.end());
   return true;
 }
 
@@ -110,6 +112,20 @@ bool isRegionContinuation(const std::string& token) {
 
   const auto first = token[0];
   return first == '+' || first == '-' || first == '|' || first == '(' || first == ')';
+}
+
+bool isNumericToken(const std::string& token) {
+  if (token.empty()) {
+    return false;
+  }
+
+  try {
+    std::stod(token);
+    return true;
+  }
+  catch (const std::exception&) {
+    return false;
+  }
 }
 
 }
@@ -216,16 +232,20 @@ void G4FlukaReader::Load(const G4String &file_name) {
       Body body;
       body.type = lineTokens[0];
       body.id = lineTokens[1];
-      appendNumericParameters(lineTokens, 2, body.parameters);
+      if (!appendNumericParameters(lineTokens, 2, body.parameters)) {
+        continue;
+      }
       bodies[body.id] = body;
       continue;
     }
 
     if (section == GeometrySection::kRegions) {
-      if (lineTokens.size() >= 3) {
+      const auto expressionStart =
+          (lineTokens.size() >= 2 && isNumericToken(lineTokens[1])) ? 2 : 1;
+      if (lineTokens.size() > expressionStart) {
         Region region;
         region.id = lineTokens[0];
-        region.expression_tokens.assign(lineTokens.begin() + 2, lineTokens.end());
+        region.expression_tokens.assign(lineTokens.begin() + expressionStart, lineTokens.end());
         region.raw_expression = joinTokens(region.expression_tokens);
         region.zones = expressionTokensToZones(region.expression_tokens);
         const auto isNewRegion = regions.find(region.id) == regions.end();
@@ -259,7 +279,9 @@ void G4FlukaReader::Load(const G4String &file_name) {
 
       RotoTranslation rotoTranslation;
       rotoTranslation.id = lineTokens[1];
-      appendNumericParameters(lineTokens, 2, rotoTranslation.parameters);
+      if (!appendNumericParameters(lineTokens, 2, rotoTranslation.parameters)) {
+        continue;
+      }
       rototranslations[rotoTranslation.id] = rotoTranslation;
       continue;
     }
