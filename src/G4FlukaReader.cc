@@ -224,6 +224,20 @@ void G4FlukaReader::Load(const G4String &file_name) {
       continue;
     }
 
+    if (card == "ROT-DEFI") {
+      if (lineTokens.size() < 2) {
+        continue;
+      }
+
+      RotoTranslation rotoTranslation;
+      rotoTranslation.id = lineTokens[1];
+      if (!appendNumericParameters(lineTokens, 2, rotoTranslation.parameters)) {
+        continue;
+      }
+      rototranslations[rotoTranslation.id] = rotoTranslation;
+      continue;
+    }
+
     if (section == GeometrySection::kBodies) {
       if (lineTokens.size() < 2) {
         continue;
@@ -240,16 +254,22 @@ void G4FlukaReader::Load(const G4String &file_name) {
     }
 
     if (section == GeometrySection::kRegions) {
-      const auto expressionStart =
-          (lineTokens.size() >= 2 && isNumericToken(lineTokens[1])) ? 2 : 1;
-      if (lineTokens.size() > expressionStart) {
-        Region region;
-        region.id = lineTokens[0];
-        region.expression_tokens.assign(lineTokens.begin() + expressionStart, lineTokens.end());
+      if (!isRegionContinuation(lineTokens[0])) {
+        const auto expressionStart =
+            (lineTokens.size() >= 2 && isNumericToken(lineTokens[1])) ? 2 : 1;
+        const auto regionId = lineTokens[0];
+        const auto isNewRegion = regions.find(regionId) == regions.end();
+        auto& region = regions[regionId];
+        if (isNewRegion) {
+          region.id = regionId;
+        }
+        if (lineTokens.size() > expressionStart) {
+          region.expression_tokens.insert(region.expression_tokens.end(),
+                                          lineTokens.begin() + expressionStart,
+                                          lineTokens.end());
+        }
         region.raw_expression = joinTokens(region.expression_tokens);
         region.zones = expressionTokensToZones(region.expression_tokens);
-        const auto isNewRegion = regions.find(region.id) == regions.end();
-        regions[region.id] = region;
         if (isNewRegion) {
           region_order.push_back(region.id);
         }
@@ -269,20 +289,6 @@ void G4FlukaReader::Load(const G4String &file_name) {
         regionIt->second.raw_expression = joinTokens(regionIt->second.expression_tokens);
         regionIt->second.zones = expressionTokensToZones(regionIt->second.expression_tokens);
       }
-      continue;
-    }
-
-    if (card == "ROT-DEFI") {
-      if (lineTokens.size() < 2) {
-        continue;
-      }
-
-      RotoTranslation rotoTranslation;
-      rotoTranslation.id = lineTokens[1];
-      if (!appendNumericParameters(lineTokens, 2, rotoTranslation.parameters)) {
-        continue;
-      }
-      rototranslations[rotoTranslation.id] = rotoTranslation;
       continue;
     }
 
