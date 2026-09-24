@@ -4,36 +4,39 @@
 
 #include "utils.hh"
 
-#include <string>
-#include <variant>
-#include <vector>
 #include <map>
+#include <string>
+#include <vector>
 
 struct Card {
 
 };
 
 struct RotoTranslation {
-  std::variant<int, std::string> id;
+  std::string id;
+  std::vector<double> parameters;
 };
 
 struct Body {
   std::string type;
-  std::variant<int, std::string> id;
+  std::string id;
+  std::vector<double> parameters;
 };
 
 struct Zone {
-  std::vector<std::variant<int, std::string>> positive_surfaces;
-  std::vector<std::variant<int, std::string>> negative_surfaces;
+  std::vector<std::string> positive_surfaces;
+  std::vector<std::string> negative_surfaces;
 };
 
 struct Region {
-  std::variant<int, std::string> id;
+  std::string id;
+  std::string raw_expression;
+  std::vector<std::string> expression_tokens;
   std::vector<Zone> zones;
 };
 
 struct Assignma {
-  std::variant<int, std::string> region;
+  std::string region;
   std::string material;
 };
 
@@ -50,6 +53,12 @@ public:
   virtual G4HalfSpaceSolid* GetSolid(size_t region) override;
   virtual G4HalfSpaceSolid* GetSolid(const G4String &region) override;
 
+  const std::map<std::string, RotoTranslation>& GetRotoTranslations() const { return rototranslations; }
+  const std::map<std::string, Body>& GetBodies() const { return bodies; }
+  const std::map<std::string, Region>& GetRegions() const { return regions; }
+  const std::vector<std::string>& GetRegionOrder() const { return region_order; }
+  const std::map<std::string, Assignma>& GetAssignmas() const { return assignmas; }
+
 
 protected:
 
@@ -61,9 +70,10 @@ protected:
   bool geom = false;
   bool pp_include = true;
 
-  std::map<std::variant<int, std::string>, RotoTranslation> rototranslations;
-  std::map<std::variant<int, std::string>, Body> bodies;
-  std::map<std::variant<int, std::string>, Region> regions;
-  std::map<std::variant<int, std::string>, Assignma> assignmas;
+  std::map<std::string, RotoTranslation> rototranslations;
+  std::map<std::string, Body> bodies;
+  std::map<std::string, Region> regions;
+  std::vector<std::string> region_order;
+  std::map<std::string, Assignma> assignmas;
 
 };
