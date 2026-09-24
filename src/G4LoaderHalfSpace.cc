@@ -208,7 +208,8 @@ std::unique_ptr<G4VHalfSpace> G4LoaderHalfSpace::CreateHalfSpace(const SurfaceRe
       }
 
       auto orientation = record.reversed ? -1.0 : 1.0;
-      auto apex = record.location - UnitOrDefault(record.direction) * (record.refRadius / tan_angle);
+      auto apex_distance = record.refRadius / std::abs(tan_angle);
+      auto apex = record.location - UnitOrDefault(record.direction) * apex_distance;
       auto *quadric = new G4HalfSpaceQuadric(orientation, 0, 0,
                                              orientation, 0,
                                              -orientation * std::pow(tan_angle, 2),

@@ -9,6 +9,10 @@
 
 class G4VHalfSpace;
 
+#ifndef G4HALFSPACE_HAS_OPENCASCADE
+  #define G4HALFSPACE_HAS_OPENCASCADE 0
+#endif
+
 class G4LoaderHalfSpace {
 public:
   enum class SurfaceType {
