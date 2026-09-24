@@ -238,6 +238,17 @@ void G4FlukaReader::Load(const G4String &file_name) {
       continue;
     }
 
+    if (card == "ASSIGNMA" && lineTokens.size() >= 3) {
+      const auto& material = lineTokens[1];
+      for (size_t index = 2; index < lineTokens.size(); ++index) {
+        Assignma assignma;
+        assignma.material = material;
+        assignma.region = lineTokens[index];
+        assignmas[assignma.region] = assignma;
+      }
+      continue;
+    }
+
     if (section == GeometrySection::kBodies) {
       if (lineTokens.size() < 2) {
         continue;
@@ -288,17 +299,6 @@ void G4FlukaReader::Load(const G4String &file_name) {
                                                   lineTokens.end());
         regionIt->second.raw_expression = joinTokens(regionIt->second.expression_tokens);
         regionIt->second.zones = expressionTokensToZones(regionIt->second.expression_tokens);
-      }
-      continue;
-    }
-
-    if (card == "ASSIGNMA" && lineTokens.size() >= 3) {
-      const auto& material = lineTokens[1];
-      for (size_t index = 2; index < lineTokens.size(); ++index) {
-        Assignma assignma;
-        assignma.material = material;
-        assignma.region = lineTokens[index];
-        assignmas[assignma.region] = assignma;
       }
       continue;
     }
