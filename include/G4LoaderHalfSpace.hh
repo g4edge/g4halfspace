@@ -26,6 +26,7 @@ public:
     G4double refRadius = 0.0;
     G4double semiAngle = 0.0;
     bool reversed = false;
+    bool orientationSupportsHalfSpace = true;
   };
 
   G4LoaderHalfSpace() = default;

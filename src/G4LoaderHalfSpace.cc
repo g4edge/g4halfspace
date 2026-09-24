@@ -87,7 +87,9 @@ bool G4LoaderHalfSpace::LoadStep(const G4String &file_name) {
     BRepAdaptor_Surface surface(face, Standard_True);
 
     SurfaceRecord record;
-    record.reversed = face.Orientation() == TopAbs_REVERSED;
+    auto orientation = face.Orientation();
+    record.reversed = orientation == TopAbs_REVERSED;
+    record.orientationSupportsHalfSpace = orientation == TopAbs_FORWARD || orientation == TopAbs_REVERSED;
 
     switch (surface.GetType()) {
       case GeomAbs_Plane: {
@@ -132,7 +134,7 @@ bool G4LoaderHalfSpace::LoadStep(const G4String &file_name) {
         break;
     }
 
-    if (record.type != SurfaceType::Unsupported) {
+    if (record.type != SurfaceType::Unsupported && record.orientationSupportsHalfSpace) {
       surfaces_[surface_id++] = record;
     }
   }
@@ -173,11 +175,11 @@ G4VHalfSpace* G4LoaderHalfSpace::CreateHalfSpace(const SurfaceRecord &record) co
         return new G4HalfSpaceSphere(record.location, record.radius);
       }
 
-      auto *quadric = new G4HalfSpaceQuadric(-1.0 / std::pow(record.radius, 2), 0, 0,
-                                             -1.0 / std::pow(record.radius, 2), 0,
-                                             -1.0 / std::pow(record.radius, 2),
+      auto *quadric = new G4HalfSpaceQuadric(-1.0, 0, 0,
+                                             -1.0, 0,
+                                             -1.0,
                                              0, 0, 0,
-                                             1);
+                                             std::pow(record.radius, 2));
       quadric->Translate(record.location);
       return quadric;
     }
