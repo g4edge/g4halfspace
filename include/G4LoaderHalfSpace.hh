@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <map>
+#include <memory>
 
 #include "G4String.hh"
 #include "G4ThreeVector.hh"
@@ -36,10 +37,10 @@ public:
   void Clear();
 
   const std::map<std::size_t, SurfaceRecord>& GetSurfaces() const;
-  std::map<std::size_t, G4VHalfSpace*> CreateHalfSpaces() const;
+  std::map<std::size_t, std::unique_ptr<G4VHalfSpace>> CreateHalfSpaces() const;
 
 private:
-  G4VHalfSpace* CreateHalfSpace(const SurfaceRecord &record) const;
+  std::unique_ptr<G4VHalfSpace> CreateHalfSpace(const SurfaceRecord &record) const;
 
   std::map<std::size_t, SurfaceRecord> surfaces_;
 };

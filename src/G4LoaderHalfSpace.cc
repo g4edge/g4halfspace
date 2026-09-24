@@ -146,47 +146,48 @@ bool G4LoaderHalfSpace::LoadStep(const G4String &file_name) {
 #endif
 }
 
-std::map<std::size_t, G4VHalfSpace*> G4LoaderHalfSpace::CreateHalfSpaces() const {
-  std::map<std::size_t, G4VHalfSpace*> half_spaces;
+std::map<std::size_t, std::unique_ptr<G4VHalfSpace>> G4LoaderHalfSpace::CreateHalfSpaces() const {
+  std::map<std::size_t, std::unique_ptr<G4VHalfSpace>> half_spaces;
 
   for (const auto &[surface_id, record] : surfaces_) {
-    auto *half_space = CreateHalfSpace(record);
+    auto half_space = CreateHalfSpace(record);
     if (half_space != nullptr) {
-      half_spaces[surface_id] = half_space;
+      half_spaces[surface_id] = std::move(half_space);
     }
   }
 
   return half_spaces;
 }
 
-G4VHalfSpace* G4LoaderHalfSpace::CreateHalfSpace(const SurfaceRecord &record) const {
+std::unique_ptr<G4VHalfSpace> G4LoaderHalfSpace::CreateHalfSpace(const SurfaceRecord &record) const {
   switch (record.type) {
     case SurfaceType::Plane: {
       auto normal = record.reversed ? -record.direction : record.direction;
-      return new G4HalfSpacePlane(UnitOrDefault(normal), record.location);
+      return std::unique_ptr<G4VHalfSpace>(new G4HalfSpacePlane(UnitOrDefault(normal), record.location));
     }
 
     case SurfaceType::Sphere: {
       if (record.radius <= 0.0) {
-        return nullptr;
+        return std::unique_ptr<G4VHalfSpace>();
       }
 
       if (!record.reversed) {
-        return new G4HalfSpaceSphere(record.location, record.radius);
+        return std::unique_ptr<G4VHalfSpace>(new G4HalfSpaceSphere(record.location, record.radius));
       }
 
       auto *quadric = new G4HalfSpaceQuadric(-1.0, 0, 0,
                                              -1.0, 0,
                                              -1.0,
-                                             0, 0, 0,
-                                             std::pow(record.radius, 2));
-      quadric->Translate(record.location);
-      return quadric;
+                                             2.0 * record.location.x(),
+                                             2.0 * record.location.y(),
+                                             2.0 * record.location.z(),
+                                             std::pow(record.radius, 2) - record.location.mag2());
+      return std::unique_ptr<G4VHalfSpace>(quadric);
     }
 
     case SurfaceType::Cylinder: {
       if (record.radius <= 0.0) {
-        return nullptr;
+        return std::unique_ptr<G4VHalfSpace>();
       }
 
       auto orientation = record.reversed ? -1.0 : 1.0;
@@ -197,13 +198,13 @@ G4VHalfSpace* G4LoaderHalfSpace::CreateHalfSpace(const SurfaceRecord &record) co
                                              -orientation);
       quadric->Rotate(RotationFromZAxis(record.direction));
       quadric->Translate(record.location);
-      return quadric;
+      return std::unique_ptr<G4VHalfSpace>(quadric);
     }
 
     case SurfaceType::Cone: {
       auto tan_angle = std::tan(record.semiAngle);
       if (std::abs(tan_angle) <= 1e-12) {
-        return nullptr;
+        return std::unique_ptr<G4VHalfSpace>();
       }
 
       auto orientation = record.reversed ? -1.0 : 1.0;
@@ -215,11 +216,11 @@ G4VHalfSpace* G4LoaderHalfSpace::CreateHalfSpace(const SurfaceRecord &record) co
                                              0);
       quadric->Rotate(RotationFromZAxis(record.direction));
       quadric->Translate(apex);
-      return quadric;
+      return std::unique_ptr<G4VHalfSpace>(quadric);
     }
 
     case SurfaceType::Unsupported:
     default:
-      return nullptr;
+      return std::unique_ptr<G4VHalfSpace>();
   }
 }
