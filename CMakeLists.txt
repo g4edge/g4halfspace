@@ -29,6 +29,7 @@ include(${Geant4_USE_FILE})
 find_package(CGAL 5 REQUIRED)
 find_package(Catch2 REQUIRED)
 find_package(Eigen3 REQUIRED NO_MODULE)
+find_package(OpenCASCADE QUIET)
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
 #
@@ -39,13 +40,21 @@ file(GLOB HalfSpaceSources ${PROJECT_SOURCE_DIR}/src/*cc)
 file(GLOB HalfSpaceHeaders ${PROJECT_SOURCE_DIR}/include/*.hh)
 add_library(g4halfspace SHARED ${HalfSpaceSources} ${HalfSpcaeHeaders})
 target_compile_options(g4halfspace PRIVATE -Werror )
-target_link_libraries(g4halfspace ${Geant4_LIBRARIES} CGAL::CGAL Eigen3::Eigen)
+target_link_libraries(g4halfspace PRIVATE ${Geant4_LIBRARIES} CGAL::CGAL Eigen3::Eigen)
+if(OpenCASCADE_FOUND)
+  target_include_directories(g4halfspace PRIVATE ${OpenCASCADE_INCLUDE_DIRS})
+  target_link_libraries(g4halfspace PRIVATE ${OpenCASCADE_LIBRARIES})
+  target_compile_definitions(g4halfspace PRIVATE G4HALFSPACE_USE_OPENCASCADE)
+  target_compile_definitions(g4halfspace PUBLIC G4HALFSPACE_HAS_OPENCASCADE=1)
+else()
+  target_compile_definitions(g4halfspace PUBLIC G4HALFSPACE_HAS_OPENCASCADE=0)
+endif()
 
 file(GLOB HalfSpaceTestSources ${PROJECT_SOURCE_DIR}/test/*cc)
 file(GLOB HalfSpaceTestHeaders ${PROJECT_SOURCE_DIR}/test/*hh)
 add_executable(g4halfspace_test ${HalfSpaceTestSources} ${HalfSpaceTestHeaders})
 target_compile_options(g4halfspace_test PRIVATE -Werror)
-target_link_libraries(g4halfspace_test ${Geant4_LIBRARIES} g4halfspace)
+target_link_libraries(g4halfspace_test PRIVATE ${Geant4_LIBRARIES} g4halfspace)
 
 # Copy over test files
 set(TEST-INPUTS vis.mac 00_trans.txt 01_aarbox.txt 02_aarbox_od.txt 03_rbox.txt 04_rbox_od.txt
