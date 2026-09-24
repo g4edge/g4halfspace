@@ -293,10 +293,13 @@ void G4FlukaReader::Load(const G4String &file_name) {
     }
 
     if (card == "ASSIGNMA" && lineTokens.size() >= 3) {
-      Assignma assignma;
-      assignma.material = lineTokens[1];
-      assignma.region = lineTokens[2];
-      assignmas[assignma.region] = assignma;
+      const auto& material = lineTokens[1];
+      for (size_t index = 2; index < lineTokens.size(); ++index) {
+        Assignma assignma;
+        assignma.material = material;
+        assignma.region = lineTokens[index];
+        assignmas[assignma.region] = assignma;
+      }
       continue;
     }
   }
