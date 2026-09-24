@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <exception>
 #include <fstream>
 #include <sstream>
 #include <vector>
@@ -133,7 +134,6 @@ G4HalfSpaceSolid* G4FlukaReader::GetSolid(size_t region) {
   }
 
   return RegionToSolid(regionIt->second);
-  return nullptr;
 }
 
 G4HalfSpaceSolid* G4FlukaReader::GetSolid(const G4String &region) {
