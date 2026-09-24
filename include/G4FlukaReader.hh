@@ -1,69 +1,36 @@
 #pragma once
 
+#include <cstddef>
+#include <map>
+#include <string>
+#include <vector>
+
+#include "G4String.hh"
 #include "G4VHalfSpaceReader.hh"
 
-#include "utils.hh"
-
-#include <string>
-#include <variant>
-#include <vector>
-#include <map>
-
-struct Card {
-
-};
-
-struct RotoTranslation {
-  std::variant<int, std::string> id;
-};
-
-struct Body {
-  std::string type;
-  std::variant<int, std::string> id;
-};
-
-struct Zone {
-  std::vector<std::variant<int, std::string>> positive_surfaces;
-  std::vector<std::variant<int, std::string>> negative_surfaces;
-};
-
-struct Region {
-  std::variant<int, std::string> id;
-  std::vector<Zone> zones;
-};
-
-struct Assignma {
-  std::variant<int, std::string> region;
-  std::string material;
-};
-
-G4HalfSpaceSolid* RegionToSolid(const Region& region) {
-  return nullptr;
-}
+class G4VHalfSpace;
+class G4HalfSpaceSolid;
 
 class G4FlukaReader : public G4VHalfSpaceReader {
 public:
   G4FlukaReader();
-  G4FlukaReader(const G4String &file_name);
-  ~G4FlukaReader();
+  G4FlukaReader(const G4String& file_name);
+  ~G4FlukaReader() override;
+  G4FlukaReader(const G4FlukaReader&) = delete;
+  G4FlukaReader& operator=(const G4FlukaReader&) = delete;
 
-  virtual G4HalfSpaceSolid* GetSolid(size_t region) override;
-  virtual G4HalfSpaceSolid* GetSolid(const G4String &region) override;
-
+  G4HalfSpaceSolid* GetSolid(size_t region) override;
+  G4HalfSpaceSolid* GetSolid(const G4String& region) override;
 
 protected:
+  void Load(const G4String& file_name) override;
 
-  void Load(const G4String &file_name) override;
+private:
+  void ClearOwnedData();
+  G4VHalfSpace* BuildBody(const std::string& type,
+                          const std::vector<double>& values) const;
 
-  // states of loader
-  bool free = false;
-  int transform = -1;
-  bool geom = false;
-  bool pp_include = true;
-
-  std::map<std::variant<int, std::string>, RotoTranslation> rototranslations;
-  std::map<std::variant<int, std::string>, Body> bodies;
-  std::map<std::variant<int, std::string>, Region> regions;
-  std::map<std::variant<int, std::string>, Assignma> assignmas;
-
+  std::map<std::string, G4VHalfSpace*> body_map;
+  std::map<std::string, G4HalfSpaceSolid*> region_map;
+  std::vector<std::string> region_order;
 };
