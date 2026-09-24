@@ -29,6 +29,7 @@ include(${Geant4_USE_FILE})
 find_package(CGAL 5 REQUIRED)
 find_package(Catch2 REQUIRED)
 find_package(Eigen3 REQUIRED NO_MODULE)
+find_package(OpenCASCADE QUIET)
 #----------------------------------------------------------------------------
 # Locate sources and headers for this project
 #
@@ -40,6 +41,11 @@ file(GLOB HalfSpaceHeaders ${PROJECT_SOURCE_DIR}/include/*.hh)
 add_library(g4halfspace SHARED ${HalfSpaceSources} ${HalfSpcaeHeaders})
 target_compile_options(g4halfspace PRIVATE -Werror )
 target_link_libraries(g4halfspace ${Geant4_LIBRARIES} CGAL::CGAL Eigen3::Eigen)
+if(OpenCASCADE_FOUND)
+  target_include_directories(g4halfspace PRIVATE ${OpenCASCADE_INCLUDE_DIR})
+  target_link_libraries(g4halfspace ${OpenCASCADE_LIBRARIES})
+  target_compile_definitions(g4halfspace PRIVATE G4HALFSPACE_USE_OPENCASCADE)
+endif()
 
 file(GLOB HalfSpaceTestSources ${PROJECT_SOURCE_DIR}/test/*cc)
 file(GLOB HalfSpaceTestHeaders ${PROJECT_SOURCE_DIR}/test/*hh)
