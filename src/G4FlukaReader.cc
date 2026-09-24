@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
@@ -119,9 +120,33 @@ std::vector<double> ParseDoubles(const std::vector<std::string>& tokens,
   std::vector<double> values;
   values.reserve(tokens.size() - startIndex);
   for (std::size_t i = startIndex; i < tokens.size(); ++i) {
-    values.push_back(std::stod(tokens[i]));
+    auto normalized = tokens[i];
+    std::replace(normalized.begin(), normalized.end(), 'D', 'E');
+    std::replace(normalized.begin(), normalized.end(), 'd', 'E');
+    values.push_back(std::stod(normalized));
   }
   return values;
+}
+
+bool IsIntegerToken(const std::string& token) {
+  if (token.empty()) {
+    return false;
+  }
+
+  std::size_t start = 0;
+  if (token[0] == '+' || token[0] == '-') {
+    if (token.size() == 1) {
+      return false;
+    }
+    start = 1;
+  }
+
+  for (std::size_t i = start; i < token.size(); ++i) {
+    if (!std::isdigit(static_cast<unsigned char>(token[i]))) {
+      return false;
+    }
+  }
+  return true;
 }
 }  // namespace
 
@@ -161,6 +186,59 @@ void G4FlukaReader::Load(const G4String& file_name) {
 
   enum class ParseState { OutsideGeometry, GeometryHeader, Bodies, Regions };
   ParseState state = ParseState::OutsideGeometry;
+  std::string pendingRegionName;
+  std::string pendingRegionExpression;
+
+  auto finalizeRegion = [this, &pendingRegionName, &pendingRegionExpression]() {
+    if (pendingRegionName.empty()) {
+      return;
+    }
+
+    if (region_map.find(pendingRegionName) != region_map.end()) {
+      G4cout << "G4FlukaReader::Load duplicate region '" << pendingRegionName
+             << "' ignored" << G4endl;
+      pendingRegionName.clear();
+      pendingRegionExpression.clear();
+      return;
+    }
+
+    const auto zoneTerms = ParseRegionExpression(pendingRegionExpression);
+    bool regionValid = true;
+
+    for (const auto& zoneTerm : zoneTerms) {
+      for (const auto& [sign, bodyName] : zoneTerm) {
+        (void)sign;
+        if (body_map.find(bodyName) == body_map.end()) {
+          G4cout << "G4FlukaReader::Load unknown body '" << bodyName
+                 << "' in region " << pendingRegionName << G4endl;
+          regionValid = false;
+          break;
+        }
+      }
+    }
+
+    if (regionValid && !zoneTerms.empty()) {
+      auto* solid = new G4HalfSpaceSolid(pendingRegionName);
+      for (const auto& zoneTerm : zoneTerms) {
+        auto* zone = new G4HalfSpaceZone();
+        for (const auto& [sign, bodyName] : zoneTerm) {
+          const auto body = body_map.find(bodyName)->second;
+          if (sign == '+') {
+            zone->AddIntersection(body);
+          } else if (sign == '-') {
+            zone->AddSubtraction(body);
+          }
+        }
+        solid->AddZone(zone);
+      }
+
+      region_map[pendingRegionName] = solid;
+      region_order.push_back(pendingRegionName);
+    }
+
+    pendingRegionName.clear();
+    pendingRegionExpression.clear();
+  };
 
   for (std::string rawLine; std::getline(file, rawLine);) {
     if (IsCommentOrEmpty(rawLine)) {
@@ -181,6 +259,7 @@ void G4FlukaReader::Load(const G4String& file_name) {
     }
 
     if (card == "GEOEND") {
+      finalizeRegion();
       state = ParseState::OutsideGeometry;
       continue;
     }
@@ -198,6 +277,7 @@ void G4FlukaReader::Load(const G4String& file_name) {
       if (state == ParseState::Bodies) {
         state = ParseState::Regions;
       } else if (state == ParseState::Regions) {
+        finalizeRegion();
         state = ParseState::OutsideGeometry;
       }
       continue;
@@ -222,63 +302,31 @@ void G4FlukaReader::Load(const G4String& file_name) {
     }
 
     if (state == ParseState::Regions) {
-      if (tokens.size() < 3) {
+      if (tokens.empty()) {
         continue;
       }
-
-      const std::string regionName = tokens[0];
-      std::ostringstream expressionStream;
-      for (std::size_t i = 2; i < tokens.size(); ++i) {
-        if (i > 2) {
-          expressionStream << ' ';
-        }
-        expressionStream << tokens[i];
-      }
-
-      const auto zoneTerms = ParseRegionExpression(expressionStream.str());
-      bool regionValid = true;
-
-      for (const auto& zoneTerm : zoneTerms) {
-        for (const auto& [sign, bodyName] : zoneTerm) {
-          (void)sign;
-          const auto it = body_map.find(bodyName);
-          if (it == body_map.end()) {
-            G4cout << "G4FlukaReader::Load unknown body '" << bodyName
-                   << "' in region " << regionName << G4endl;
-            regionValid = false;
-            break;
+      const bool isRegionHeader =
+          tokens.size() >= 3 && IsIntegerToken(tokens[1]);
+      if (isRegionHeader) {
+        finalizeRegion();
+        pendingRegionName = tokens[0];
+        pendingRegionExpression.clear();
+        for (std::size_t i = 2; i < tokens.size(); ++i) {
+          if (i > 2) {
+            pendingRegionExpression += " ";
           }
+          pendingRegionExpression += tokens[i];
         }
-      }
-
-      if (!regionValid || zoneTerms.empty()) {
-        continue;
-      }
-
-      auto* solid = new G4HalfSpaceSolid(regionName);
-      for (const auto& zoneTerm : zoneTerms) {
-        auto* zone = new G4HalfSpaceZone();
-        for (const auto& [sign, bodyName] : zoneTerm) {
-          const auto body = body_map.find(bodyName)->second;
-          if (sign == '+') {
-            zone->AddIntersection(body);
-          } else if (sign == '-') {
-            zone->AddSubtraction(body);
-          }
+      } else if (!pendingRegionName.empty()) {
+        if (!pendingRegionExpression.empty()) {
+          pendingRegionExpression += " ";
         }
-        solid->AddZone(zone);
-      }
-
-      const bool regionExists = region_map.find(regionName) != region_map.end();
-      if (regionExists) {
-        delete region_map[regionName];
-      }
-      region_map[regionName] = solid;
-      if (!regionExists) {
-        region_order.push_back(regionName);
+        pendingRegionExpression += line;
       }
     }
   }
+
+  finalizeRegion();
 }
 
 void G4FlukaReader::ClearOwnedData() {
@@ -333,6 +381,15 @@ G4VHalfSpace* G4FlukaReader::BuildBody(const std::string& type,
   }
 
   if (type == "ARB" && values.size() >= 30) {
+    for (std::size_t i = 24; i < 30; ++i) {
+      const auto rounded = std::round(values[i]);
+      if (std::fabs(values[i] - rounded) > 1e-9) {
+        G4cout << "G4FlukaReader::Load invalid ARB face index in card " << type
+               << G4endl;
+        return nullptr;
+      }
+    }
+
     return new G4HalfSpaceArbitrary(
         G4ThreeVector(values[0], values[1], values[2]),
         G4ThreeVector(values[3], values[4], values[5]),
