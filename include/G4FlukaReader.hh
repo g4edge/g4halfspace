@@ -16,6 +16,8 @@ public:
   G4FlukaReader();
   G4FlukaReader(const G4String& file_name);
   ~G4FlukaReader() override;
+  G4FlukaReader(const G4FlukaReader&) = delete;
+  G4FlukaReader& operator=(const G4FlukaReader&) = delete;
 
   G4HalfSpaceSolid* GetSolid(size_t region) override;
   G4HalfSpaceSolid* GetSolid(const G4String& region) override;
@@ -24,6 +26,7 @@ protected:
   void Load(const G4String& file_name) override;
 
 private:
+  void ClearOwnedData();
   G4VHalfSpace* BuildBody(const std::string& type,
                           const std::vector<double>& values) const;
 

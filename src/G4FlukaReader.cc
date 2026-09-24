@@ -131,7 +131,9 @@ G4FlukaReader::G4FlukaReader(const G4String& file_name) : G4VHalfSpaceReader() {
   Load(file_name);
 }
 
-G4FlukaReader::~G4FlukaReader() = default;
+G4FlukaReader::~G4FlukaReader() {
+  ClearOwnedData();
+}
 
 G4HalfSpaceSolid* G4FlukaReader::GetSolid(size_t region) {
   if (region >= region_order.size()) {
@@ -149,6 +151,8 @@ G4HalfSpaceSolid* G4FlukaReader::GetSolid(const G4String& region) {
 }
 
 void G4FlukaReader::Load(const G4String& file_name) {
+  ClearOwnedData();
+
   std::ifstream file(file_name);
   if (!file.good()) {
     G4cout << "G4FlukaReader::Load could not open file " << file_name << G4endl;
@@ -223,31 +227,27 @@ void G4FlukaReader::Load(const G4String& file_name) {
       }
 
       const std::string regionName = tokens[0];
-      auto* solid = new G4HalfSpaceSolid(regionName);
-      const auto zoneTerms = ParseRegionExpression(line);
+      std::ostringstream expressionStream;
+      for (std::size_t i = 2; i < tokens.size(); ++i) {
+        if (i > 2) {
+          expressionStream << ' ';
+        }
+        expressionStream << tokens[i];
+      }
+
+      const auto zoneTerms = ParseRegionExpression(expressionStream.str());
       bool regionValid = true;
 
       for (const auto& zoneTerm : zoneTerms) {
-        auto* zone = new G4HalfSpaceZone();
-        bool zoneValid = true;
         for (const auto& [sign, bodyName] : zoneTerm) {
+          (void)sign;
           const auto it = body_map.find(bodyName);
           if (it == body_map.end()) {
             G4cout << "G4FlukaReader::Load unknown body '" << bodyName
                    << "' in region " << regionName << G4endl;
-            zoneValid = false;
             regionValid = false;
             break;
           }
-
-          if (sign == '+') {
-            zone->AddIntersection(it->second);
-          } else if (sign == '-') {
-            zone->AddSubtraction(it->second);
-          }
-        }
-        if (zoneValid) {
-          solid->AddZone(zone);
         }
       }
 
@@ -255,13 +255,44 @@ void G4FlukaReader::Load(const G4String& file_name) {
         continue;
       }
 
+      auto* solid = new G4HalfSpaceSolid(regionName);
+      for (const auto& zoneTerm : zoneTerms) {
+        auto* zone = new G4HalfSpaceZone();
+        for (const auto& [sign, bodyName] : zoneTerm) {
+          const auto body = body_map.find(bodyName)->second;
+          if (sign == '+') {
+            zone->AddIntersection(body);
+          } else if (sign == '-') {
+            zone->AddSubtraction(body);
+          }
+        }
+        solid->AddZone(zone);
+      }
+
       const bool regionExists = region_map.find(regionName) != region_map.end();
+      if (regionExists) {
+        delete region_map[regionName];
+      }
       region_map[regionName] = solid;
       if (!regionExists) {
         region_order.push_back(regionName);
       }
     }
   }
+}
+
+void G4FlukaReader::ClearOwnedData() {
+  for (auto& [_, body] : body_map) {
+    delete body;
+  }
+  body_map.clear();
+
+  for (auto& [_, solid] : region_map) {
+    delete solid;
+  }
+  region_map.clear();
+
+  region_order.clear();
 }
 
 G4VHalfSpace* G4FlukaReader::BuildBody(const std::string& type,
